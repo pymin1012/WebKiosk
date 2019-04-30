@@ -1,2 +1,0 @@
-# WebKiosk
-BITC web project
