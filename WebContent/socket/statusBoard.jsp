@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-
+<%
+	session.setAttribute("idKey", "board");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,11 +17,11 @@
     webSocket.onmessage = function(event) { onMessage(event)};
     
     function onMessage(event) {
-        textarea.value += "상대 : " + event.data + "\n";
+
     }
     
     function onOpen(event) {
-        textarea.value += "연결 성공\n";
+
     }
     
     function onError(event) {
@@ -27,22 +29,13 @@
     }
     
     function send() {
-        textarea.value += "나 : " + inputMessage.value + "\n";
-        webSocket.send(inputMessage.value);
-        inputMessage.value = "";
+
+
     }
   </script>
 </head>
 <body>
-	<form name="orderFrm">
-		<input type="text" name="상품명" />
-		<input type="button" value="결제" onclick="" />
-	</form>
-    <fieldset>
-        <textarea id="messageWindow" rows="10" cols="50" readonly="true"></textarea>
-        <br/>
-        <input id="inputMessage" type="text"/>
-        <input type="submit" value="send" onclick="send()" />
-    </fieldset>
+
+
 </body>
 </html>

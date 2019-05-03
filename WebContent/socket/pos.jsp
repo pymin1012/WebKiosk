@@ -1,10 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-
+<%
+	session.setAttribute("idKey", "pos");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Client</title>
+<title>Pos</title>
 <script type="text/javascript">
 	var textarea = document.getElementById("messageWindow");
 	var webSocket = new WebSocket('ws://localhost:80/WebKiosk/broadcasting');
@@ -14,16 +16,18 @@
     webSocket.onopen = function(event) { onOpen(event) };
     webSocket.onmessage = function(event) { onMessage(event)};
     
-    function onMessage(event) {
-    	var msg = JSON.parse(event.data);
-    	var row = orders.insertRow(orders.rows.length);
-    	var cell1 = row.insertCell(0);
-    	var cell2 = row.insertCell(1);
-    	var cell3 = row.insertCell(2);
-    	cell1.innerHTML = msg.prod;
-    	cell2.innerHTML = msg.count;
-    	cell3.innerHTML = msg.ih;
-    }
+	function onMessage(event) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("ajax_jsp").innerHTML = xhttp.responseText;
+			}
+		};
+				
+		xhttp.open("POST", "http://localhost/WebKiosk/socket/pos_ajax.jsp", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	    xhttp.send(null);
+	}
     
     function onOpen(event) {
 
@@ -34,23 +38,12 @@
     }
     
     function send() {
-    	var prod = document.orderFrm.prod.value;
-    	var count = document.orderFrm.count.value;
-    	var ih = document.orderFrm.ih.value;
-    	var message = { "type": 3, "prod": prod, "count": count, "ih": ih };
-        webSocket.send(JSON.stringify(message));
-        
-        orderFrm.reset();
+
     }
   </script>
 </head>
+
 <body>
-	<table id="orders" border="1">
-		<tr>
-			<th>상품</th>
-			<th>수량</th>
-			<th>Ice/Hot</th>
-		</tr>
-	</table>
+	<div id="ajax_jsp"></div>
 </body>
 </html>
