@@ -18,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import kiosk.KioskMgr;
+import kiosk.OrderHistoryBean;
 import kiosk.OrdersBean;
  
 @ServerEndpoint(value="/broadcasting", configurator=GetHttpSessionConfigurator.class)
@@ -39,9 +40,19 @@ public class ServerSocket {
             }
     		break;
     	case 2:
+    		KioskMgr mgr = new KioskMgr();
+    		OrderHistoryBean hbean = new OrderHistoryBean();
+    		hbean.setOh_status(1);
+    		hbean.setMb_num(Integer.parseInt(object.get("mb_num").toString()));
+    		hbean.setOh_io("IN");
+    		hbean.setOh_comment("test");
+    		hbean.setOh_point(0);
+    		mgr.insertOrderHistory(hbean);
+    		
     		OrdersBean bean = new OrdersBean();
+    		bean.setOh_num(mgr.getRecentOrderNum());
+    		bean.setOr_basket(1);
         	bean.setProd_num(Integer.parseInt(object.get("prod_num").toString()));
-        	bean.setMb_num(Integer.parseInt(object.get("mb_num").toString()));
         	bean.setOr_size(object.get("or_size").toString());
         	bean.setOr_count(Integer.parseInt(object.get("or_count").toString()));
         	bean.setOr_hi(object.get("or_hi").toString());

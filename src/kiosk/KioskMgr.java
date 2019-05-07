@@ -17,18 +17,19 @@ public class KioskMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	public void insertOrders(OrdersBean bean) {
+	// 주문내역 추가
+	public void insertOrderHistory(OrderHistoryBean bean) {
 		try {
 			conn = pool.getConnection();
-			sql = "insert into orders(or_date, prod_num, mb_num, or_size, or_count, or_shot, or_whip, or_io, or_hi, or_comment, or_point) "
-					+ "values(now(), ?, ?, ?, ?, 0, false, ?, ?, 0, 0)";
+			sql = "insert into orderhistory(oh_status, mb_num, oh_date, oh_io, oh_comment, oh_point) "
+					+ "values(?, ?, now(), ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bean.getProd_num());
+			pstmt.setInt(1, bean.getOh_status());
 			pstmt.setInt(2, bean.getMb_num());
-			pstmt.setString(3, bean.getOr_size());
-			pstmt.setInt(4, bean.getOr_count());
-			pstmt.setString(5, "IN");
-			pstmt.setString(6, bean.getOr_hi());
+			pstmt.setString(3, bean.getOh_io());
+			pstmt.setString(4, bean.getOh_comment());
+			pstmt.setInt(5, bean.getOh_point());
+
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -37,29 +38,81 @@ public class KioskMgr {
 		}
 	}
 	
-	public Vector<OrdersBean> getOrdersList() {
-		Vector<OrdersBean> v = new Vector<OrdersBean>();
+	// 주문 추가
+	public void insertOrders(OrdersBean bean) {
+		try {
+			conn = pool.getConnection();
+			sql = "insert into orders(oh_num, or_basket, prod_num, or_size, or_count, or_shot, or_whip, or_hi) "
+					+ "values(?, ?, ?, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bean.getOh_num());
+			pstmt.setInt(2, bean.getOr_basket());
+			pstmt.setInt(3, bean.getProd_num());
+			pstmt.setString(4, bean.getOr_size());
+			pstmt.setInt(5, bean.getOr_count());
+			pstmt.setInt(6, 0);
+			pstmt.setBoolean(7, false);
+			pstmt.setString(8, bean.getOr_hi());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt);
+		}
+	}
+	
+	// 주문 내역 가져오기
+	public Vector<OrderHistoryBean> getOrderHistoryList() {
+		Vector<OrderHistoryBean> v = new Vector<OrderHistoryBean>();
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orders";
+			sql = "select * from orderhistory";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				OrdersBean bean = new OrdersBean();
-				bean.setOr_num(rs.getInt("or_num"));
-				bean.setOr_date(rs.getString("or_date"));
-				bean.setProd_num(rs.getInt("prod_num"));
+				OrderHistoryBean bean = new OrderHistoryBean();
+				bean.setOh_num(rs.getInt("oh_num"));
+				bean.setOh_status(rs.getInt("oh_status"));
 				bean.setMb_num(rs.getInt("mb_num"));
+				bean.setOh_date(rs.getString("oh_date"));
+				bean.setOh_io(rs.getString("oh_io"));
+				bean.setOh_comment(rs.getString("oh_comment"));
+				bean.setOh_point(rs.getInt("oh_point"));
+				v.addElement(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return v;
+	}
+	
+	
+	// 주문 가져오기
+	public Vector<OrdersBean> getOrdersList(int oh_num) {
+		Vector<OrdersBean> v = new Vector<OrdersBean>();
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select * from orders where oh_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oh_num);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				OrdersBean bean = new OrdersBean();
+				bean.setOh_num(rs.getInt("oh_num"));
+				bean.setOr_basket(rs.getInt("or_basket"));
+				bean.setProd_num(rs.getInt("prod_num"));
 				bean.setOr_size(rs.getString("or_size"));
 				bean.setOr_count(rs.getInt("or_count"));
 				bean.setOr_shot(rs.getInt("or_shot"));
 				bean.setOr_whip(rs.getBoolean("or_whip"));
-				bean.setOr_io(rs.getString("or_io"));
 				bean.setOr_hi(rs.getString("or_hi"));
-				bean.setOr_comment(rs.getString("or_comment"));
-				bean.setOr_point(rs.getInt("or_point"));
 				v.addElement(bean);
 			}
 		} catch (Exception e) {
@@ -69,5 +122,25 @@ public class KioskMgr {
 		}
 		
 		return v;
+	}
+	
+	// 최근 주문번호 가져오기
+	public int getRecentOrderNum() {
+		int num = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select oh_num from orderhistory order by oh_num desc limit 1";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) { num = rs.getInt("oh_num"); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return num;
 	}
 }
