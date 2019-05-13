@@ -36,18 +36,18 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 
 .header-title {
-	margin: 4rem 0;
+	margin: 2rem 0;
 }
 
-h1 {
+.header-title h1 {
 	font-size: 31px;
 	line-height: 40px;
 	font-weight: 600;
 	color: #4c5357;
 }
 
-h2 {
-	color: #5e8396;
+.header-title h2 {
+	color: #1B467C;
 	font-size: 21px;
 	line-height: 32px;
 	font-weight: 400;
@@ -88,9 +88,17 @@ h2 {
 	}
 }
 
+#nameInput {
+	margin-bottom: 0rem;
+}
+
+.pwdInfo span {
+	font-size: 12px;
+}
+
 .sign-card {
-	height: 500px;
-	width: 400px;
+	height: 400px;
+	width: 350px;
 	margin-top: auto;
 	margin-bottom: auto;
 	background: #18A8F1;
