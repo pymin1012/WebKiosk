@@ -29,23 +29,19 @@
 						<div class="myform-form">
 							<form action="signupProc.jsp" method="post" name="signup">
 								<div class="form-group">
-									<input type="number" min="0" name="mb_phone" id="phone"
-										class="form-control my-input" placeholder="Phone">
+									<input type="tel" name="mb_phone" id="phone" class="form-control my-input" placeholder="Phone" maxlength="13">
 								</div>
-								<div class="form-group">
-									<input type="text" name="mb_name" class="form-control my-input"
-										id="name" placeholder="Name">
+								<div class="form-group" id="nameInput">
+									<input type="text" name="mb_name" class="form-control my-input" id="name" placeholder="Name">
 								</div>
-								<div>
+								<div class="pwdInfo">
 									<span>* 비밀번호는 4자리</span>
 								</div>
 								<div class="form-group">
-									<input type="password" name="mb_pwd" class="form-control my-input"
-										id="pwd" placeholder="Password">
+									<input type="password" name="mb_pwd" class="form-control my-input" id="pwd" placeholder="Password" maxlength="4">
 								</div>
 								<div class="text-center ">
-									<button type="submit" class=" btn btn-block send-button tx-tfm">Create
-										Your Account</button>
+									<button type="submit" class=" btn btn-block send-button tx-tfm">Create Your Account</button>
 								</div>
 							</form>
 						</div>
@@ -55,4 +51,40 @@
 		</div>
 	</div>
 </body>
+
+<script>
+	function autoHypenPhone(str) {
+		str = str.replace(/[^0-9]/g, '');
+		var tmp = '';
+		if (str.length < 4) {
+			return str;
+		} else if (str.length < 7) {
+			tmp += str.substr(0, 3);
+			tmp += '-';
+			tmp += str.substr(3);
+			return tmp;
+		} else if (str.length < 11) {
+			tmp += str.substr(0, 3);
+			tmp += '-';
+			tmp += str.substr(3, 3);
+			tmp += '-';
+			tmp += str.substr(6);
+			return tmp;
+		} else {
+			tmp += str.substr(0, 3);
+			tmp += '-';
+			tmp += str.substr(3, 4);
+			tmp += '-';
+			tmp += str.substr(7);
+			return tmp;
+		}
+		return str;
+	}
+
+	document.getElementById("phone").onkeyup = function(event) {
+		event = event || window.event;
+		var _val = this.value.trim();
+		this.value = autoHypenPhone(_val);
+	}
+</script>
 </html>
