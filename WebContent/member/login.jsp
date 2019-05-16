@@ -60,7 +60,7 @@
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Don't have an account? <a href="signup.jsp" class="ml-2" id="whitetext">SignUp</a>
-					</div>
+					</div>					
 				</div>
 			</div>
 		</div>
