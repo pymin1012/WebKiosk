@@ -22,6 +22,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css" />
 <script>
+	var fns = {changeCart:'', addToCard:''}, productData = {id:'', img:'', decription:'', price:''}, cartCounter = 0, cartTotal = 0, productCounter = 1, timer = '', addCart = '', deleteCart = '';	
+	
 	function orderDetail(prod_num) {
 		url = "orderDp.jsp?prod_num=" + prod_num;
 		window.open(url, "상품상세주문", "width=900, height=700, scrollbars=no");
@@ -146,49 +148,22 @@
 	<script>
 		$(document).ready(
 			function() {
-				var fns = {}, productData = {}, cartCounter = 0, cartTotal = 0, productCounter = 1, timer = '', addCart = $('.add-cart'), deleteCart = $('.cart-product-delete');
-
-				fns.getProductData = function(a) {
+ 				var addCart = $('.add-cart'), deleteCart = $('.cart-product-delete');
+ 
+				/* 	fns.getProductData = function(a) {		
 					var p = a.closest('.product');
-					productData.id = p.data('product-id');
+					productData.id = p.data('product-id'); 
 					productData.id = parseInt(productData.id);
 					productData.img = p.find('.product-img img').attr('src');
 					productData.decription = p.find('.product-decription').text();
 					productData.price = p.find('.product-price').text();
 					productData.price = parseInt(productData.price);
-				}
+				} */
 
 				fns.changeCart = function() {
 					var counter = $('.cart-counter'), total = $('.cart-total').find('.product-price b');
 					counter.text(cartCounter);
 					total.text(cartTotal);
-				}
-
-				fns.hideCart = function(cart) {
-					var width = cart.width();
-					cart.animate({ 'right' : -width });
-					setTimeout(function() {
-						cart.removeAttr('class');
-						cart.removeAttr('style');
-						timer = '';
-					}, 1000);
-				}
-
-				fns.cartTimer = function(cart) {
-					timer = setTimeout(function() {
-						fns.hideCart(cart)
-					}, 3000);
-				}
-
-				fns.showCart = function(cart) {
-					var show = cart.hasClass('show');
-					if (show) {
-						return false;
-					} else {
-						cart.addClass('show');
-						cart.animate({ 'right' : 0 });
-						if (timer == '') { fns.cartTimer(cart); }
-					}
 				}
 
 				fns.addToCard = function() {
@@ -212,7 +187,7 @@
 								}
 							} else {
 								cartItem = i;
-								var cartProductPrice = cartProducts.eq(cartItem).find('.cart-product-footer .product-price b'), price = cartProductPricetext();
+								var cartProductPrice = cartProducts.eq(cartItem).find('.cart-product-footer .product-price b'), price = cartProductPrice.text();
 								price = parseInt(price);
 								price += productData.price;
 								cartProductPrice.text(price);
@@ -237,13 +212,43 @@
 					fns.addToCard();
 				});
 
-							/*deleteCart.on('click', function(e){
-							  e = event || window.event;
-							  e.preventDefault();
-							  var id = $(this).closest('.cart-product').data('cart-product-id');
-							  console.log($(this));
-							});*/
+			
+			/*
+				deleteCart.on('click', function(e){
+					e = event || window.event;
+					e.preventDefault();
+					var id = $(this).closest('.cart-product').data('cart-product-id');
+					console.log($(this));
+				});
+			*/
+							
+				/* 장바구니 애니메이션 효과  */
+				fns.hideCart = function(cart) {
+					var width = cart.width();
+					cart.animate({ 'right' : -width });
+					setTimeout(function() {
+						cart.removeAttr('class');
+						cart.removeAttr('style');
+						timer = '';
+					}, 1000);
+				}
 
+				fns.cartTimer = function(cart) {
+					timer = setTimeout(function() {
+					fns.hideCart(cart)
+					}, 3000);
+				}
+
+				fns.showCart = function(cart) {
+					var show = cart.hasClass('show');
+					if (show) {
+						return false;
+					} else {
+						cart.addClass('show');
+						cart.animate({ 'right' : 0 });
+						if (timer == '') { fns.cartTimer(cart); }
+					}
+				}				
 			});
 	</script>
 </body>

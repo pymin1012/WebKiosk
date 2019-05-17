@@ -1,12 +1,20 @@
 <%@page import="kiosk.OrdersBean"%>
 <%@page import="kiosk.ProductBean"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<jsp:useBean id="pMgr" class="kiosk.ProductMgr" />
+<jsp:useBean id="pMgr" class="kiosk.ProductMgr"/>
+<jsp:useBean id="bMgr" scope="session" class="kiosk.BasketMgr" />
+<jsp:useBean id="oBean" class="kiosk.OrdersBean" />
+<jsp:setProperty property="*" name="oBean"/>
 
 <%
 	int prod_num = Integer.parseInt(request.getParameter("prod_num"));
 	ProductBean pBean = pMgr.getProduct(prod_num);
 	int prod_price = pBean.getProd_price();
+	
+	if (oBean.getOr_basket() != 0) {
+		String prod_name = request.getParameter("prod_name");
+		String img_src = request.getParameter("img_src");
+	}
 %>
 
 <html lang="ko">
@@ -103,6 +111,15 @@
 	}
 
 	function addBasket() {
+		var src = document.getElementById("prod_img").getAttribute("src");
+		var price = document.getElementsByClassName("price-total")[0].innerText;
+	
+		opener.productData.id = parseInt(<%= prod_num %>);
+		opener.productData.img = src;
+		opener.productData.decription = '<%= pBean.getProd_name() %>';
+		opener.productData.price = parseInt(price);
+		opener.fns.addToCard();
+		
 		document.getElementById("or_count").disabled = false;
 		document.orderFrm.submit();
 	}
@@ -154,8 +171,10 @@
 						<hr />
 						
 						<form name="orderFrm" action="orderDpProc.jsp">
+							<input type="hidden" name="prod_name" value="<%= pBean.getProd_name() %>" />
 							<input type="hidden" name="prod_num" value="<%= pBean.getProd_num() %>" />
-						
+							<input type="hidden" name="img_src" id="img_src" value="" />	
+												
 							<div class="form-group">
 								<input type="hidden" name="or_hi" id="or_hi" value="ICE"/>
 								<a href="javascript:changeImg('ICE')" class="btn btn-lg btn-danger text-white text-uppercase"><i class="fa fa-coffee" aria-hidden="true"></i>hot</a>
@@ -200,15 +219,17 @@
 									<span class="plus bg-primary"> + </span>
 								</div>
 							</div>
-						</form>
-						<hr>
 						
-						<div class="price-detail-wrap">
-							<label class="price h5">Price</label>
-							<p class="price h3 text-right">
-								<span class="price-total"><%= prod_price %></span> 원 
-							</p>
-						</div>
+							<hr>
+							
+							<div class="price-detail-wrap">
+								<input type="hidden" name="price" id="price" value="0"/>
+								<label class="price h5">Price</label>
+								<p class="price h3 text-right">
+									<span class="price-total"><%= prod_price %></span> 원 
+								</p>
+							</div>
+						</form>
 					</article>
 				</aside>
 			</div>

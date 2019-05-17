@@ -17,6 +17,11 @@ public class BasketMgr {
 			basket.put(num, bean);
 		}
 	}
+	
+	//Get Cart Element
+	public OrdersBean getBasketElement(int num) {
+		return basket.get(num);
+	}
 
 	//Cart Update
 	public void updateBasket(OrdersBean bean) {
