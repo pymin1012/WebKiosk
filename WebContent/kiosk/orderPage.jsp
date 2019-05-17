@@ -22,10 +22,10 @@
 </head>
 <body>
 	<div class="wrapper">
-		<section id="cart">
+		<section id="cart" class="overflow-auto">
 			<span class="cart-title"><i class="fa fa-shopping-cart fa-fw"><span class="cart-counter">0</span></i>Cart</span>
 			<article class="cart-total">
-				<span class="product-price"><i class="fa fa-rub fa-fw"></i><b>0</b>-</span>
+				<span class="product-price"><i class="fa fa-rub fa-fw"></i><b>0</b> 원</span>
 				<button class="button order">Order</button>
 			</article>
 			<div class="close">
@@ -127,27 +127,6 @@
 								<%
 	}
 %>
-
-
-
-								<!--
-							<div class="col-md-3 col-centered">
-								<div class="basket">
-									<div class="basket-title">
-										<span>장바구니</span>
-									</div>
-								
-									<div class="thumbnail clearfix">
-										<img src="../pic/ia.jpg" alt="ALT NAME" class="pull-left span2 clearfix" style="margin-right: 10px; max-width: 50%; height: auto;">
-										<a href="http://bootsnipp.com/" class="btn btn-danger icon  pull-right"><i class="fa fa-trash" aria-hidden="true"></i></a>
-									</div>
-									
-									<div class="thumbnail clearfix">
-										<img src="../pic/ia.jpg" alt="ALT NAME" class="pull-left span2 clearfix" style="margin-right: 10px; max-width: 50%; height: auto;">
-										<a href="http://bootsnipp.com/" class="btn btn-danger icon  pull-right"><i class="fa fa-trash" aria-hidden="true"></i></a>
-									</div>
-								</div>
-							</div> -->
 							</div>
 						</div>
 					</div>
@@ -169,9 +148,7 @@
 								productData.id = p.data('product-id');
 								productData.id = parseInt(productData.id);
 								productData.img = p.find('.product-img img').attr('src');
-								productData.brand = p.find('.product-brand').text();
 								productData.decription = p.find('.product-decription').text();
-								productData.volume = p.find('.product-volume').text();
 								productData.price = p.find('.product-price').text();
 								productData.price = parseInt(productData.price);
 							}
@@ -184,9 +161,7 @@
 
 							fns.hideCart = function(cart) {
 								var width = cart.width();
-								cart.animate({
-									'right' : -width
-								});
+								cart.animate({ 'right' : -width });
 								setTimeout(function() {
 									cart.removeAttr('class');
 									cart.removeAttr('style');
@@ -216,16 +191,14 @@
 							}
 
 							fns.addToCard = function() {
-								var pattern = "<article class='cart-product' data-cart-product-id='" + productData.id + "' data-cart-product-counter='" + productCounter + "'>\n<div class='cart-product-img'><img src=" + productData.img + " alt=''></div>\n<div class='cart-product-info'>\n<span class='product-brand'>"
-										+ productData.brand
-										+ "</span>\n<span class='product-decription'>"
-										+ productData.decription
-										+ "</span><span class='product-volume'>"
-										+ productData.volume
-										+ "</span>\n</div>\n<div class='cart-product-footer'>\n<span class='product-price'><i class='fa fa-rub fa-fw'></i><b>"
-										+ productData.price
-										+ "</b>-</span><a href='#' class='cart-product-delete'><i class='fa fa-trash-o fa-fw'></i></a>\n</div>\n</article>", cart = $('#cart'), cartProducts = cart
-										.find('.cart-product'), cartItem;
+								var cartHtml = 
+									"<article class='cart-product' data-cart-product-id='" + productData.id + "' data-cart-product-counter='" + productCounter + "'>\n"
+									+ "<div class='cart-product-img'><img src=" + productData.img + " alt=''></div>\n"
+									+ "<div class='cart-product-info'>\n"
+									+ "<span class='product-decription'>" + productData.decription + "</span>\n</div>\n"
+									+ "<div class='cart-product-footer'>\n<span class='product-price'><i class='fa fa-rub fa-fw'></i><b>" + productData.price + "</b>원</span>"
+									+ "<a href='#' class='cart-product-delete'><i class='fa fa-trash-o fa-fw'></i></a>\n</div>\n</article>";
+								var pattern = cartHtml, cart = $('#cart'), cartProducts = cart.find('.cart-product'), cartItem;
 
 								if (cartProducts.length > 0) {
 									for (var i = 0; i < cartProducts.length; i++) {
@@ -235,21 +208,13 @@
 										if (cartProducts.eq(i).data(
 												'cart-product-id') != productData.id) {
 											if (i == cartProducts.length - 1) {
-												$(pattern)
-														.insertBefore(
-																cart
-																		.find('.cart-total'));
-												cartProducts = cart
-														.find('.cart-product');
+												$(pattern).insertBefore(cart.find('.cart-total'));
+												cartProducts = cart.find('.cart-product');
 												break;
 											}
 										} else {
 											cartItem = i;
-											var cartProductPrice = cartProducts
-													.eq(cartItem)
-													.find(
-															'.cart-product-footer .product-price b'), price = cartProductPrice
-													.text();
+											var cartProductPrice = cartProducts.eq(cartItem).find('.cart-product-footer .product-price b'), price = cartProductPricetext();
 											price = parseInt(price);
 											price += productData.price;
 											cartProductPrice.text(price);
@@ -259,8 +224,7 @@
 									window.CP.exitedLoop(1);
 
 								} else {
-									$(pattern).insertBefore(
-											cart.find('.cart-total'));
+									$(pattern).insertBefore(cart.find('.cart-total'));
 									cartProducts = cart.find('.cart-product');
 								}
 
