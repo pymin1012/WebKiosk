@@ -70,7 +70,6 @@ public class OrdersMgr {
 			pool.freeConnection(con, pstmt, rs);
 		}
 		return vlist;
-
 	}
 	
 	

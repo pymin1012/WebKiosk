@@ -1,21 +1,28 @@
 package kiosk;
 
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 
 import kiosk.OrdersBean;
 
 public class BasketMgr {
 	//Integer=장바구니 번호
-	private Hashtable<Integer, OrdersBean> basket = new Hashtable<>();
+	private LinkedHashMap<Integer, OrdersBean> basket = new LinkedHashMap<>();
 	private static int num = 0;
 	
 	//Cart Insert
-	public void addBasket(OrdersBean bean) {
+	public int addBasket(OrdersBean bean) {
 		if (bean.getOr_count() > 0) {
 			num++;
 			bean.setOr_basket(num);
 			basket.put(num, bean);
 		}
+		
+		 return num;
+	}
+	
+	//Get Cart Element
+	public OrdersBean getBasketElement(int num) {
+		return basket.get(num);
 	}
 
 	//Cart Update
@@ -24,12 +31,12 @@ public class BasketMgr {
 	}
 
 	//Cart Delete
-	public void deleteBasket(OrdersBean bean) {
-		basket.remove(bean.getOr_basket());
+	public void deleteBasket(int num) {
+		basket.remove(num);
 	}
 	
 	//Cart List
-	public Hashtable<Integer, OrdersBean> getBasketList(){
+	public LinkedHashMap<Integer, OrdersBean> getBasketList(){
 		return basket;
 	}
 }
