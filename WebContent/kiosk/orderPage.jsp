@@ -36,7 +36,7 @@
 </script>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper wbody">
 		<section id="cart" class="overflow-auto">
 			<span class="cart-title"><i class="fa fa-shopping-cart fa-fw"><span class="cart-counter">0</span></i>Cart</span>
 			<article class="cart-total text-right">
@@ -49,8 +49,12 @@
 		</section>
 	
 		<section id="tabs">
-			<div class="container">
-				<h6 class="section-title">Blue Bubble</h6>
+			<div class="container main-container">
+				<div class="row">
+					<div class="col-md-12 ">
+						<h6 class="section-title">Blue Bubble</h6>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-12 ">
 						<nav>
@@ -64,11 +68,12 @@
 						</nav>
 
 						<div class="text-center">
-							<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+							<div class="tab-content px-sm-0" id="nav-tabContent">
 
 								<div class="tab-pane fade show active" id="nav-hot"
 									role="tabpanel" aria-labelledby="nav-hot-tab">
 									<div class="wrapper">
+									<div class="container">
 										<section id="catalog">
 											<div class="row">
 <%
@@ -77,11 +82,21 @@
 		ProductBean bean = v.get(i);
 %>
 												<div class="items col-md-3">
-													<article class="product"
-														data-product-id="<%= bean.getProd_num() %>">
+													<a href="javascript:orderDetail('<%= bean.getProd_num() %>')" class="items-link">
+													<article class="product mt-3 mb-3" data-product-id="<%= bean.getProd_num() %>">
 														<div class="product-wrapper">
 															<div class="product-img">
-																<a href="javascript:orderDetail('<%= bean.getProd_num() %>')"><img src="../pic/<%= bean.getProd_img() %>" style="width: 100%; height: auto;" alt=""></a>
+<% 
+	if (bean.getProd_iimg() != null) {
+%>
+																<img src="../menu_pic/<%= bean.getProd_iimg() %>" style="width: 100%; height: auto;" alt="">
+<%
+	} else {
+%>
+																<img src="../menu_pic/<%= bean.getProd_img() %>" style="width: 100%; height: auto;" alt="">
+<% 
+	}
+%>
 															</div>
 															<div class="product-info">
 																<span class="product-decription"><%= bean.getProd_name() %></span>
@@ -92,12 +107,14 @@
 															</div>
 														</div>
 													</article>
+													</a>
 												</div>
 												<%
 	}
 %>
 											</div>
 										</section>
+										</div>
 									</div>
 								</div>
 								<%
@@ -108,6 +125,7 @@
 									role="tabpanel"
 									aria-labelledby="nav-<%= cbean.getCtg_name() %>-tab">
 									<div class="wrapper">
+										<div class="container">
 										<section id="catalog">
 											<div class="row">
 												<%
@@ -116,11 +134,21 @@
 			ProductBean pbean = pvlist.get(j);
 %>
 												<div class="items col-md-3">
-													<article class="product" data-product-id="<%= pbean.getProd_num() %>">
+													<a href="javascript:orderDetail('<%= pbean.getProd_num() %>')" class="items-link">
+													<article class="product mt-3 mb-3" data-product-id="<%= pbean.getProd_num() %>">
 														<div class="product-wrapper">
 															<div class="product-img">
-																<a href="javascript:orderDetail('<%= pbean.getProd_num() %>')"><img src="../pic/<%= pbean.getProd_img() %>" style="width: 100%; height: auto;" alt=""></a>
-															</div>
+<% 
+	if (pbean.getProd_iimg() != null) {
+%>
+																<img src="../menu_pic/<%= pbean.getProd_iimg() %>" style="width: 100%; height: auto;" alt="">
+<%
+	} else {
+%>
+																<img src="../menu_pic/<%= pbean.getProd_img() %>" style="width: 100%; height: auto;" alt="">
+<% 
+	}
+%>															</div>
 															<div class="product-info">
 																<span class="product-decription"><%= pbean.getProd_name() %></span>
 																<div class="product-footer">
@@ -129,12 +157,14 @@
 															</div>
 														</div>
 													</article>
+													</a>
 												</div>
 												<%
 		}
 %>
 											</div>
 										</section>
+										</div>
 									</div>
 								</div>
 								<%
@@ -155,6 +185,10 @@
 			function() {
 				var cartCounter = 0, cartTotal = 0, timer = '';	
 
+				fns.initData = function() {
+					productData = {id:'', img:'', decription:'', price:'', count: '', size: '', shot: '', whipping: ''}, productCounter = 0;
+				}
+				
 				fns.changeCart = function() {
 					var counter = $('.cart-counter'), total = $('.cart-total').find('.product-price b');
 					counter.text(cartCounter);
@@ -208,6 +242,7 @@
 					cartTotal += productData.price;
 					fns.changeCart();
 					fns.showCart(cart);
+					fns.initData();
 				}
 
 				$(document).on('click', '.cart-product-delete', function(e){
@@ -254,8 +289,11 @@
 						for(int key: blist.keySet()) {
 							OrdersBean obean = blist.get(key);
 							ProductBean pbean = pMgr.getProduct(obean.getProd_num());
+							String prod_img = "";
+							if (obean.getOr_hi().equals("ICE")) prod_img = pbean.getProd_iimg();
+							else prod_img = pbean.getProd_img();
 					%>
-										productData.img = '../pic/<%= pbean.getProd_img() %>';
+										productData.img = '../menu_pic/<%= prod_img %>';
 										productData.id = '<%= obean.getProd_num() %>';
 										productData.decription = '<%= pbean.getProd_name() %>';
 										productData.count = <%= obean.getOr_count() %>;

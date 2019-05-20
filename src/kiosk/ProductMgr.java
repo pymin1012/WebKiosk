@@ -66,6 +66,7 @@ public class ProductMgr {
 				bean.setProd_num(rs.getInt("prod_num"));
 				bean.setProd_name(rs.getString("prod_name"));
 				bean.setProd_img(rs.getString("prod_img"));
+				bean.setProd_iimg(rs.getString("prod_iimg"));
 				bean.setCtg_num(rs.getInt("ctg_num"));
 				bean.setProd_price(rs.getInt("prod_price"));
 				bean.setProd_kcal(rs.getInt("prod_kcal"));
@@ -96,6 +97,7 @@ public class ProductMgr {
 				bean.setProd_num(rs.getInt("prod_num"));
 				bean.setProd_name(rs.getString("prod_name"));
 				bean.setProd_img(rs.getString("prod_img"));
+				bean.setProd_iimg(rs.getString("prod_iimg"));
 				bean.setCtg_num(rs.getInt("ctg_num"));
 				bean.setProd_price(rs.getInt("prod_price"));
 				bean.setProd_kcal(rs.getInt("prod_kcal"));
