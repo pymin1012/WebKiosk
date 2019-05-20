@@ -220,12 +220,16 @@
 							<input type="hidden" name="prod_num" value="<%= pBean.getProd_num() %>" />
 							<input type="hidden" name="img_src" id="img_src" value="" />	
 												
+
+<%
+	if (ctg_num != 4) {
+%>
 							<div class="form-group">
 								<input type="hidden" name="or_hi" id="or_hi" value="ICE"/>
 <%
-	if (ctg_num != 4) {
 		if (prod_img != null){
 %>
+
 								<a href="javascript:changeImg('HOT')" class="btn btn-lg btn-danger text-white text-uppercase"><i class="fa fa-coffee" aria-hidden="true"></i>hot</a>
 <% 
 		}
@@ -235,7 +239,8 @@
 <%
 		}
 %>
-						</div>				
+							</div>
+
 							<div class="form-group">
 								<label class="form-select-title h5">SIZE</label><br>
 								<label class="form-check form-check-inline h6">
