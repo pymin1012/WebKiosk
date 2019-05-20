@@ -129,7 +129,7 @@ a:visited {
 }
 
 .cart-product {
-	margin-top: 2em;
+	margin-top: .5em;
 	text-transform: uppercase;
 }
 
@@ -144,8 +144,8 @@ a:visited {
 
 .cart-product-info {
 	float: left;
-	width: 10em;
-	margin-bottom: .8em;
+	width: 100%;
+	margin-bottom: .5em;
 }
 
 .cart-product-footer {
@@ -229,7 +229,7 @@ a:visited {
 
 .product-decription {
 	text-align: center;
-	font-wieght: bold;
+ 	font-weight: bold;
 	font-size:1.2em;
 }
 

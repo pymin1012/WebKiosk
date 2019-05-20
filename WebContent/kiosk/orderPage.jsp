@@ -1,31 +1,46 @@
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="java.util.Enumeration"%>
+<%@page import="kiosk.OrdersBean"%>
 <%@page import="kiosk.CategoryBean"%>
 <%@page import="kiosk.ProductBean"%>
 <%@page import="java.util.Vector"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <jsp:useBean id="pMgr" class="kiosk.ProductMgr" />
+<jsp:useBean id="bMgr" scope="session" class="kiosk.BasketMgr" />
 <%
 	request.setCharacterEncoding("UTF-8");
 	Vector<CategoryBean> vlist = pMgr.getCategoryList();
+	
+	LinkedHashMap<Integer, OrdersBean> blist = bMgr.getBasketList();
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
+<title>상품주문</title>
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css" />
-<title>상품주문</title>
+<script>
+	var fns = {changeCart:'', addToCard:''}, productData = {id:'', img:'', decription:'', price:'', count: '', size: '', shot: '', whipping: ''}, productCounter = 0;
+	
+	function orderDetail(prod_num) {
+		url = "orderDp.jsp?prod_num=" + prod_num;
+		window.open(url, "상품상세주문", "width=900, height=700, scrollbars=no");
+ 	}
+</script>
 </head>
 <body>
 	<div class="wrapper">
 		<section id="cart" class="overflow-auto">
 			<span class="cart-title"><i class="fa fa-shopping-cart fa-fw"><span class="cart-counter">0</span></i>Cart</span>
-			<article class="cart-total">
-				<span class="product-price"><i class="fa fa-rub fa-fw"></i><b>0</b> 원</span>
+			<article class="cart-total text-right">
+				<span class="product-price"><i class='fas fa-won-sign'></i>&nbsp;<b>0</b></span>
 				<button class="button order">Order</button>
 			</article>
 			<div class="close">
@@ -66,9 +81,7 @@
 														data-product-id="<%= bean.getProd_num() %>">
 														<div class="product-wrapper">
 															<div class="product-img">
-																<a href=""><img
-																	src="../pic/<%= bean.getProd_img() %>"
-																	style="width: 100%; height: auto;" alt=""></a>
+																<a href="javascript:orderDetail('<%= bean.getProd_num() %>')"><img src="../pic/<%= bean.getProd_img() %>" style="width: 100%; height: auto;" alt=""></a>
 															</div>
 															<div class="product-info">
 																<span class="product-decription"><%= bean.getProd_name() %></span>
@@ -106,7 +119,7 @@
 													<article class="product" data-product-id="<%= pbean.getProd_num() %>">
 														<div class="product-wrapper">
 															<div class="product-img">
-																<a class="add-cart"><img src="../pic/<%= pbean.getProd_img() %>" style="width: 100%; height: auto;" alt=""></a>
+																<a href="javascript:orderDetail('<%= pbean.getProd_num() %>')"><img src="../pic/<%= pbean.getProd_img() %>" style="width: 100%; height: auto;" alt=""></a>
 															</div>
 															<div class="product-info">
 																<span class="product-decription"><%= pbean.getProd_name() %></span>
@@ -138,116 +151,125 @@
 	<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
 	<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 	<script>
-		$(document)
-				.ready(
-						function() {
-							var fns = {}, productData = {}, cartCounter = 0, cartTotal = 0, productCounter = 1, timer = '', addCart = $('.add-cart'), deleteCart = $('.cart-product-delete');
+		$(document).ready(
+			function() {
+				var cartCounter = 0, cartTotal = 0, timer = '';	
 
-							fns.getProductData = function(a) {
-								var p = a.closest('.product');
-								productData.id = p.data('product-id');
-								productData.id = parseInt(productData.id);
-								productData.img = p.find('.product-img img').attr('src');
-								productData.decription = p.find('.product-decription').text();
-								productData.price = p.find('.product-price').text();
-								productData.price = parseInt(productData.price);
-							}
+				fns.changeCart = function() {
+					var counter = $('.cart-counter'), total = $('.cart-total').find('.product-price b');
+					counter.text(cartCounter);
+					total.text(cartTotal);
+				}
 
-							fns.changeCart = function() {
-								var counter = $('.cart-counter'), total = $('.cart-total').find('.product-price b');
-								counter.text(cartCounter);
-								total.text(cartTotal);
-							}
+				fns.addToCard = function() {
+					var cartHtml = 
+						"<article class='cart-product' data-cart-product-id='" + productData.id + "' data-cart-product-counter='" + productCounter + "'>\n"
+						+ "<div class='row'>\n"
+						+ "<div class='col-sm-12'>\n"
+						+ "<div class='cart-product-info'><span class='product-decription'>" + productData.decription + "</span></div></div>\n"
+						+ "<div class='col-sm-7'>\n"
+						+ "<div class='cart-product-img p-2'><img src=" + productData.img + " alt='' style='width: 100%; height: auto;'></div>\n</div>\n"
+						+ "<div class='col-sm-5 pl-3'>\n"
+						+ "<div class='cart-product-info'><span class='product-size'>" + productData.size + "</span></div>\n"
+						+ "<div class='cart-product-info'><span class='product-shot'>" + productData.shot + " SHOT</span></div>\n"
+						+ "<div class='cart-product-info'><span class='product-whipping'>" + productData.whipping + "</span></div>\n"
+						+ "<div class='cart-product-info'><span class='product-count'>" + productData.count + " 개</span></div></div></div>\n"
+						+ "<div class='cart-product-footer d-flex justify-content-around'>\n"
+						+ "<span class='product-price'><i class='fas fa-won-sign'></i>&nbsp;<b>" + productData.price + "</b></span>\n"
+						+ "<button class='cart-product-delete btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button></div>\n";
+						
+					var pattern = cartHtml, cart = $('#cart'), cartProducts = cart.find('.cart-product'), cartItem;
 
-							fns.hideCart = function(cart) {
-								var width = cart.width();
-								cart.animate({ 'right' : -width });
-								setTimeout(function() {
-									cart.removeAttr('class');
-									cart.removeAttr('style');
-									timer = '';
-								}, 1000);
-							}
-
-							fns.cartTimer = function(cart) {
-								timer = setTimeout(function() {
-									fns.hideCart(cart)
-								}, 3000);
-							}
-
-							fns.showCart = function(cart) {
-								var show = cart.hasClass('show');
-								if (show) {
-									return false;
-								} else {
-									cart.addClass('show');
-									cart.animate({
-										'right' : 0
-									});
-									if (timer == '') {
-										fns.cartTimer(cart);
-									}
-								}
-							}
-
-							fns.addToCard = function() {
-								var cartHtml = 
-									"<article class='cart-product' data-cart-product-id='" + productData.id + "' data-cart-product-counter='" + productCounter + "'>\n"
-									+ "<div class='cart-product-img'><img src=" + productData.img + " alt=''></div>\n"
-									+ "<div class='cart-product-info'>\n"
-									+ "<span class='product-decription'>" + productData.decription + "</span>\n</div>\n"
-									+ "<div class='cart-product-footer'>\n<span class='product-price'><i class='fa fa-rub fa-fw'></i><b>" + productData.price + "</b>원</span>"
-									+ "<a href='#' class='cart-product-delete'><i class='fa fa-trash-o fa-fw'></i></a>\n</div>\n</article>";
-								var pattern = cartHtml, cart = $('#cart'), cartProducts = cart.find('.cart-product'), cartItem;
-
-								if (cartProducts.length > 0) {
-									for (var i = 0; i < cartProducts.length; i++) {
-										if (window.CP.shouldStopExecution(1)) {
-											break;
-										}
-										if (cartProducts.eq(i).data(
-												'cart-product-id') != productData.id) {
-											if (i == cartProducts.length - 1) {
-												$(pattern).insertBefore(cart.find('.cart-total'));
-												cartProducts = cart.find('.cart-product');
-												break;
-											}
-										} else {
-											cartItem = i;
-											var cartProductPrice = cartProducts.eq(cartItem).find('.cart-product-footer .product-price b'), price = cartProductPricetext();
-											price = parseInt(price);
-											price += productData.price;
-											cartProductPrice.text(price);
-											break;
-										}
-									}
-									window.CP.exitedLoop(1);
-
-								} else {
+					if (cartProducts.length > 0) {
+						for (var i = 0; i < cartProducts.length; i++) {
+							if (window.CP.shouldStopExecution(1)) { break; }
+							if (cartProducts.eq(i).data('cart-product-id') != productData.id) {
+								if (i == cartProducts.length - 1) {
 									$(pattern).insertBefore(cart.find('.cart-total'));
 									cartProducts = cart.find('.cart-product');
+									break;
 								}
-
-								cartCounter++;
-								cartTotal += productData.price;
-								fns.changeCart();
-								fns.showCart(cart);
+							} else {
+								cartItem = i;
+								var cartProductPrice = cartProducts.eq(cartItem).find('.cart-product-footer .product-price b'), price = cartProductPrice.text();
+								price = parseInt(price);
+								price += productData.price;
+								cartProductPrice.text(price);
+								break;
 							}
+						}
+						window.CP.exitedLoop(1);
+					} else {
+						$(pattern).insertBefore(cart.find('.cart-total'));
+						cartProducts = cart.find('.cart-product');
+					}
 
-							addCart.on('click', function() {
-								var _THIS = $(this);
-								fns.getProductData(_THIS);
-								fns.addToCard();
-							});
+					cartCounter++;
+					cartTotal += productData.price;
+					fns.changeCart();
+					fns.showCart(cart);
+				}
 
-							/*deleteCart.on('click', function(e){
-							  e = event || window.event;
-							  e.preventDefault();
-							  var id = $(this).closest('.cart-product').data('cart-product-id');
-							  console.log($(this));
-							});*/
+				$(document).on('click', '.cart-product-delete', function(e){
+					var id = $(this).closest('.cart-product').data('cart-product-id');
+					var or_basket = $(this).closest('.cart-product').data('cart-product-counter');
+				});
+				
+							
+				/* 장바구니 애니메이션 효과  */
+				fns.hideCart = function(cart) {
+					var width = cart.width();
+					cart.animate({ 'right' : -width });
+					setTimeout(function() {
+						cart.removeAttr('class');
+						cart.removeAttr('style');
+						timer = '';
+					}, 1000);
+				}
 
-						});
+				fns.cartTimer = function(cart) {
+					timer = setTimeout(function() {
+					fns.hideCart(cart)
+					}, 3000);
+				}
+
+				fns.showCart = function(cart) {
+					var show = cart.hasClass('show');
+					if (show) {
+						return false;
+					} else {
+						cart.addClass('show');
+						cart.animate({ 'right' : 0 });
+						if (timer == '') { fns.cartTimer(cart); }
+					}
+				}
+			});
+		
+		$(window).load(
+			function() {
+				console.log("hi");
+				/* 새로고침시 장바구니 불러오기 */
+				(function () {
+					<%
+						for(int key: blist.keySet()) {
+							OrdersBean obean = blist.get(key);
+							ProductBean pbean = pMgr.getProduct(obean.getProd_num());
+					%>
+										productData.img = '../pic/<%= pbean.getProd_img() %>';
+										productData.id = '<%= obean.getProd_num() %>';
+										productData.decription = '<%= pbean.getProd_name() %>';
+										productData.count = <%= obean.getOr_count() %>;
+										productData.price = <%= pbean.getProd_price() %> * productData.count;
+										productData.shot = <%= obean.getOr_shot() %>;
+										productData.size = '<%= obean.getOr_size() %>';
+										productData.whipping = '<%= obean.isOr_whip()?"휘핑 추가":"휘핑 없음" %>';
+										productCounter = <%= obean.getOr_basket() %>;
+										fns.addToCard();
+					<%
+						}
+					%>
+				})();
+			});
 	</script>
 </body>
 </html>
