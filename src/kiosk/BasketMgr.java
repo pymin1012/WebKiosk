@@ -16,7 +16,7 @@ public class BasketMgr {
 			bean.setOr_basket(num);
 			basket.put(num, bean);
 		}
-		
+		System.out.println(num);
 		 return num;
 	}
 	
@@ -32,6 +32,7 @@ public class BasketMgr {
 
 	//Cart Delete
 	public void deleteBasket(int num) {
+		System.out.println(num);
 		basket.remove(num);
 	}
 	

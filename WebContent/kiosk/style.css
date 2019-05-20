@@ -2,8 +2,22 @@
 /* **************************************************************************** */
 /* **************************************************************************** */
 /* »ó´Ü ÅÇ */
-section .section-title {
+section .title {
+	background: #1B467C;
+	background-clip: content-box;
+}
+
+section .section-title-img {
 	text-align: center;
+	color: #18A8F1;
+	margin-bottom: 0px;
+	text-transform: uppercase;
+	font-size: 90px;
+	font-family: Segoe Print;
+	background: #1B467C;
+}
+
+section .section-title {
 	color: #18A8F1;
 	padding-top: 20px;
 	padding-bottom: 30px;
@@ -24,6 +38,7 @@ section .section-title {
 
 #tabs {
 	color: #eee;
+	background: #1B467C;
 }
 
 #tabs h6.section-title {
@@ -35,7 +50,9 @@ section .section-title {
 }
 
 .nav-tabs {
-	border-top: 1px dashed #dee2e6;
+	border-top: 2px solid #dee2e6;
+	border-left: 2px solid #ffffff;
+	border-right: 2px solid #ffffff;
 }
 
 #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
@@ -47,15 +64,15 @@ section .section-title {
 	font-weight: bold;
 }
 
-#nav-tabContent {
-
+.main-container {
+	height: 100%;
+	padding: 0px;
 }
 
-.main-container {
-	background: #18A8F1;
-	height: 100%;
-	border: 0.5rem solid #1B467C;
-	padding: 0px;
+.cbody {
+	border-left: 2px dotted #ffffff;
+	border-right: 2px dotted #ffffff;
+	border-bottom: 2px dotted #ffffff;
 }
 
 #tabs .nav-tabs .nav-link {
@@ -170,7 +187,7 @@ a:visited {
 .cart-product-footer {
 	clear: both;
 	padding: .6em 0;
-	border-top: 1px dotted #000;
+	border-top: 1px dashed #000;
 	border-bottom: 1px solid #000;
 }
 
@@ -224,7 +241,7 @@ a:visited {
 }
 
 .product:hover {
-	border-color: #1B467C;
+	border-color: #18A8F1;
 	box-shadow: 0 0 5px rgba(0, 0, 0, .5);
 }
 
