@@ -1,8 +1,6 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-
-
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%
-		request.setCharacterEncoding("EUC-KR");
+		request.setCharacterEncoding("UTF-8");
 %>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -22,12 +20,12 @@
 
 <div>
 
-	<h1>аж╧╝ ╧Ьхё</h1>
+	<h1>Лё╪К╛╦ К╡┬М≤╦</h1>
 	<!-- bean -->99
-	<h3>аж╧╝ ©о╥А ╣г╬З╫ю╢о╢ы.</h3>
+	<h3>Лё╪К╛╦ Л≥└Кё▄ К░≤Л≈┬Л┼╣К▀┬К▀╓.</h3>
 </div>
 
 <div align="center" >
-  <a href="../index.jsp" class="btn btn-primary" role="button"  >цЁю╫ю╦╥н</a>
+  <a href="../index.jsp" class="btn btn-primary" role="button"  >Л╡≤Л²▄Л°╪К║°</a>
 </div>
 </body>  

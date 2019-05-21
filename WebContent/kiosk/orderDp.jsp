@@ -168,11 +168,44 @@ input:checked + .slider {
 
 	/* +-button */
 	$(document).ready(function() {
+		var prod_price = <%= prod_price %>;
+		var size_price = 0;
+		var shot_price = 0;
+		
 		$('.count').prop('disabled', true);
+		
+		$(document).on('click', '#size1', function() {
+			size_price = 0;
+			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			$('.price-total').text(tot);
+		})
+		
+		$(document).on('click', '#size2', function() {
+			size_price = 500;
+			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			$('.price-total').text(tot);
+		})
+		
+		$(document).on('click', '#size3', function() {
+			size_price = 1000;
+			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			$('.price-total').text(tot);
+		})
+		
+		$(document).on('change', '#or_shot', function() {
+			var value = $(this).val();
+			if (value != '') {
+				shot_price = value * 500;
+			} else {
+				shot_price = 0;
+			}
+			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			$('.price-total').text(tot);
+		})
 		
 		$(document).on('click', '.plus', function() {
 			$('.count').val(parseInt($('.count').val()) + 1);
-			$('.price-total').text($('.count').val() * <%= prod_price %>);
+			$('.price-total').text($('.count').val() * (prod_price + size_price + shot_price));
 		});
 		
 		$(document).on('click', '.minus', function() {
@@ -180,8 +213,8 @@ input:checked + .slider {
 			if ($('.count').val() == 0) {
 				$('.count').val(1);
 			}
-			$('.price-total').text($('.count').val() * <%= prod_price %>);
-    	});
+			$('.price-total').text($('.count').val() * (prod_price + size_price + shot_price));
+		});
 		
 		var $frm = $(".orderFrm");
 		$frm.on('submit', function(e) {
@@ -205,8 +238,6 @@ input:checked + .slider {
 					var shot = $("#or_shot option:selected").val();
 					var size = $(':radio[name="or_size"]:checked').val();
 					switch (size) {
-					case 'S':
-						size = 'Small'; break;
 					case 'T':
 						size = 'Tall'; break;
 					case 'G':
@@ -281,45 +312,41 @@ input:checked + .slider {
 	if (ctg_num != 4) {
 %>
 							<div class="form-group">
-								<input type="hidden" name="or_hi" id="or_hi" value="ICE"/>
 <%
-		if (prod_img != null){
+		if (prod_img != null && prod_iimg != null){
 %>
-
+								<input type="hidden" name="or_hi" id="or_hi" value="ICE"/>
 								<a href="javascript:changeImg('HOT')" class="btn btn-lg btn-danger text-white text-uppercase"><i class="fa fa-coffee" aria-hidden="true"></i>hot</a>
-<% 
-		}
-		if (prod_iimg != null) {
-%>
 								<a href="javascript:changeImg('ICE')" class="btn btn-lg btn-primary text-white text-uppercase"><i class="fa fa-snowflake" aria-hidden="true"></i>&nbsp;ice</a>						
+<% 
+		} else if (prod_iimg != null) {
+%>
+								<input type="hidden" name="or_hi" id="or_hi" value="ICE"/>
+								<a href="javascript:changeImg('ICE')" class="btn btn-lg btn-primary text-white text-uppercase"><i class="fa fa-snowflake" aria-hidden="true"></i>&nbsp;ice</a>						
+<%
+		} else if (prod_img != null) {
+%>
+								<input type="hidden" name="or_hi" id="or_hi" value="HOT"/>
+								<a href="javascript:changeImg('HOT')" class="btn btn-lg btn-danger text-white text-uppercase"><i class="fa fa-coffee" aria-hidden="true"></i>hot</a>
 <%
 		}
 %>
 							</div>
 
 							<div class="form-group">
-								<label class="form-select-title h5">SIZE</label><br>
-								<label class="form-check form-check-inline h6">
+								<label class="form-check form-check-inline h5">
+									<span class="form-check-label"></span><span class="text-center">Tall<br><small class="text-danger">(+0)</small></span>&nbsp;
+									<input class="form-check-input" type="radio" name="or_size" id="size1" value="T">&nbsp;&nbsp;&nbsp;&nbsp;
 <% 
 		if (ctg_num == 1) {
 %>
-									<span class="form-check-label"></span>Small&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size1" value="S" required>
+									<span class="form-check-label"></span><span class="text-center">Grande<br><small class="text-danger">(+500)</small></span>&nbsp;
+									<input class="form-check-input" type="radio" name="or_size" id="size2" value="G">&nbsp;&nbsp;&nbsp;&nbsp;
 <%
 		}
 %>
-									<span class="form-check-label"></span>&nbsp; Tall&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size2" value="T" required>
-<% 
-		if (ctg_num == 1) {
-%>
-									<span class="form-check-label"></span>&nbsp; Grande&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size3" value="G" required>
-<%
-		}
-%>
-									<span class="form-check-label"></span>&nbsp; Venti&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size4" value="V" required>
+									<span class="form-check-label"></span><span class="text-center">Venti<br><small class="text-danger">(+1000)</small></span>&nbsp;
+									<input class="form-check-input" type="radio" name="or_size" id="size3" value="V">
 								</label>
 							</div>
 <% 
@@ -329,6 +356,7 @@ input:checked + .slider {
 	if (pBean.getCtg_num() == 1) {
 %>
 							<div class="form-group">
+								<small class="text-danger">* 샷 한번 추가시 500원</small><br>
 								<label class="form-select-title h5">SHOT  :</label>&nbsp;&nbsp;
 								<select class="form-control-inline form-control-sm" name="or_shot" id="or_shot" style="width: 80px;" required>
 								    <option value="">선택</option>
