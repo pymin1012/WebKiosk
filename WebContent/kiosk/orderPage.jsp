@@ -265,7 +265,19 @@
 					});
 				});
 				
-							
+				
+				fns.order = function() {
+					
+				}
+				
+				$(document).on('click', '.order', function(e) {
+					if (cartCounter != 0) {
+				        location.href = 'payment.jsp';
+					} else {
+						alert('장바구니가 비어있습니다!');
+					}
+				});
+				
 				/* 장바구니 애니메이션 효과  */
 				fns.hideCart = function(cart) {
 					var width = cart.width();

@@ -1,5 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-
+<%
+	int mb_num =0;
+	if (session.getAttribute("mb_num") != null) {
+		mb_num = ((Integer)(session.getAttribute("mb_num"))).intValue();
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +17,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
+
 	function login() {
 		if (document.loginFrm.mb_phone.value == "") {
 			alert("전화번호를 입력하세요.");
@@ -27,9 +33,19 @@
 
 		document.loginFrm.submit();
 	}
+	
 </script>
 </head>
+	
 <body>
+<%
+
+	if (mb_num != 0) {
+%>
+<script>location.href = "../kiosk/orderPage.jsp";</script>
+<%
+	} else {
+%>
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -65,6 +81,9 @@
 			</div>
 		</div>
 	</div>
+<%
+	}
+%>
 </body>
 
 <script>
