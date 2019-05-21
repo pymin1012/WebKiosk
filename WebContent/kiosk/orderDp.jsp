@@ -34,45 +34,53 @@
 }
 
 .qty .count {
-    color: #000;
-    display: inline-block;
-    vertical-align: top;
-    font-size: 25px;
-    font-weight: 700;
-    width : 50px;
-    line-height: 20px;
-    padding: 0 2px
-    ;min-width: 25px;
-    text-align: center;
+	color: #000;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 25px;
+	font-weight: 700;
+	width: 50px;
+	line-height: 20px;
+	padding: 0 2px;
+	min-width: 25px;
+	text-align: center;
 }
 
 .qty .plus {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: top;
-    color: white;
-    width: 30px;
-    height: 30px;
-    font: 30px/1 Arial,sans-serif;
-    text-align: center;
-    border-radius: 50%;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: top;
+	color: white;
+	width: 30px;
+	height: 30px;
+	font: 30px/1 Arial, sans-serif;
+	text-align: center;
+	border-radius: 50%;
 }
 
 .qty .minus {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: top;
-    color: white;
-    width: 30px;
-    height: 30px;
-    font: 30px/1 Arial,sans-serif;
-    text-align: center;
-    border-radius: 50%;
-    background-clip: padding-box;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: top;
+	color: white;
+	width: 30px;
+	height: 30px;
+	font: 30px/1 Arial, sans-serif;
+	text-align: center;
+	border-radius: 50%;
+	background-clip: padding-box;
 }
 
 .card-body {
 	margin-top: 20px;
+}
+
+.form-check {
+	margin-bottom: 0.8rem;
+}
+
+.form-group {
+	margin-bottom: 0.8rem;
 }
 
 .form-select {
@@ -93,6 +101,58 @@
 	margin-top: 60px;
 	padding-left: 5px;
 }
+
+/* ************************************************************ */
+/* ************************************************************ */
+/* ************************************************************ */
+/* 체크박스 css */
+.switch input { 
+    display:none;
+}
+
+.switch {
+    display:inline-block;
+    width:60px;
+    height:20px;
+    margin-bottom:4px;
+    transform:translateY(50%);
+    position:relative;
+}
+
+.slider {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    border-radius:30px;
+    box-shadow:0 0 0 2px #777, 0 0 4px #777;
+    cursor:pointer;
+    border:4px solid transparent;
+    overflow:hidden;
+     transition:.4s;
+}
+
+.slider:before {
+    position:absolute;
+    content:"";
+    width:100%;
+    height:100%;
+    background:#777;
+    border-radius:30px;
+    transform:translateX(-30px);
+    transition:.4s;
+}
+
+input:checked + .slider:before {
+    transform:translateX(30px);
+    background:limeGreen;
+}
+
+input:checked + .slider {
+    box-shadow:0 0 0 2px limeGreen,0 0 2px limeGreen;
+}
+
 </style>
 <script type="text/javascript">
 	function changeImg(hi) {
@@ -201,8 +261,8 @@
 						</article>
 						<div class="order-button">
 							<div class="d-flex justify-content-between">
-								<input type="submit" class="btn btn-lg btn-primary text-uppercase" value="담기">
-								<a href="#" class="btn btn-lg btn-primary text-uppercase cancle">취소</a>
+								<input type="submit" class="btn btn-lg btn-primary ml-3 text-uppercase" value="담기">
+								<a href="#" class="btn btn-lg btn-danger mr-3 text-uppercase cancle">취소</a>
 							</div>
 						</div>
 					</aside>
@@ -216,11 +276,7 @@
 							<span>원산지 : <%=pBean.getProd_coo() %></span>
 							<hr />
 						
-							<input type="hidden" name="prod_name" value="<%= pBean.getProd_name() %>" />
-							<input type="hidden" name="prod_num" value="<%= pBean.getProd_num() %>" />
-							<input type="hidden" name="img_src" id="img_src" value="" />	
-												
-
+							<input type="hidden" name="prod_num" value="<%= pBean.getProd_num() %>" />												
 <%
 	if (ctg_num != 4) {
 %>
@@ -248,22 +304,22 @@
 		if (ctg_num == 1) {
 %>
 									<span class="form-check-label"></span>Small&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size1" value="S">
+									<input class="form-check-input" type="radio" name="or_size" id="size1" value="S" required>
 <%
 		}
 %>
 									<span class="form-check-label"></span>&nbsp; Tall&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size2" value="T">
+									<input class="form-check-input" type="radio" name="or_size" id="size2" value="T" required>
 <% 
 		if (ctg_num == 1) {
 %>
 									<span class="form-check-label"></span>&nbsp; Grande&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size3" value="G">
+									<input class="form-check-input" type="radio" name="or_size" id="size3" value="G" required>
 <%
 		}
 %>
 									<span class="form-check-label"></span>&nbsp; Venti&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size4" value="V">
+									<input class="form-check-input" type="radio" name="or_size" id="size4" value="V" required>
 								</label>
 							</div>
 <% 
@@ -273,30 +329,34 @@
 	if (pBean.getCtg_num() == 1) {
 %>
 							<div class="form-group">
-								<label class="form-select-title h5">SHOT : </label>
-								<select class="form-control-inline form-control-sm" name="or_shot" id="or_shot" style="width: 70px;">
-									<option>0</option>
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
+								<label class="form-select-title h5">SHOT  :</label>&nbsp;&nbsp;
+								<select class="form-control-inline form-control-sm" name="or_shot" id="or_shot" style="width: 80px;" required>
+								    <option value="">선택</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
 								</select>
 							</div>
 							
 							<div class="form-check" style="padding-left:0px;">
-								<label class="form-select-title h5">Whipping</label>
-								<input type="checkbox" class="form-check-input-inline" name="or_whip" id="or_whip" value="true">
+								<label class="form-select-title h5">Whipping</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        						<label class="switch">
+            						<input type="checkbox" class="form-check-input-inline" name="or_whip" id="or_whip" value="true">
+            						<span class="slider"></span>
+        						</label>
 							</div>
 <% 
 	}
 %>
-							
+
 							<div class="form-select">
 								<div class="qty mt-6">
-									<span class="minus bg-primary"> - </span>
-									<input type="number" class="count" name="or_count" id="or_count" value="1">
-									<span class="plus bg-primary"> + </span>
+									<span class="minus bg-success"> - </span>&nbsp;&nbsp;
+									<input type="text" class="count" name="or_count" id="or_count" value="1">&nbsp;&nbsp;
+									<span class="plus bg-success"> + </span>
 								</div>
 							</div>
 						
