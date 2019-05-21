@@ -7,6 +7,9 @@
 	int prod_num = Integer.parseInt(request.getParameter("prod_num"));
 	ProductBean pBean = pMgr.getProduct(prod_num);
 	int prod_price = pBean.getProd_price();
+	int ctg_num = pBean.getCtg_num();
+	String prod_img = pBean.getProd_img();
+	String prod_iimg = pBean.getProd_iimg();
 	
 	int or_basket = 0;
 %>
@@ -96,10 +99,10 @@
 		document.getElementById("or_hi").value = hi;
 		if (hi == 'ICE') {
 			var i = document.getElementById("prod_img");
-			i.src = "../pic2/<%= pBean.getProd_img() %>";
+			i.src = "../menu_pic/<%= pBean.getProd_iimg() %>";
 		} else if (hi == 'HOT') {
 			var i = document.getElementById("prod_img");
-			i.src = "../pic/<%= pBean.getProd_img() %>";
+			i.src = "../menu_pic/<%= pBean.getProd_img() %>";
 		}
 	}
 
@@ -132,6 +135,8 @@
 				data: myData,
 				dataType: "JSON",
 				success: function(res) {
+					var ctg_num = <%= pBean.getCtg_num() %>;
+					
 					var src = $('#prod_img').attr('src');
 					var price = $('.price-total').text();
 					var id = <%= prod_num %>;
@@ -157,9 +162,9 @@
 					$(opener.productData).attr('id', parseInt(id));
 					$(opener.productData).attr('decription', decription);
 					$(opener.productData).attr('count', parseInt(count));
-					$(opener.productData).attr('shot', parseInt(shot));
-					$(opener.productData).attr('size', size);
-					$(opener.productData).attr('whipping', whipping);
+					if (shot != undefined) $(opener.productData).attr('shot', parseInt(shot));
+					if (size != undefined) $(opener.productData).attr('size', size);
+					if (ctg_num == 1) $(opener.productData).attr('whipping', whipping);
 					$(opener).attr('productCounter', or_basket);
 					$(opener.fns.addToCard());
  					self.close();
@@ -168,7 +173,7 @@
 		});
 		
 		$(document).on('click', '.cancle', function() {
-				
+			self.close();
 		});
 	});
 </script>
@@ -181,7 +186,17 @@
 					<aside class="col-sm-6 mx-auto my-auto">
 						<article class="gallery-wrap">
 							<div class="img-big-wrap p-1">
-								<img src="../pic2/<%= pBean.getProd_img() %>" id="prod_img" style="width: 100%; height: auto;">
+<% 
+	if (prod_iimg != null) {
+%>
+								<img src="../menu_pic/<%= pBean.getProd_iimg() %>" id="prod_img" style="width: 100%; height: auto;">
+<%
+	} else {
+%>
+								<img src="../menu_pic/<%= pBean.getProd_img() %>" id="prod_img" style="width: 100%; height: auto;">
+<% 
+	}
+%>						
 							</div>
 						</article>
 						<div class="order-button">
@@ -205,26 +220,58 @@
 							<input type="hidden" name="prod_num" value="<%= pBean.getProd_num() %>" />
 							<input type="hidden" name="img_src" id="img_src" value="" />	
 												
+
+<%
+	if (ctg_num != 4) {
+%>
 							<div class="form-group">
 								<input type="hidden" name="or_hi" id="or_hi" value="ICE"/>
-								<a href="javascript:changeImg('ICE')" class="btn btn-lg btn-danger text-white text-uppercase"><i class="fa fa-coffee" aria-hidden="true"></i>hot</a>
-								<a href="javascript:changeImg('HOT')" class="btn btn-lg btn-primary text-white text-uppercase"><i class="fa fa-snowflake" aria-hidden="true"></i>&nbsp;cold</a>						
+<%
+		if (prod_img != null){
+%>
+
+								<a href="javascript:changeImg('HOT')" class="btn btn-lg btn-danger text-white text-uppercase"><i class="fa fa-coffee" aria-hidden="true"></i>hot</a>
+<% 
+		}
+		if (prod_iimg != null) {
+%>
+								<a href="javascript:changeImg('ICE')" class="btn btn-lg btn-primary text-white text-uppercase"><i class="fa fa-snowflake" aria-hidden="true"></i>&nbsp;ice</a>						
+<%
+		}
+%>
 							</div>
-							
+
 							<div class="form-group">
 								<label class="form-select-title h5">SIZE</label><br>
-								<label class="form-check form-check-inline h6"> Small&nbsp;
+								<label class="form-check form-check-inline h6">
+<% 
+		if (ctg_num == 1) {
+%>
+									<span class="form-check-label"></span>Small&nbsp;
 									<input class="form-check-input" type="radio" name="or_size" id="size1" value="S">
+<%
+		}
+%>
 									<span class="form-check-label"></span>&nbsp; Tall&nbsp;
 									<input class="form-check-input" type="radio" name="or_size" id="size2" value="T">
+<% 
+		if (ctg_num == 1) {
+%>
 									<span class="form-check-label"></span>&nbsp; Grande&nbsp;
 									<input class="form-check-input" type="radio" name="or_size" id="size3" value="G">
+<%
+		}
+%>
 									<span class="form-check-label"></span>&nbsp; Venti&nbsp;
 									<input class="form-check-input" type="radio" name="or_size" id="size4" value="V">
-									<span class="form-check-label"></span>&nbsp;
 								</label>
 							</div>
-							
+<% 
+	}
+%>
+<%
+	if (pBean.getCtg_num() == 1) {
+%>
 							<div class="form-group">
 								<label class="form-select-title h5">SHOT : </label>
 								<select class="form-control-inline form-control-sm" name="or_shot" id="or_shot" style="width: 70px;">
@@ -241,6 +288,9 @@
 								<label class="form-select-title h5">Whipping</label>
 								<input type="checkbox" class="form-check-input-inline" name="or_whip" id="or_whip" value="true">
 							</div>
+<% 
+	}
+%>
 							
 							<div class="form-select">
 								<div class="qty mt-6">

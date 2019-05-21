@@ -31,12 +31,17 @@
 	
 	function orderDetail(prod_num) {
 		url = "orderDp.jsp?prod_num=" + prod_num;
-		window.open(url, "상품상세주문", "width=900, height=700, scrollbars=no");
+		
+		var popupX = (window.screen.width / 2) - (900 / 2);
+		var popupY= (window.screen.height / 2) - (700 / 2);
+		
+        /* var rtnValue = window.showModalDialog(url, new Object(), "dialogWidth:900px; dialogHeight:700px; status:no; scrollbars:no; help:no; location:no; center:yes;"); */
+ 		window.open(url, "상품상세주문", "width=900, height=700, left=" + popupX + ", top=" + popupY + ", scrollbars=no");
  	}
 </script>
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper wbody">
 		<section id="cart" class="overflow-auto">
 			<span class="cart-title"><i class="fa fa-shopping-cart fa-fw"><span class="cart-counter">0</span></i>Cart</span>
 			<article class="cart-total text-right">
@@ -49,13 +54,22 @@
 		</section>
 	
 		<section id="tabs">
-			<div class="container">
-				<h6 class="section-title">Blue Bubble</h6>
+			<div class="container main-container">
+				<div class="row">
+					<div class="title col-md-12 ">
+						<div class="row">
+							<div class="col-md-3"><div class="section-title-img">
+								<img src="../pic/logo.png" class="brand_logo" alt="Logo" style="width: auto; height:140px;">
+							</div></div>
+							<div class="col-md-9 pl-5"><h6 class="section-title">Blue Bubble</h6></div>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-12 ">
 						<nav>
-							<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-								<a class="nav-item nav-link active" id="nav-hot-tab" data-toggle="tab" href="#nav-hot" role="tab" aria-controls="nav-hot" aria-selected="true">HOT</a>
+							<div class="nav nav-tabs nav-fill rounded" id="nav-tab" role="tablist">
+								<a class="nav-item nav-link active" id="nav-hot-tab" data-toggle="tab" href="#nav-hot" role="tab" aria-controls="nav-hot" aria-selected="true" style="color: red"><i class="fab fa-hotjar"></i>&nbsp;HOT</a>
 								<a class="nav-item nav-link" id="nav-COFFEE-tab" data-toggle="tab" href="#nav-COFFEE" role="tab" aria-controls="nav-COFFEE" aria-selected="false">COFFEE</a>
 								<a class="nav-item nav-link" id="nav-ADE-tab" data-toggle="tab" href="#nav-ADE" role="tab" aria-controls="nav-ADE" aria-selected="false">ADE</a>
 								<a class="nav-item nav-link" id="nav-TEA-tab" data-toggle="tab" href="#nav-TEA" role="tab" aria-controls="nav-TEA" aria-selected="false">TEA</a>
@@ -63,12 +77,13 @@
 							</div>
 						</nav>
 
-						<div class="text-center">
-							<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+						<div class="cbody text-center">
+							<div class="tab-content px-sm-0" id="nav-tabContent">
 
 								<div class="tab-pane fade show active" id="nav-hot"
 									role="tabpanel" aria-labelledby="nav-hot-tab">
 									<div class="wrapper">
+									<div class="container">
 										<section id="catalog">
 											<div class="row">
 <%
@@ -77,11 +92,21 @@
 		ProductBean bean = v.get(i);
 %>
 												<div class="items col-md-3">
-													<article class="product"
-														data-product-id="<%= bean.getProd_num() %>">
+													<a href="javascript:orderDetail('<%= bean.getProd_num() %>')" class="items-link">
+													<article class="product mt-3 mb-3" data-product-id="<%= bean.getProd_num() %>">
 														<div class="product-wrapper">
-															<div class="product-img">
-																<a href="javascript:orderDetail('<%= bean.getProd_num() %>')"><img src="../pic/<%= bean.getProd_img() %>" style="width: 100%; height: auto;" alt=""></a>
+															<div class="product-img p-3">
+<% 
+	if (bean.getProd_iimg() != null) {
+%>
+																<img src="../menu_pic/<%= bean.getProd_iimg() %>" style="width: 100%; height: auto;" alt="">
+<%
+	} else {
+%>
+																<img src="../menu_pic/<%= bean.getProd_img() %>" style="width: 100%; height: auto;" alt="">
+<% 
+	}
+%>
 															</div>
 															<div class="product-info">
 																<span class="product-decription"><%= bean.getProd_name() %></span>
@@ -92,12 +117,14 @@
 															</div>
 														</div>
 													</article>
+													</a>
 												</div>
 												<%
 	}
 %>
 											</div>
 										</section>
+										</div>
 									</div>
 								</div>
 								<%
@@ -108,6 +135,7 @@
 									role="tabpanel"
 									aria-labelledby="nav-<%= cbean.getCtg_name() %>-tab">
 									<div class="wrapper">
+										<div class="container">
 										<section id="catalog">
 											<div class="row">
 												<%
@@ -116,11 +144,21 @@
 			ProductBean pbean = pvlist.get(j);
 %>
 												<div class="items col-md-3">
-													<article class="product" data-product-id="<%= pbean.getProd_num() %>">
+													<a href="javascript:orderDetail('<%= pbean.getProd_num() %>')" class="items-link">
+													<article class="product mt-3 mb-3" data-product-id="<%= pbean.getProd_num() %>">
 														<div class="product-wrapper">
-															<div class="product-img">
-																<a href="javascript:orderDetail('<%= pbean.getProd_num() %>')"><img src="../pic/<%= pbean.getProd_img() %>" style="width: 100%; height: auto;" alt=""></a>
-															</div>
+															<div class="product-img p-3">
+<% 
+	if (pbean.getProd_iimg() != null) {
+%>
+																<img src="../menu_pic/<%= pbean.getProd_iimg() %>" style="width: 100%; height: auto;" alt="">
+<%
+	} else {
+%>
+																<img src="../menu_pic/<%= pbean.getProd_img() %>" style="width: 100%; height: auto;" alt="">
+<% 
+	}
+%>															</div>
 															<div class="product-info">
 																<span class="product-decription"><%= pbean.getProd_name() %></span>
 																<div class="product-footer">
@@ -129,12 +167,14 @@
 															</div>
 														</div>
 													</article>
+													</a>
 												</div>
 												<%
 		}
 %>
 											</div>
 										</section>
+										</div>
 									</div>
 								</div>
 								<%
@@ -155,25 +195,29 @@
 			function() {
 				var cartCounter = 0, cartTotal = 0, timer = '';	
 
+				fns.initData = function() {
+					productData = {id:'', img:'', decription:'', price:'', count: '', size: '', shot: '', whipping: ''}, productCounter = 0;
+				}
+				
 				fns.changeCart = function() {
 					var counter = $('.cart-counter'), total = $('.cart-total').find('.product-price b');
 					counter.text(cartCounter);
 					total.text(cartTotal);
 				}
-
+				
 				fns.addToCard = function() {
 					var cartHtml = 
-						"<article class='cart-product' data-cart-product-id='" + productData.id + "' data-cart-product-counter='" + productCounter + "'>\n"
+						"<article class='cart-product' data-cart-product-id='" + productData.id + "' data-cart-product-counter='" + productCounter + "' data-cart-product-price='" + productData.price + "' >\n"
 						+ "<div class='row'>\n"
 						+ "<div class='col-sm-12'>\n"
 						+ "<div class='cart-product-info'><span class='product-decription'>" + productData.decription + "</span></div></div>\n"
 						+ "<div class='col-sm-7'>\n"
 						+ "<div class='cart-product-img p-2'><img src=" + productData.img + " alt='' style='width: 100%; height: auto;'></div>\n</div>\n"
-						+ "<div class='col-sm-5 pl-3'>\n"
-						+ "<div class='cart-product-info'><span class='product-size'>" + productData.size + "</span></div>\n"
-						+ "<div class='cart-product-info'><span class='product-shot'>" + productData.shot + " SHOT</span></div>\n"
-						+ "<div class='cart-product-info'><span class='product-whipping'>" + productData.whipping + "</span></div>\n"
-						+ "<div class='cart-product-info'><span class='product-count'>" + productData.count + " 개</span></div></div></div>\n"
+						+ "<div class='col-sm-5 pl-3'>\n";
+					if (productData.size != '') cartHtml += "<div class='cart-product-info'><span class='product-size'>" + productData.size + "</span></div>\n";
+					if (productData.shot != '') cartHtml += "<div class='cart-product-info'><span class='product-shot'>" + productData.shot + " SHOT</span></div>\n";
+					if (productData.whipping != '') cartHtml += "<div class='cart-product-info'><span class='product-whipping'>" + productData.whipping + "</span></div>\n";
+					cartHtml += "<div class='cart-product-info'><span class='product-count'>" + productData.count + " 개</span></div></div></div>\n"
 						+ "<div class='cart-product-footer d-flex justify-content-around'>\n"
 						+ "<span class='product-price'><i class='fas fa-won-sign'></i>&nbsp;<b>" + productData.price + "</b></span>\n"
 						+ "<button class='cart-product-delete btn btn-danger btn-sm'><i class='far fa-trash-alt'></i></button></div>\n";
@@ -183,18 +227,9 @@
 					if (cartProducts.length > 0) {
 						for (var i = 0; i < cartProducts.length; i++) {
 							if (window.CP.shouldStopExecution(1)) { break; }
-							if (cartProducts.eq(i).data('cart-product-id') != productData.id) {
-								if (i == cartProducts.length - 1) {
-									$(pattern).insertBefore(cart.find('.cart-total'));
-									cartProducts = cart.find('.cart-product');
-									break;
-								}
-							} else {
-								cartItem = i;
-								var cartProductPrice = cartProducts.eq(cartItem).find('.cart-product-footer .product-price b'), price = cartProductPrice.text();
-								price = parseInt(price);
-								price += productData.price;
-								cartProductPrice.text(price);
+							if (i == cartProducts.length - 1) {
+								$(pattern).insertBefore(cart.find('.cart-total'));
+								cartProducts = cart.find('.cart-product');
 								break;
 							}
 						}
@@ -208,11 +243,26 @@
 					cartTotal += productData.price;
 					fns.changeCart();
 					fns.showCart(cart);
+					fns.initData();
 				}
 
 				$(document).on('click', '.cart-product-delete', function(e){
-					var id = $(this).closest('.cart-product').data('cart-product-id');
-					var or_basket = $(this).closest('.cart-product').data('cart-product-counter');
+					var $art = $(this).closest('.cart-product');
+					var or_basket = $art.data('cart-product-counter');
+					var price = $art.data('cart-product-price');
+					
+					$.ajax({
+						type: "POST",
+						url: "basketDeleteProc.jsp",
+						data: 'or_basket=' + or_basket,
+						success: function(res) {
+							cartTotal -= price;
+							cartCounter--;
+							fns.changeCart();
+							$art.remove();
+							fns.showCart(cart);
+		 				}
+					});
 				});
 				
 							
@@ -247,23 +297,36 @@
 		
 		$(window).load(
 			function() {
-				console.log("hi");
 				/* 새로고침시 장바구니 불러오기 */
 				(function () {
 					<%
 						for(int key: blist.keySet()) {
 							OrdersBean obean = blist.get(key);
 							ProductBean pbean = pMgr.getProduct(obean.getProd_num());
+							int ctg_num = pbean.getCtg_num();
+							String prod_img = "";
+							if (obean.getOr_hi() != null && obean.getOr_hi().equals("ICE")) prod_img = pbean.getProd_iimg();
+							else prod_img = pbean.getProd_img();
 					%>
-										productData.img = '../pic/<%= pbean.getProd_img() %>';
+										productData.img = '../menu_pic/<%= prod_img %>';
 										productData.id = '<%= obean.getProd_num() %>';
 										productData.decription = '<%= pbean.getProd_name() %>';
 										productData.count = <%= obean.getOr_count() %>;
 										productData.price = <%= pbean.getProd_price() %> * productData.count;
-										productData.shot = <%= obean.getOr_shot() %>;
+					<%
+							if (ctg_num != 4) {
+					%>
 										productData.size = '<%= obean.getOr_size() %>';
+					<%
+							}
+							if (ctg_num == 1) {
+					%>
+										productData.shot = <%= obean.getOr_shot() %>;
 										productData.whipping = '<%= obean.isOr_whip()?"휘핑 추가":"휘핑 없음" %>';
 										productCounter = <%= obean.getOr_basket() %>;
+					<%
+							}
+					%>
 										fns.addToCard();
 					<%
 						}
