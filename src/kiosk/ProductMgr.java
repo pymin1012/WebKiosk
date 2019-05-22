@@ -13,7 +13,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 public class ProductMgr {
 		
 	private DBConnectionMgr pool;
-	private static final String UPLOAD = 	"C:/T-gf/WebP/WebContent/pic";
+	private static final String UPLOAD = "C:/T-gf/WebP/WebContent/pic";
 	private static final String ENCTYPE = "EUC-KR";
 	private static final int MAXSIZE = 10*1024*1024;
 	
@@ -71,6 +71,7 @@ public class ProductMgr {
 				bean.setProd_price(rs.getInt("prod_price"));
 				bean.setProd_kcal(rs.getInt("prod_kcal"));
 				bean.setProd_coo(rs.getString("prod_coo"));
+				bean.setProd_so(rs.getBoolean("prod_so"));
 				vlist.addElement(bean);
 			}
 			
@@ -102,6 +103,7 @@ public class ProductMgr {
 				bean.setProd_price(rs.getInt("prod_price"));
 				bean.setProd_kcal(rs.getInt("prod_kcal"));
 				bean.setProd_coo(rs.getString("prod_coo"));
+				bean.setProd_so(rs.getBoolean("prod_so"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
