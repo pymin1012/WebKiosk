@@ -15,7 +15,7 @@ public class MemberMgr {
 	String sql = "";
 
 	public MemberMgr() {
-		pool=DBConnectionMgr.getInstance();
+		pool = DBConnectionMgr.getInstance();
 	}
 
 	public boolean signMember(MemberBean bean) {
@@ -80,7 +80,6 @@ public class MemberMgr {
 		return mb_num;
 	}
 	
-	
 	public int getPoint(int mb_num) {
 		int mb_point = 0;
 		try {
@@ -100,12 +99,13 @@ public class MemberMgr {
 		return mb_point;
 	}
 	
-	public void updatePoint(int mb_point) {
+	public void updatePoint(int mb_num, int mb_point) {
 		try {
 			conn = pool.getConnection();
-			sql = "update member set mb_point=mb_point + ? where mb_num=?";
+			sql = "update member set mb_point = mb_point + ? where mb_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, mb_point);
+			pstmt.setInt(2, mb_num);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

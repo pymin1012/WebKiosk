@@ -53,8 +53,10 @@
 	for(int key: blist.keySet()) {
 		OrdersBean obean = blist.get(key);
 		ProductBean pbean = pMgr.getProduct(obean.getProd_num());
-		int price = pbean.getProd_price()*obean.getOr_count();
-		totalprice+=price;
+		int prod_price =  pbean.getProd_price();
+		int shot_price = 0;
+		int size_price = 0;
+		int price = 0;
 %>
 				<!-- PRODUCT -->
 				<div class="row">
@@ -81,16 +83,19 @@
 <%
 		if (obean.getOr_size() != null) {
 			switch (obean.getOr_size()) {
-				case "T": out.println("사이즈 : Tall, "); break;  
-				case "G": out.println("사이즈 : Grande, "); break; 
-				case "V": out.println("사이즈 : Venti, "); break;
+				case "T": out.println("사이즈 : Tall, "); size_price = 0; break;  
+				case "G": out.println("사이즈 : Grande, "); size_price = 500; break; 
+				case "V": out.println("사이즈 : Venti, "); size_price = 1000; break;
 			}
 		}
 		if (pbean.getCtg_num() == 1) {
+			shot_price = obean.getOr_shot() * 500;
 			out.println("샷추가 : " + obean.getOr_shot() + ", ");
 			out.println((obean.isOr_whip()?"휘핑 추가, ":"휘핑 없음, "));
 		}
+		price = (prod_price + shot_price + size_price) * obean.getOr_count();
 		out.println("주문수량 : " + obean.getOr_count());
+		totalprice+=price;
 %>
 							</small>
 						</h4>
@@ -98,7 +103,7 @@
 					<div class="col-12 col-sm-12 text-sm-center col-md-4 pr-0 text-md-right row">
 						<div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
 							<h5>
-								<strong><span class="text-muted"><i class='fas fa-won-sign'></i>&nbsp;<%=price %></span></strong>
+								<strong><span class="text-muted"><i class='fas fa-won-sign'></i>&nbsp;<%= price %></span></strong>
 							</h5>
 						</div>
 						<div class="col-2 col-sm-2 col-md-6 pr-0 text-right">
@@ -137,8 +142,8 @@
 										<span id="minus_point" class="text-warning">0</span>&nbsp;&nbsp;
 										<i class="fas fa-equals fa-xs"></i>&nbsp;&nbsp;
 									</span></small>
-									<span class="text-muted"><i class='fas fa-won-sign'></i>&nbsp;
-										<span id="last_price"><%= totalprice %></span></span>
+									<span class="text-muted"><i class='fas fa-won-sign'></i>
+									<span id="last_price"><%= totalprice %></span></span>
 								</strong></h3>
 							</div>
 						</div>
@@ -177,7 +182,9 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> 
+				
+				<input type="hidden" id="oh_total" name="oh_total" value="<%=totalprice %>" />
 				</form>
 			</div>
 		</div>
@@ -187,6 +194,7 @@
 	var fp = document.getElementById("oh_point");
 	var sp = document.getElementById("minus_point");
 	var lp = document.getElementById("last_price");
+	var ht = document.getElementById("oh_total");
 
 	function maxPoint(point) {
 		var max = <%= totalprice>mb_point?mb_point:totalprice %>;
@@ -209,6 +217,7 @@
 		this.value = inputPoint(this.value);
 		sp.innerText = this.value;
 		lp.innerText = <%= totalprice%> - this.value;
+		ht.value = <%= totalprice%> - this.value;
 	}
 	
 	fp.onfocus = function(event) {
@@ -222,6 +231,7 @@
 			this.value = 0;
 			sp.innerText = 0;
 			lp.innerText = <%= totalprice%>;
+			ht.value = <%= totalprice%>;
 		}
 	}
 </script>

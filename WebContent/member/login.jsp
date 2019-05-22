@@ -1,5 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
+	if (request.getParameter("oh_io") != null) {
+		String oh_io = request.getParameter("oh_io");
+		session.setAttribute("oh_io", oh_io);	
+	}
+
 	int mb_num =0;
 	if (session.getAttribute("mb_num") != null) {
 		mb_num = ((Integer)(session.getAttribute("mb_num"))).intValue();
@@ -42,7 +47,7 @@
 
 	if (mb_num != 0) {
 %>
-<script>location.href = "../kiosk/orderPage.jsp";</script>
+<script>location.href = "/WebKiosk/kiosk/orderPage.jsp";</script>
 <%
 	} else {
 %>
@@ -51,7 +56,7 @@
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
 					<div class="brand_logo_container">
-						<img src="../pic/123.jpg" class="brand_logo" alt="Logo">
+						<img src="/WebKiosk/pic/123.jpg" class="brand_logo" alt="Logo">
 					</div>
 				</div>
 				<div class="d-flex justify-content-center form_container">

@@ -1,6 +1,10 @@
+<%@page import="kiosk.OrderHistoryBean"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<jsp:useBean id="kMgr" class="kiosk.KioskMgr" />
 <%
 		request.setCharacterEncoding("UTF-8");
+		OrderHistoryBean ohBean = new OrderHistoryBean();
+		int oh_num = Integer.parseInt(request.getParameter("oh_num"));
 %>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -21,7 +25,7 @@
 <div>
 
 	<h1>주문 번호</h1>
-	<!-- bean -->99
+	<!-- bean --><%=oh_num%>
 	<h3>주문 완료 되었습니다.</h3>
 </div>
 

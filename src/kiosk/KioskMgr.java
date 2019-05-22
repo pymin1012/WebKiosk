@@ -21,14 +21,15 @@ public class KioskMgr {
 	public void insertOrderHistory(OrderHistoryBean bean) {
 		try {
 			conn = pool.getConnection();
-			sql = "insert into orderhistory(oh_status, mb_num, oh_date, oh_io, oh_comment, oh_point) "
-					+ "values(?, ?, now(), ?, ?, ?)";
+			sql = "insert into orderhistory(oh_status, mb_num, oh_date, oh_io, oh_comment, oh_point, oh_total) "
+					+ "values(?, ?, now(), ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bean.getOh_status());
 			pstmt.setInt(2, bean.getMb_num());
 			pstmt.setString(3, bean.getOh_io());
 			pstmt.setString(4, bean.getOh_comment());
 			pstmt.setInt(5, bean.getOh_point());
+			pstmt.setInt(6, bean.getOh_total());
 
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -50,8 +51,8 @@ public class KioskMgr {
 			pstmt.setInt(3, bean.getProd_num());
 			pstmt.setString(4, bean.getOr_size());
 			pstmt.setInt(5, bean.getOr_count());
-			pstmt.setInt(6, 0);
-			pstmt.setBoolean(7, false);
+			pstmt.setInt(6, bean.getOr_shot());
+			pstmt.setBoolean(7, bean.isOr_whip());
 			pstmt.setString(8, bean.getOr_hi());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -80,6 +81,7 @@ public class KioskMgr {
 				bean.setOh_io(rs.getString("oh_io"));
 				bean.setOh_comment(rs.getString("oh_comment"));
 				bean.setOh_point(rs.getInt("oh_point"));
+				bean.setOh_total(rs.getInt("oh_total"));
 				v.addElement(bean);
 			}
 		} catch (Exception e) {
