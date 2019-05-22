@@ -40,4 +40,9 @@ public class BasketMgr {
 	public LinkedHashMap<Integer, OrdersBean> getBasketList(){
 		return basket;
 	}
+	
+	//Is Basket Empty?
+	public boolean isBasketEmpty() {
+		return basket.isEmpty();
+	}
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+
+
 public class MemberMgr {
 	private DBConnectionMgr pool = null;
 
@@ -76,6 +78,40 @@ public class MemberMgr {
 			pool.freeConnection(conn, pstmt, rs);
 		}
 		return mb_num;
+	}
+	
+	
+	public int getPoint(int mb_num) {
+		int mb_point = 0;
+		try {
+			conn = pool.getConnection();
+			sql = "select mb_point from Member where mb_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mb_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				mb_point = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+		return mb_point;
+	}
+	
+	public void updatePoint(int mb_point) {
+		try {
+			conn = pool.getConnection();
+			sql = "update member set mb_point=mb_point + ? where mb_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mb_point);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt);
+		}
 	}
 }
 

@@ -11,6 +11,7 @@
 	if (mb_num != 0) {
 		msg = "로그인 성공";
 		url = "../kiosk/orderPage.jsp";
+		session.setAttribute("mb_num", mb_num);
 	}
 %>
 <script>

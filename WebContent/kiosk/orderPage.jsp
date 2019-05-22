@@ -32,8 +32,8 @@
 	function orderDetail(prod_num) {
 		url = "orderDp.jsp?prod_num=" + prod_num;
 		
-		var popupX = (window.screen.width / 2) - (900 / 2);
-		var popupY= (window.screen.height / 2) - (700 / 2);
+		var popupX = (window.screen.width)/2 - 450;
+		var popupY= (window.screen.height)/2 - 350;
 		
         /* var rtnValue = window.showModalDialog(url, new Object(), "dialogWidth:900px; dialogHeight:700px; status:no; scrollbars:no; help:no; location:no; center:yes;"); */
  		window.open(url, "상품상세주문", "width=900, height=700, left=" + popupX + ", top=" + popupY + ", scrollbars=no");
@@ -265,7 +265,19 @@
 					});
 				});
 				
-							
+				
+				fns.order = function() {
+					
+				}
+				
+				$(document).on('click', '.order', function(e) {
+					if (cartCounter != 0) {
+				        location.href = 'payment.jsp';
+					} else {
+						alert('장바구니가 비어있습니다!');
+					}
+				});
+				
 				/* 장바구니 애니메이션 효과  */
 				fns.hideCart = function(cart) {
 					var width = cart.width();
@@ -308,6 +320,7 @@
 							if (obean.getOr_hi() != null && obean.getOr_hi().equals("ICE")) prod_img = pbean.getProd_iimg();
 							else prod_img = pbean.getProd_img();
 					%>
+					console.log('<%=obean.getOr_hi()%>');
 										productData.img = '../menu_pic/<%= prod_img %>';
 										productData.id = '<%= obean.getProd_num() %>';
 										productData.decription = '<%= pbean.getProd_name() %>';
@@ -323,10 +336,10 @@
 					%>
 										productData.shot = <%= obean.getOr_shot() %>;
 										productData.whipping = '<%= obean.isOr_whip()?"휘핑 추가":"휘핑 없음" %>';
-										productCounter = <%= obean.getOr_basket() %>;
 					<%
 							}
 					%>
+										productCounter = <%= key %>;
 										fns.addToCard();
 					<%
 						}
