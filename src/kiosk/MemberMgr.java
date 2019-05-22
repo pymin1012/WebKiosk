@@ -98,7 +98,6 @@ public class MemberMgr {
 			pool.freeConnection(conn, pstmt, rs);
 		}
 		return mb_point;
-
 	}
 	
 	public void updatePoint(int mb_point) {
