@@ -39,18 +39,19 @@ public class ServerSocket {
                 }
             }
     		break;
+    		
     	case 2:
-    		KioskMgr mgr = new KioskMgr();
+    		KioskMgr kMgr = new KioskMgr();
     		OrderHistoryBean hbean = new OrderHistoryBean();
     		hbean.setOh_status(1);
     		hbean.setMb_num(Integer.parseInt(object.get("mb_num").toString()));
     		hbean.setOh_io("IN");
     		hbean.setOh_comment("test");
     		hbean.setOh_point(0);
-    		mgr.insertOrderHistory(hbean);
+    		kMgr.insertOrderHistory(hbean);
     		
     		OrdersBean bean = new OrdersBean();
-    		bean.setOh_num(mgr.getRecentOrderNum());
+    		bean.setOh_num(kMgr.getRecentOrderNum());
     		bean.setOr_basket(1);
         	bean.setProd_num(Integer.parseInt(object.get("prod_num").toString()));
         	bean.setOr_size(object.get("or_size").toString());
@@ -65,6 +66,7 @@ public class ServerSocket {
                 }
             }
     		break;
+    		
     	case 3:
     		synchronized(board) {
                 for(Session b : board) {
@@ -73,7 +75,8 @@ public class ServerSocket {
             }
     		break;
     	}  
-    }   
+    }
+    
     
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {

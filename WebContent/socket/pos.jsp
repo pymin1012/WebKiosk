@@ -8,9 +8,7 @@
 <meta charset="UTF-8">
 <title>Pos</title>
 <script type="text/javascript">
-	var textarea = document.getElementById("messageWindow");
 	var webSocket = new WebSocket('ws://localhost:80/WebKiosk/broadcasting');
-    var inputMessage = document.getElementById('inputMessage');
     
     webSocket.onerror = function(event) { onError(event) };
     webSocket.onopen = function(event) { onOpen(event) };

@@ -15,8 +15,7 @@
 	int oh_point = Integer.parseInt(request.getParameter("oh_point"));
 	String oh_comment = request.getParameter("oh_comment");
 	
-	
-	int mb_num =0;
+	int mb_num = 0;
 	if (session.getAttribute("mb_num") != null) {
 		mb_num = ((Integer)(session.getAttribute("mb_num"))).intValue();
 	}
@@ -26,9 +25,9 @@
 	}
 	OrderHistoryBean ohBean = new OrderHistoryBean();
 	
-	ohBean.setMb_num(mb_num);//session
+	ohBean.setMb_num(mb_num);
 	ohBean.setOh_comment(oh_comment);
-	ohBean.setOh_io(oh_io);//session
+	ohBean.setOh_io(oh_io);
 	ohBean.setOh_point(oh_point);
 	ohBean.setOh_total(oh_total);
 	kMgr.insertOrderHistory(ohBean);
