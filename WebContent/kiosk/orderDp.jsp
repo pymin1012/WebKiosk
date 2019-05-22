@@ -336,7 +336,7 @@ input:checked + .slider {
 							<div class="form-group">
 								<label class="form-check form-check-inline h5">
 									<span class="form-check-label"></span><span class="text-center">Tall<br><small class="text-danger">(+0)</small></span>&nbsp;
-									<input class="form-check-input" type="radio" name="or_size" id="size1" value="T">&nbsp;&nbsp;&nbsp;&nbsp;
+									<input class="form-check-input" type="radio" name="or_size" id="size1" value="T" required>&nbsp;&nbsp;&nbsp;&nbsp;
 <% 
 		if (ctg_num == 1) {
 %>

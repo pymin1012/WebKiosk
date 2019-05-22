@@ -17,6 +17,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<jsp:include page="sessionCheck.jsp" />
+
 <title>상품주문</title>
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
