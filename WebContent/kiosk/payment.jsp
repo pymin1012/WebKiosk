@@ -119,7 +119,7 @@
 				<%
 		}//---for
 	%>			
-				<form name="payFrm" action="paymentProc.jsp" class="m-0" method="POST">
+				<form name="payFrm" action="paymentSocket.jsp" class="m-0" method="POST">
 				<!-- Total -->	
 				<div class="row">
 					<div class="col-12 col-sm-12 col-md-2 text-center">
