@@ -25,8 +25,6 @@ import kiosk.KioskMgr;
 import kiosk.MemberMgr;
 import kiosk.OrderHistoryBean;
 import kiosk.OrdersBean;
-import kiosk.ProductBean;
-import kiosk.ProductMgr;
  
 @ServerEndpoint(value="/broadcasting", configurator=GetHttpSessionConfigurator.class)
 public class ServerSocket {
