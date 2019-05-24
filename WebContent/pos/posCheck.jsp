@@ -3,111 +3,56 @@
 <%@page import="kiosk.OrderHistoryBean"%>
 <%@page import="java.util.Vector"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-
 <jsp:useBean id="psMgr" class="kiosk.PosMgr" />
 <jsp:useBean id="kMgr" class="kiosk.KioskMgr" />
 <jsp:useBean id="pMgr" class="kiosk.ProductMgr"/>
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
 <% 
 	request.setCharacterEncoding("UTF-8");
-	Vector<OrderHistoryBean> ohlist = psMgr.getReadyOrderHistoryList();
+	Vector<OrderHistoryBean> ohlist = psMgr.getZeroOrderHistoryList();
 %>
 
 <html>
 <head>
-<style>
-:root {
-	--teal-color: #24A9A7;
-	--purple-color: #9E41CC;
-}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<link rel="stylesheet" href="style2.css" />
 
-body {
-    background-color: #fff;
-    color: var(--teal-color);
-    font-size: 15px;
-}
+<script>
+$(function() {
+	$(".obtn").click(function() {
+		var oh_num = $(this).data('oh-num');
+		var myData = "flag=check&oh_num=" + oh_num;
+		
+		$.ajax({
+				type: "POST",
+				url: "posCheckProc.jsp",
+				data: myData,
 
-ul {
-    padding: 0;
-    list-style: none;
-}
+				success: function(res) {
+					location.reload();
+				}
+		});
+	});
+	
+	$(".cbtn").click(function() {
+		var oh_num = $(this).data('oh-num');
+		var myData = "flag=cancle&oh_num=" + oh_num;
+		
+		$.ajax({
+				type: "POST",
+				url: "posCheckProc.jsp",
+				data: myData,
 
-.topics-table {
-    margin-top: 1rem;
-    padding: 8px;
-    border: 2px solid var(--teal-color);
-    border-radius: 10px;
-}
-
-.topics-table a {
-    /*color: var(--purple-color);*/
-}
-
-ul.header-titles, li.topics-body, li.topics-body ul {
-    overflow: hidden;
-}
-
-li.topics-header, ul[class^='topic-item'] {
-    padding: 8px;
-}
-
-ul[class^='topic-item'] {
-	margin-top: 8px;
-    border-top: 1px solid var(--teal-color);
-}
-
-.header-titles li, ul[class^='topic-item'] li {
-    width: 20%;
-    float: left;
-}
-
-li.product-header {
-    border-top: 2px solid var(--teal-color);
-}
-
-ul.product-titles, li.product-body, li.product-body ul {
-    overflow: hidden;
-}
-
-li.product-header, ul[class^='product-item'] {
-    padding: 8px;
-}
-
-ul[class^='product-item'] {
-    border-top: 1px solid var(--teal-color);
-}
-
-.product-titles li, ul[class^='product-item'] li {
-    width: 10%;
-    float: left;
-}
-
-ul.footer-titles, li.footer-body, li.footer-body ul {
-    overflow: hidden;
-}
-
-li.footer-header, ul[class^='footer-item'] {
-    padding: 8px;
-}
-
-ul[class^='footer-item'] {
-    border-top: 1px solid var(--teal-color);
-}
-
-.footer-titles li, ul[class^='footer-item'] li {
-    width: 25%;
-    float: left;
-}
-
-.badge {
-    font-weight: normal;
-}
-</style>
+				success: function(res) {
+					location.reload();
+				}
+		});
+	});
+});
+</script>
 </head>
 
 <body>
@@ -210,8 +155,8 @@ ul[class^='footer-item'] {
 						</div>
 						
 						<div class="check-button col-2 my-auto">
-							<button class="btn btn-success btn-lg mb-3" style="width:60px; height:50px;"><i class="fas fa-check"></i></button>
-							<button class="btn btn-danger btn-lg mt-3" style="width:60px; height:50px;"><i class="fas fa-times"></i> </button>
+							<button class="btn btn-success btn-lg mb-3 obtn" data-oh-num="<%= vlbean.getOh_num()  %>" style="width:60px; height:50px;"><i class="fas fa-check"></i></button>
+							<button class="btn btn-danger btn-lg mt-3 cbtn" data-oh-num="<%= vlbean.getOh_num()  %>" style="width:60px; height:50px;"><i class="fas fa-times"></i> </button>
 						</div>
 					</div>
 				</div>
