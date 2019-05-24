@@ -145,4 +145,79 @@ public class KioskMgr {
 
 		return num;
 	}
+	
+	//제품 번호 가져오기
+	public Vector<OrdersBean> getProductNum() {
+		Vector<OrdersBean> olist = new Vector<OrdersBean>();
+		
+		try {
+			conn = pool.getConnection();
+			sql ="select * from orders ";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				OrdersBean bean = new OrdersBean();
+				bean.setProd_num(rs.getInt("prod_num"));
+				bean.setOr_count(rs.getInt("or_count"));
+				
+				olist.addElement(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+		
+		return olist;
+	}
+	
+	//제품번호로 제품이름가져오기
+	public Vector<ProductBean> getProductName() {
+		Vector<ProductBean> plist = new Vector<ProductBean>();
+		
+		try {
+			conn = pool.getConnection();
+			sql ="select Prod_name from Product ";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductBean bean = new ProductBean();
+				bean.setProd_name(rs.getString("prod_name"));
+				
+				
+				plist.addElement(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+		
+		return plist;
+	}
+		
+	
 }
+	
+	
+	
+	/*public void getProductNum() {
+		int Prod_num = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select Prod_num";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) { Prod_num = rs.getInt("prod_num"); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+	}*/
+
