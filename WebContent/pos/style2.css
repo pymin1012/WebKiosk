@@ -1,0 +1,86 @@
+:root {
+	--teal-color: #24A9A7;
+	--purple-color: #9E41CC;
+}
+
+body {
+    background-color: #fff;
+    color: var(--teal-color);
+    font-size: 15px;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+}
+
+.topics-table {
+    margin-top: 1rem;
+    padding: 8px;
+    border: 2px solid var(--teal-color);
+    border-radius: 10px;
+}
+
+.topics-table a {
+    /*color: var(--purple-color);*/
+}
+
+ul.header-titles, li.topics-body, li.topics-body ul {
+    overflow: hidden;
+}
+
+li.topics-header, ul[class^='topic-item'] {
+    padding: 8px;
+}
+
+ul[class^='topic-item'] {
+	margin-top: 8px;
+    border-top: 1px solid var(--teal-color);
+}
+
+.header-titles li, ul[class^='topic-item'] li {
+    width: 20%;
+    float: left;
+}
+
+li.product-header {
+    border-top: 2px solid var(--teal-color);
+}
+
+ul.product-titles, li.product-body, li.product-body ul {
+    overflow: hidden;
+}
+
+li.product-header, ul[class^='product-item'] {
+    padding: 8px;
+}
+
+ul[class^='product-item'] {
+    border-top: 1px solid var(--teal-color);
+}
+
+.product-titles li, ul[class^='product-item'] li {
+    width: 10%;
+    float: left;
+}
+
+ul.footer-titles, li.footer-body, li.footer-body ul {
+    overflow: hidden;
+}
+
+li.footer-header, ul[class^='footer-item'] {
+    padding: 8px;
+}
+
+ul[class^='footer-item'] {
+    border-top: 1px solid var(--teal-color);
+}
+
+.footer-titles li, ul[class^='footer-item'] li {
+    width: 25%;
+    float: left;
+}
+
+.badge {
+    font-weight: normal;
+}
