@@ -1,103 +1,14 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
-<%
-		request.setCharacterEncoding("EUC-KR");
+<%@ page contentType="text/html; charset=UTF-8"%>
 
-%>
+<!DOCTYPE html>
 <html>
 <head>
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<title>POS</title>
 
-<style>
-body {
-  background-color: #1B467C;
-}
-
-.wrapper {
-	position: relative;
-	overflow-x: hidden;
-	width: 100%;
-}
-
-.title {
-	text-align: center;
-	font-size: 200px;
-	color: white;
-}
-
-.container {
-  padding: 2em;
-}
-
-/* button style start*/
-.myButton {
-	-moz-box-shadow: 0px 10px 14px -7px #276873;
-	-webkit-box-shadow: 0px 10px 14px -7px #276873;
-	box-shadow: 0px 10px 14px -7px #276873;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
-	background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
-	background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
-	background:-o-linear-gradient(top, #599bb3 5%, #408c99 100%);
-	background:-ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
-	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
-	background-color:#599bb3;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
-	border-radius:8px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:20px;
-	font-weight:bold;
-	padding:30px 76px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #3d768a;
-}
-
-.myButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
-	background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
-	background:-webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
-	background:-o-linear-gradient(top, #408c99 5%, #599bb3 100%);
-	background:-ms-linear-gradient(top, #408c99 5%, #599bb3 100%);
-	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
-	background-color:#408c99;
-}
-
-.myButton:active {
-	position:relative;
-	top:1px;
-}
-
-
-.section-title-img {
-	text-align: center;
-	color: #18A8F1;
-	margin-bottom: 0px;
-	text-transform: uppercase;
-	font-size: 90px;
-	font-family: Segoe Print;
-}
-
-.section-title {
-	color: #18A8F1;
-	padding-top: 20px;
-	padding-bottom: 30px;
-	margin-bottom: 0px;
-	text-transform: uppercase;
-	font-size: 90px;
-	font-family: Segoe Print;
-}
-
-.main-container {
-	height: 100%;
-	padding: 0px;
-}
-</style>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="style.css" />
 
 <script>
 	function changeIframe(url) {
@@ -106,31 +17,30 @@ body {
 </script>
 </head>
 <body>
-	<div class="wrapper wbody">
+	<div class="wrapper">	
 		<section id="tabs">
 			<div class="container main-container">
-				<div class="row">
+				<div class="head row">
 					<div class="title col-md-12 ">
 						<div class="row">
-							<div class="col-md-3">
-								<div class="section-title-img">
-									<img src="../pic/logo.png" class="brand_logo" alt="Logo" style="width: auto; height:140px;">
-								</div>
-							</div>
+							<div class="col-md-3"><div class="section-title-img">
+								<img src="../pic/logo.png" class="brand_logo" alt="Logo" style="width: auto; height:140px;">
+							</div></div>
 							<div class="col-md-9 pl-5"><h6 class="section-title">Blue Bubble</h6></div>
 						</div>
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="frame row">
 					<div class="col-md-10">
-						<iframe id="pos" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" src="frame1.jsp" scrolling="auto" allowTransparency="false" style="background-color: white"></iframe>
+						<iframe id="pos" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" src="posCheck.jsp" scrolling="auto" allowTransparency="false" style="background-color: white"></iframe>
 					</div>
-					<!-- πˆ∆∞ -->
+					<!-- Î≤ÑÌäº -->
 					<div class="col-md-2">
-						<a href="javascript:changeIframe('frame1.jsp')" class="myButton"avascript:changeIframe('frame1.jsp')">¡÷πÆ ≥ªø™</a>
-						<a href="javascript:changeIframe('frame2.jsp')" class="myButton">¿Ã¿¸ ¡÷πÆ</a>
-						<a href="javascript:changeIframe('frame3.jsp')" class="myButton">¡§&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ªÍ</a>
+						<button class="btn btn-lg mt-3 mb-3" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('posCheck.jsp')">Ï£ºÎ¨∏ ÌôïÏù∏</button>
+						<button class="btn btn-lg mt-3 mb-3" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('posSheet.jsp')">Ï£ºÎ¨∏ ÎÇ¥Ïó≠</button>
+						<button class="btn btn-lg mt-3 mb-5" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('preOrder2.jsp')">Ïù¥Ï†Ñ Ï£ºÎ¨∏</button>				
+						<button class="btn btn-warning btn-lg mt-4 mb-3" style="width: 100%; height: 10%" onclick="javascript:changeIframe('frame3.jsp')">Ï†ï&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ÏÇ∞</button>
 					</div>
 				</div>
 			</div>

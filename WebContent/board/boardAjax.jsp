@@ -1,6 +1,6 @@
 <%@page import="java.util.Vector"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<<jsp:useBean id="bMgr" class="kiosk.BoardMgr" />
+<jsp:useBean id="bMgr" class="kiosk.BoardMgr" />
 <%
 	session.setAttribute("idKey", "board");
 
