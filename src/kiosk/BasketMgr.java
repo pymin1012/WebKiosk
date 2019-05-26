@@ -16,7 +16,7 @@ public class BasketMgr {
 			bean.setOr_basket(num);
 			basket.put(num, bean);
 		}
-		System.out.println(num);
+		System.out.println("Ãß°¡ : " + num);
 		 return num;
 	}
 	

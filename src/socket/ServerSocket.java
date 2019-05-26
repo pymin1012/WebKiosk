@@ -44,16 +44,10 @@ public class ServerSocket {
     	JSONObject object = (JSONObject) parser.parse(message);
     	
     	System.out.println("----- Socket 메세지 전송 -----");
-    	switch(Integer.parseInt(object.get("type").toString())) {
-    	case 1:
-    		synchronized(clients) {
-                for(Session client : clients) {
-                	client.getBasicRemote().sendText(message);
-                }
-            }
-    		break;
-    		
-    	case 2:
+    	int type = Integer.parseInt(object.get("type").toString());
+    	
+    	// From Client To Pos
+    	if (type == 1) {
     		EndpointConfig config = configMap.get(session);
         	HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         	int mb_num = (int) httpSession.getAttribute("mb_num");
@@ -83,29 +77,31 @@ public class ServerSocket {
         	session.getBasicRemote().sendText(String.valueOf(oh_num));
         	System.out.println("주문번호 : " + oh_num);
 
-        	synchronized(board) {
-                for(Session b : board) {
-                	b.getBasicRemote().sendText("accept");
-                	System.out.println("accept");
+        	synchronized(pos) {
+                for(Session p : pos) {
+                	p.getBasicRemote().sendText("order");
+                	System.out.println("order");
                 }
             }
-    		break;
-    		
-    	case 3:
+    	}
+    	// From Pos To Board (Accept, Cancle)
+    	else if (type == 2) {
     		synchronized(board) {
                 for(Session b : board) {
-                	b.getBasicRemote().sendText(message);
+                	b.getBasicRemote().sendText("reload");
+                	System.out.println("reload");
                 }
             }
-    		
-    		synchronized(pos) {
-                for(Session p : pos) {
-                	p.getBasicRemote().sendText("check");
-                	System.out.println("check");
+    	}
+    	// From Pos To Board (Order Ready)
+    	else if (type == 3) {
+    		synchronized(board) {
+                for(Session b : board) {
+                	b.getBasicRemote().sendText("ready");
+                	System.out.println("ready");
                 }
             }
-    		break;
-    	}  
+    	}
     }
     
     

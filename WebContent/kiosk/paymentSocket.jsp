@@ -60,7 +60,7 @@
 
 
 	function onOpen(event) {
-		var message = { "type": 2 };
+		var message = { "type": 1 };
 		webSocket.send(JSON.stringify(message));
 	}
 

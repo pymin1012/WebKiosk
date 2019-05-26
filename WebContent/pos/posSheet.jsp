@@ -148,11 +148,10 @@ $(function(){
 	$('#productModal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget); 
 		var oh_num = button.data('oh-num');
-		var myData = "oh_num=" + oh_num;
-		console.log(oh_num);
-		
+		var flag = button.data('flag');
+		console.log(flag);
 		var modal = $(this);
-		modal.find('.modal-content').load('posSheetModal.jsp?oh_num=' + oh_num);
+		modal.find('.modal-content').load('posSheetModal.jsp?oh_num=' + oh_num + '&flag=' + flag);
 	});
 });
 </script>
@@ -160,32 +159,50 @@ $(function(){
 
 <body>
 	<div class="h-100">
-		<div class="h-50 p-3">
+		<div class="h-50 p-3 bg-warning">
+			<div class="d-inline-block h-100 text-center" style="width: 10%; color:black; vertical-align: top;">
+				<h3>상</h3>
+				<h3>품</h3>
+				<h3>준</h3>
+				<h3>비</h3>
+				<h3>중</h3>
+			</div>
+			<div class="d-inline-block h-100" style="width: 88%; overflow-y:auto">
 <%
 	for (int i=0; i<onelist.size(); i++) {
 		OrderHistoryBean ohbean = onelist.get(i);
 		int oh_num = ohbean.getOh_num();
 %>
-			<button type="button" class="myButton btn m-3" data-toggle="modal" data-target="#productModal" data-oh-num="<%= oh_num %>"><%= oh_num %></button>
+			<button type="button" class="myButton btn m-3" data-toggle="modal" data-target="#productModal" data-oh-num="<%= oh_num %>" data-flag="prepare"><%= oh_num %></button>
 <%
 	}
 %>
+			</div>
 		</div>
 	
-		<div class="h-50 p-3" style="border-top: 3px dashed gray;">
+		<div class="h-50 p-3 bg-success" style="border-top: 3px dashed gray;">
+			<div class="d-inline-block h-100 text-center" style="width: 10%; color:black; vertical-align: top;">
+				<h3>수</h3>
+				<h3>령</h3>
+				<h3>대</h3>
+				<h3>기</h3>
+				<h3>중</h3>
+			</div>
+			<div class="d-inline-block h-100" style="width: 88%; overflow-y:auto">
 <%
 	for (int i=0; i<twolist.size(); i++) {
 		OrderHistoryBean ohbean = twolist.get(i);
 		int oh_num = ohbean.getOh_num();
 %>
-			<button type="button" class="myButton btn m-3" data-toggle="modal" data-target="#productModal" data-oh-num="<%= oh_num %>"><%= oh_num %></button>
+			<button type="button" class="myButton btn m-3" data-toggle="modal" data-target="#productModal" data-oh-num="<%= oh_num %>" data-flag="await"><%= oh_num %></button>
 <%
 	}
 %>
+			</div>
 		</div>
 	</div>
 	
-<!-- ex -->
+<!-- modal 창 -->
 	<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
 		<div class="modal-dialog mx-auto my-auto">
 			<div class="modal-content">

@@ -32,6 +32,7 @@ $(function() {
 				data: myData,
 
 				success: function(res) {
+					window.parent.sendMessage();
 					location.reload();
 				}
 		});
