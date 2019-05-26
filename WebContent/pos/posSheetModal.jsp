@@ -13,6 +13,8 @@
 <%
 	int oh_num = Integer.parseInt(request.getParameter("oh_num"));
 	OrderHistoryBean ohBean = psMgr.getOrderHistory(oh_num);
+	
+	String flag = request.getParameter("flag");
 %>
 
 <div class="container w-100">
@@ -105,18 +107,46 @@
 						</li>
 					</ul>
 				</div>
-<!-- 
-				<div class="check-button col-2 my-auto">
-					<button class="btn btn-success btn-lg mb-3"
-						style="width: 60px; height: 50px;">
-						<i class="fas fa-check"></i>
-					</button>
-					<button class="btn btn-danger btn-lg mt-3"
-						style="width: 60px; height: 50px;">
-						<i class="fas fa-times"></i>
-					</button>
-				</div> -->
+				<div class="check-button col-12 mb-3">
+					<div class="d-flex justify-content-between">
+						<button class="modal-btn btn btn-danger" id="cancle">주문취소</button>
+						<div>
+<%
+	if (flag.equals("prepare")) {
+%>
+							<button class="modal-btn btn btn-success" id="ready">준비완료</button>
+<%
+	} else if (flag.equals("await")) {
+%>
+							<button class="modal-btn btn btn-success" id="receive">수령완료</button>
+<%
+	}
+%>
+							<button class="btn btn-warning" data-dismiss="modal">이전</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$('.modal-btn').click(function() {
+			var flag = $(this).attr('id');
+			var myData = "flag=" + flag + "&oh_num=" + <%= oh_num %>;
+		
+			$.ajax({
+				type: "POST",
+				url: "posSheetProc.jsp",
+				data: myData,
+
+				success: function(res) {
+					window.parent.sendMessage();
+					location.reload();
+				}
+			});
+		});
+	});
+</script>

@@ -1,5 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 
+<%
+	session.setAttribute("idKey", "pos");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +15,37 @@
 <link rel="stylesheet" href="style.css" />
 
 <script>
+	var webSocket = new WebSocket('ws://' + location.host + ':80/WebKiosk/broadcasting');
+
+	webSocket.onerror = function(event) { onError(event) };
+	webSocket.onopen = function(event) { onOpen(event) };
+	webSocket.onmessage = function(event) { onMessage(event) };
+
+	function onMessage(event) {
+		var flag = event.data;
+		if (flag == 'order') {
+			changeIframe('posCheck.jsp');
+		}
+	}
+
+	function onOpen(event) {
+		showBoard();
+	}
+
+	function onError(event) {
+		alert(event.data);
+	}
+
+	function sendMessage() {
+		var message = { "type": 2 };
+		webSocket.send(JSON.stringify(message));
+	}
+	
+	function sendReady() {
+		var message = { "type": 3 };
+		webSocket.send(JSON.stringify(message));
+	}
+	
 	function changeIframe(url) {
 		document.getElementById("pos").src = url;
 	}

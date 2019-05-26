@@ -202,7 +202,39 @@ public class PosMgr {
 			pool.freeConnection(conn, pstmt);
 		}
 	}
-
+	
+	// 상품 준비 완료
+	public void readyOrder(int oh_num) {
+		try {
+			conn = pool.getConnection();
+			sql = "update OrderHistory set oh_status = 2 where oh_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oh_num);
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt);
+		}
+	}
+	
+	// 상품 수령 완료
+	public void receiveOrder(int oh_num) {
+		try {
+			conn = pool.getConnection();
+			sql = "update OrderHistory set oh_status = 3 where oh_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oh_num);
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt);
+		}
+	}
+	
 	//샷 
 	public Vector<OrdersBean> getShotOrdersList() {
 		Vector<OrdersBean> vs = new Vector<OrdersBean>();

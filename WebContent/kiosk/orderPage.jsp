@@ -94,8 +94,8 @@
 		ProductBean bean = v.get(i);
 %>
 												<div class="items col-md-3">
-													<a href="javascript:orderDetail('<%= bean.getProd_num() %>')" class="items-link">
-													<article class="product mt-3 mb-3" data-product-id="<%= bean.getProd_num() %>">
+													<a href="#" class="modal-button items-link" data-target="#productModal" data-product-id="<%= bean.getProd_num()%>">
+													<article class="product mt-3 mb-3">
 														<div class="product-wrapper">
 															<div class="product-img p-3">
 <% 
@@ -146,7 +146,7 @@
 			ProductBean pbean = pvlist.get(j);
 %>
 												<div class="items col-md-3">
-													<a href="javascript:orderDetail('<%= pbean.getProd_num() %>')" class="items-link">
+													<a href="#" class="modal-button items-link" data-target="#productModal" data-product-id="<%= pbean.getProd_num()%>">
 													<article class="product mt-3 mb-3" data-product-id="<%= pbean.getProd_num() %>">
 														<div class="product-wrapper">
 															<div class="product-img p-3">
@@ -188,10 +188,23 @@
 				</div>
 			</div>
   		</section>
+  		
+<!-- modal 창 -->
+		<div class="modal" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+			<div class="modal-dialog mx-auto my-auto">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
 	</div>
+	
+
 
 	<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
 	<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	
 	<script>
 		$(document).ready(
 			function() {
@@ -307,10 +320,22 @@
 						if (timer == '') { fns.cartTimer(cart); }
 					}
 				}
+				
+				$('.modal-button').click(function() {
+					var prod_num = $(this).data('product-id');
+					$('#productModal').find('.modal-content').empty();
+					$('#productModal').find('.modal-content').load('orderModal.jsp?prod_num=' + prod_num);
+					$('#productModal').modal('show');
+				});
+				
+				$('#productModal').on('show.bs.modal', function (e) {
+					console.log(e);
+					console.log(e.target);
+					console.log(e.relatedTarget);
+				});
 			});
 		
-		$(window).load(
-			function() {
+		$(window).on('load', function() {
 				/* 새로고침시 장바구니 불러오기 */
 				(function () {
 					<%

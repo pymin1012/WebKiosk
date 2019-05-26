@@ -22,8 +22,11 @@
     
     function onMessage(event) {
 		var flag = event.data;
-		if (flag == 'accept') {
+		if (flag == 'reload') {
 			showBoard();
+		}
+		else if (flag == 'ready') {
+			showBaord();
 		}
     }
     
