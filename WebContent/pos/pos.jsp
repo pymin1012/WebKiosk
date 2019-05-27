@@ -75,7 +75,7 @@
 						<button class="btn btn-lg mt-3 mb-3" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('posCheck.jsp')">주문 확인</button>
 						<button class="btn btn-lg mt-3 mb-3" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('posSheet.jsp')">주문 내역</button>
 						<button class="btn btn-lg mt-3 mb-5" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('preOrder2.jsp')">이전 주문</button>				
-						<button class="btn btn-warning btn-lg mt-4 mb-3" style="width: 100%; height: 10%" onclick="javascript:changeIframe('frame3.jsp')">정&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;산</button>
+						<button class="btn btn-warning btn-lg mt-4 mb-3" style="width: 100%; height: 10%" onclick="javascript:changeIframe('cal.jsp')">정&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;산</button>
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,8 @@ package kiosk;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class PosMgr {
@@ -23,7 +25,7 @@ public class PosMgr {
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orderhistory where oh_status = 3 or oh_status = 4 ";
+			sql = "select * from orderhistory where (oh_status = 3 or oh_status = 4) and date(oh_date) = date(now())";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -54,7 +56,7 @@ public class PosMgr {
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orderhistory where oh_num = ? ";
+			sql = "select * from orderhistory where oh_num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, oh_num);
 			rs = pstmt.executeQuery();
@@ -84,7 +86,7 @@ public class PosMgr {
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orderhistory where oh_status = 0";
+			sql = "select * from orderhistory where oh_status = 0 and date(oh_date) = date(now())";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -115,7 +117,7 @@ public class PosMgr {
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orderhistory where oh_status = 1 ";
+			sql = "select * from orderhistory where oh_status = 1 and date(oh_date) = date(now())";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -146,7 +148,7 @@ public class PosMgr {
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orderhistory where oh_status = 2";
+			sql = "select * from orderhistory where oh_status = 2 and date(oh_date) = date(now())";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -236,25 +238,17 @@ public class PosMgr {
 	}
 	
 	//샷 
-	public Vector<OrdersBean> getShotOrdersList() {
-		Vector<OrdersBean> vs = new Vector<OrdersBean>();
+	public int getShotOrdersList() {
+		int shot =0;
 		try {
 			conn = pool.getConnection();
-			sql = "select sum(or_shot) from orders ";
+			sql = "select sum(or_shot * or_count) from orders "
+					+ "where oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				OrdersBean bean = new OrdersBean();
-				bean.setOh_num(rs.getInt("oh_num"));
-				bean.setOr_basket(rs.getInt("or_basket"));
-				bean.setProd_num(rs.getInt("prod_num"));
-				bean.setOr_size(rs.getString("oh_size"));
-				bean.setOr_count(rs.getInt("or_count"));
-				bean.setOr_shot(rs.getInt("or_shot"));
-				bean.setOr_whip(rs.getBoolean("or_whip"));
-				bean.setOr_hi(rs.getString("oh_hi"));
-				vs.addElement(bean);
+			if(rs.next()) {
+				shot=rs.getInt(1);
+		
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -262,30 +256,21 @@ public class PosMgr {
 			pool.freeConnection(conn, pstmt, rs);
 		}
 
-		return vs;
+		return shot;
 	}
 
 	//주문  G size 가져오기
-	public Vector<OrdersBean> getGsizeOrdersList() {
-		Vector<OrdersBean> orlist = new Vector<OrdersBean>();
+	public int getGsizeOrdersList() {
+		int gsize =0 ;
 
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orders where or_size = 'G' ";
+			sql = " select sum(or_count) from orders "
+					+ "where or_size = 'G' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				OrdersBean bean = new OrdersBean();
-				bean.setOh_num(rs.getInt("oh_num"));
-				bean.setOr_basket(rs.getInt("or_basket"));
-				bean.setProd_num(rs.getInt("prod_num"));
-				bean.setOr_size(rs.getString("oh_size"));
-				bean.setOr_count(rs.getInt("or_count"));
-				bean.setOr_shot(rs.getInt("or_shot"));
-				bean.setOr_whip(rs.getBoolean("or_whip"));
-				bean.setOr_hi(rs.getString("oh_hi"));
-				orlist.addElement(bean);			
+			if(rs.next()) {
+				gsize=rs.getInt(1);
 			}
 
 		} catch (Exception e) {
@@ -294,30 +279,21 @@ public class PosMgr {
 			pool.freeConnection(conn, pstmt, rs);
 		}
 
-		return orlist;
+		return gsize;
 	}
 
 	//주문  V size 가져오기
-	public Vector<OrdersBean> getVsizeOrdersList() {
-		Vector<OrdersBean> orlist = new Vector<OrdersBean>();
+	public int getVsizeOrdersList() {
+		int vsize = 0 ;
 
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orders where or_size = 'V' ";
+			sql = " select sum(or_count) from orders "
+					+ "where or_size = 'V' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				OrdersBean bean = new OrdersBean();
-				bean.setOh_num(rs.getInt("oh_num"));
-				bean.setOr_basket(rs.getInt("or_basket"));
-				bean.setProd_num(rs.getInt("prod_num"));
-				bean.setOr_size(rs.getString("oh_size"));
-				bean.setOr_count(rs.getInt("or_count"));
-				bean.setOr_shot(rs.getInt("or_shot"));
-				bean.setOr_whip(rs.getBoolean("or_whip"));
-				bean.setOr_hi(rs.getString("oh_hi"));
-				orlist.addElement(bean);			
+			if(rs.next()) {
+				vsize=rs.getInt(1);
 			}
 
 		} catch (Exception e) {
@@ -326,32 +302,19 @@ public class PosMgr {
 			pool.freeConnection(conn, pstmt, rs);
 		}
 
-		return orlist;
+		return vsize;
 	}
 
 	//주문내역 사용된 point가져오기
-	public Vector<OrderHistoryBean> getPointOrderHistoryList() {
-		Vector<OrderHistoryBean> ohplist = new Vector<OrderHistoryBean>();
-
+	public int getPointOrderHistoryList() {
+		int point = 0;
 		try {
 			conn = pool.getConnection();
-			sql = "select sum(oh_point) from orderhistory";
+			sql = "select sum(oh_point) from orderhistory where oh_status = 3 and date(oh_date) = date(now())";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				OrderHistoryBean bean = new OrderHistoryBean();
-				bean.setOh_num(rs.getInt("oh_num"));
-				bean.setOh_status(rs.getInt("oh_status"));
-				bean.setMb_num(rs.getInt("mb_num"));
-				bean.setOh_date(rs.getString("oh_date"));
-				bean.setOh_io(rs.getString("oh_io"));
-				bean.setOh_comment(rs.getString("oh_comment"));
-				bean.setOh_point(rs.getInt("oh_point"));
-				bean.setOh_total(rs.getInt("oh_total"));
-				ohplist.addElement(bean);
-
-
+			if(rs.next()) {
+				point=rs.getInt(1);
 			}
 
 
@@ -361,42 +324,30 @@ public class PosMgr {
 			pool.freeConnection(conn, pstmt, rs);
 		}
 
-		return ohplist;
+		return point;
 	}
 
 	//총계
-	public Vector<OrderHistoryBean> getTotalOrderHistoryList() {
-		Vector<OrderHistoryBean> ohtlist = new Vector<OrderHistoryBean>();
+	public int getTotalOrderHistoryList() {
+		int total =0 ;
 
 		try {
 			conn = pool.getConnection();
-			sql = "select sum(oh_total) AS oh_total from orderhistory";
+			sql = " select sum(or_count * prod_price) from orders, prod "
+					+ "where or_size = 'V' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
+			sql = "select sum(oh_total) from orderhistory where oh_status = 3 and date(oh_date) = date(now())";
 			pstmt = conn.prepareStatement(sql);
+			
 			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				OrderHistoryBean bean = new OrderHistoryBean();
-				bean.setOh_num(rs.getInt("oh_num"));
-				bean.setOh_status(rs.getInt("oh_status"));
-				bean.setMb_num(rs.getInt("mb_num"));
-				bean.setOh_date(rs.getString("oh_date"));
-				bean.setOh_io(rs.getString("oh_io"));
-				bean.setOh_comment(rs.getString("oh_comment"));
-				bean.setOh_point(rs.getInt("oh_point"));
-				bean.setOh_total(rs.getInt("oh_total"));
-				ohtlist.addElement(bean);
-
-
+			if(rs.next()) {
+				total=rs.getInt(1);
 			}
-
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			pool.freeConnection(conn, pstmt, rs);
 		}
-
-		return ohtlist;
+		return total;
 	}
 
 	//주문번호 가져오기(oh_num)
@@ -425,4 +376,55 @@ public class PosMgr {
 
 		return onlist;
 	}
+	
+	//제품별 수량 합계
+		public int getProductStatistics(int prod_num) {
+			int totalCount = 0;
+			
+			try {
+				conn = pool.getConnection();
+				sql ="select sum(or_count)\r\n" + 
+						"from orders\r\n" + 
+						"where prod_num = ? and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, prod_num);
+				rs = pstmt.executeQuery();
+				
+				if (rs.next()) {
+					totalCount = rs.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(conn, pstmt, rs);
+			}
+			
+			return totalCount;
+		}
+		
+		//제품번호로 제품이름가져오기
+		public Vector<ProductBean> getProductName() {
+			Vector<ProductBean> plist = new Vector<ProductBean>();
+			
+			try {
+				conn = pool.getConnection();
+				sql ="select Prod_name from Product ";
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					ProductBean bean = new ProductBean();
+					bean.setProd_name(rs.getString("prod_name"));
+					
+					
+					plist.addElement(bean);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(conn, pstmt, rs);
+			}
+			
+			return plist;
+		}
 }

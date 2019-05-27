@@ -30,6 +30,7 @@ body, html {
 	margin: 0;
 	padding: 0;
 	height: 100%;
+	font-size: 1rem;
 }
 
 .btn-radio {
@@ -70,6 +71,8 @@ body, html {
 </style>
 </head>
 <body >
+	<jsp:include page="member/logout.jsp" />
+
 	<div class="container h-100" style="width:850px;">
 	<div style="height:100px"></div>
 		<div class="d-flex justify-content-center h-100">
