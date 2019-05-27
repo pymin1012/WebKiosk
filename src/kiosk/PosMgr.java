@@ -238,13 +238,15 @@ public class PosMgr {
 	}
 	
 	//샷 
-	public int getShotOrdersList() {
+	public int getShotOrdersList(String date) {
 		int shot =0;
 		try {
 			conn = pool.getConnection();
 			sql = "select sum(or_shot * or_count) from orders "
-					+ "where oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
+					+ "where oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				shot=rs.getInt(1);
@@ -260,14 +262,16 @@ public class PosMgr {
 	}
 
 	//주문  G size 가져오기
-	public int getGsizeOrdersList() {
+	public int getGsizeOrdersList(String date) {
 		int gsize =0 ;
 
 		try {
 			conn = pool.getConnection();
 			sql = " select sum(or_count) from orders "
-					+ "where or_size = 'G' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
+					+ "where or_size = 'G' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				gsize=rs.getInt(1);
@@ -283,14 +287,16 @@ public class PosMgr {
 	}
 
 	//주문  V size 가져오기
-	public int getVsizeOrdersList() {
+	public int getVsizeOrdersList(String date) {
 		int vsize = 0 ;
 
 		try {
 			conn = pool.getConnection();
 			sql = " select sum(or_count) from orders "
-					+ "where or_size = 'V' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
+					+ "where or_size = 'V' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				vsize=rs.getInt(1);
@@ -306,12 +312,14 @@ public class PosMgr {
 	}
 
 	//주문내역 사용된 point가져오기
-	public int getPointOrderHistoryList() {
+	public int getPointOrderHistoryList(String date) {
 		int point = 0;
 		try {
 			conn = pool.getConnection();
-			sql = "select sum(oh_point) from orderhistory where oh_status = 3 and date(oh_date) = date(now())";
+			sql = "select sum(oh_point) from orderhistory where oh_status = 3 and date(oh_date) = date(?)";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				point=rs.getInt(1);
@@ -328,15 +336,14 @@ public class PosMgr {
 	}
 
 	//총계
-	public int getTotalOrderHistoryList() {
+	public int getTotalOrderHistoryList(String date) {
 		int total =0 ;
 
 		try {
 			conn = pool.getConnection();
-			sql = " select sum(or_count * prod_price) from orders, prod "
-					+ "where or_size = 'V' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
-			sql = "select sum(oh_total) from orderhistory where oh_status = 3 and date(oh_date) = date(now())";
+			sql = "select sum(oh_total) from orderhistory where oh_status = 3 and date(oh_date) = date(?)";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -378,16 +385,18 @@ public class PosMgr {
 	}
 	
 	//제품별 수량 합계
-		public int getProductStatistics(int prod_num) {
+		public int getProductStatistics(int prod_num, String date) {
 			int totalCount = 0;
 			
 			try {
 				conn = pool.getConnection();
 				sql ="select sum(or_count)\r\n" + 
 						"from orders\r\n" + 
-						"where prod_num = ? and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(now()));";
+						"where prod_num = ? and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, prod_num);
+				pstmt.setString(2, date);
+				
 				rs = pstmt.executeQuery();
 				
 				if (rs.next()) {
@@ -400,31 +409,5 @@ public class PosMgr {
 			}
 			
 			return totalCount;
-		}
-		
-		//제품번호로 제품이름가져오기
-		public Vector<ProductBean> getProductName() {
-			Vector<ProductBean> plist = new Vector<ProductBean>();
-			
-			try {
-				conn = pool.getConnection();
-				sql ="select Prod_name from Product ";
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					ProductBean bean = new ProductBean();
-					bean.setProd_name(rs.getString("prod_name"));
-					
-					
-					plist.addElement(bean);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				pool.freeConnection(conn, pstmt, rs);
-			}
-			
-			return plist;
 		}
 }
