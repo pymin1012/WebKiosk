@@ -237,8 +237,9 @@ public class PosMgr {
 		}
 	}
 	
+	/////////////////////// dayCalculate.jsp 일별 정산 /////////////////////////
 	//샷 
-	public int getShotOrdersList(String date) {
+	public int getDayShot(String date) {
 		int shot =0;
 		try {
 			conn = pool.getConnection();
@@ -262,7 +263,7 @@ public class PosMgr {
 	}
 
 	//주문  G size 가져오기
-	public int getGsizeOrdersList(String date) {
+	public int getDayGsize(String date) {
 		int gsize =0 ;
 
 		try {
@@ -287,7 +288,7 @@ public class PosMgr {
 	}
 
 	//주문  V size 가져오기
-	public int getVsizeOrdersList(String date) {
+	public int getDayVsize(String date) {
 		int vsize = 0 ;
 
 		try {
@@ -312,7 +313,7 @@ public class PosMgr {
 	}
 
 	//주문내역 사용된 point가져오기
-	public int getPointOrderHistoryList(String date) {
+	public int getDayPoint(String date) {
 		int point = 0;
 		try {
 			conn = pool.getConnection();
@@ -336,7 +337,7 @@ public class PosMgr {
 	}
 
 	//총계
-	public int getTotalOrderHistoryList(String date) {
+	public int getDayTotal(String date) {
 		int total =0 ;
 
 		try {
@@ -385,29 +386,70 @@ public class PosMgr {
 	}
 	
 	//제품별 수량 합계
-		public int getProductStatistics(int prod_num, String date) {
-			int totalCount = 0;
+	public int getProductStatistics(int prod_num, String date) {
+		int totalCount = 0;
 			
-			try {
-				conn = pool.getConnection();
-				sql ="select sum(or_count)\r\n" + 
-						"from orders\r\n" + 
-						"where prod_num = ? and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, prod_num);
-				pstmt.setString(2, date);
+		try {
+			conn = pool.getConnection();
+			sql ="select sum(or_count) from orders\r\n" + 
+					"where prod_num = ? and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			pstmt.setString(2, date);
 				
-				rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 				
-				if (rs.next()) {
-					totalCount = rs.getInt(1);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				pool.freeConnection(conn, pstmt, rs);
+			if (rs.next()) {
+				totalCount = rs.getInt(1);
 			}
-			
-			return totalCount;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
 		}
+			
+		return totalCount;
+	}
+		
+	/////////////////////// monCalculate.jsp 월별 정산 /////////////////////////
+	//
+	public int getMonTotal(String date) {
+		int total = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select sum(oh_total) from orderhistory where oh_status = 3 and DATE_FORMAT(oh_date, '%Y-%m') = ?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) total = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return total;
+	}
+	
+	public int getMonPoint(String date) {
+		int point = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select sum(oh_point) from orderhistory where oh_status = 3 and DATE_FORMAT(oh_date, '%Y-%m') = ?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) point = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return point;
+	}
 }

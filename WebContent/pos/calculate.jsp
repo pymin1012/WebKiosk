@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page contentType="text/html; charset=EUC-KR" %>
 
 <html>
@@ -7,6 +9,11 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
+<%
+	SimpleDateFormat new_format = new SimpleDateFormat("yyyy-MM-dd");
+	Date date = new Date();
+	String nowdate = new_format.format(date);
+%>
 
 <script>
 	$(function() {
@@ -32,6 +39,18 @@
 					$('#calBody').html(res);
  				}
 			});
+		});
+		
+		var date = '<%= nowdate %>';
+		console.log(date);
+		$.ajax({
+			type: "POST",
+			url: "dayCalculate.jsp",
+			data: "date=" + date,
+			dataType: "HTML",
+			success: function(res) {
+				$('#calBody').html(res);
+				}
 		});
 	});
 </script>

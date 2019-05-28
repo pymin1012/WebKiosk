@@ -1,9 +1,12 @@
-package kiosk;
+package admin;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Vector;
+
+import kiosk.MemberBean;
+
+
 
 public class MemberMgr {
 	private DBConnectionMgr pool = null;
@@ -113,4 +116,5 @@ public class MemberMgr {
 		}
 	}
 }
+
 
