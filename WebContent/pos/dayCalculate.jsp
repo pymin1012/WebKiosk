@@ -75,6 +75,8 @@
 </head>
 
 <body>
+	<h1 align=center><%= date %></h1>
+
 	<section id="tabs" class="project-tab">
 		<div class="container">
 			<div class="row">
@@ -136,11 +138,11 @@
 							<!-- 총 정산금액 START-->
 							<table class="table" cellspacing="0">
 								<% 
-	int total = psMgr.getTotalOrderHistoryList(date);
-	int shot = psMgr.getShotOrdersList(date);
-	int point = psMgr.getPointOrderHistoryList(date);
-	int gsize = psMgr.getGsizeOrdersList(date);
-	int vsize = psMgr.getVsizeOrdersList(date);              
+	int total = psMgr.getDayTotal(date);
+	int shot = psMgr.getDayShot(date);
+	int point = psMgr.getDayPoint(date);
+	int gsize = psMgr.getDayGsize(date);
+	int vsize = psMgr.getDayVsize(date);              
 %>
 								<tbody>
 									<tr>
