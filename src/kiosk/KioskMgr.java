@@ -21,21 +21,31 @@ public class KioskMgr {
 	public void insertOrderHistory(OrderHistoryBean bean) {
 		try {
 			conn = pool.getConnection();
-			sql = "insert into orderhistory(oh_status, mb_num, oh_date, oh_io, oh_comment, oh_point, oh_total) "
-					+ "values(?, ?, now(), ?, ?, ?, ?)";
+			sql = "insert into ordernum(num) values (default);";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bean.getOh_status());
-			pstmt.setInt(2, bean.getMb_num());
-			pstmt.setString(3, bean.getOh_io());
-			pstmt.setString(4, bean.getOh_comment());
-			pstmt.setInt(5, bean.getOh_point());
-			pstmt.setInt(6, bean.getOh_total());
+			pstmt.executeUpdate();
+			
+			sql = "select num from ordernum order by num desc limit 1";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			sql = "insert into orderhistory(oh_num, oh_status, mb_num, oh_date, oh_io, oh_comment, oh_point, oh_total) "
+					+ "values(?, ?, ?, now(), ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rs.getInt(1));
+			pstmt.setInt(2, bean.getOh_status());
+			pstmt.setInt(3, bean.getMb_num());
+			pstmt.setString(4, bean.getOh_io());
+			pstmt.setString(5, bean.getOh_comment());
+			pstmt.setInt(6, bean.getOh_point());
+			pstmt.setInt(7, bean.getOh_total());
 
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			pool.freeConnection(conn, pstmt);
+			pool.freeConnection(conn, pstmt, rs);
 		}
 	}
 	
@@ -43,10 +53,10 @@ public class KioskMgr {
 	public void insertOrders(OrdersBean bean) {
 		try {
 			conn = pool.getConnection();
-			sql = "insert into orders(oh_num, or_basket, prod_num, or_size, or_count, or_shot, or_whip, or_hi) "
+			sql = "insert into orders(oh_tnum, or_basket, prod_num, or_size, or_count, or_shot, or_whip, or_hi) "
 					+ "values(?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bean.getOh_num());
+			pstmt.setInt(1, bean.getOh_tnum());
 			pstmt.setInt(2, bean.getOr_basket());
 			pstmt.setInt(3, bean.getProd_num());
 			pstmt.setString(4, bean.getOr_size());
@@ -95,19 +105,19 @@ public class KioskMgr {
 	
 	
 	// 주문 가져오기
-	public Vector<OrdersBean> getOrdersList(int oh_num) {
+	public Vector<OrdersBean> getOrdersList(int oh_tnum) {
 		Vector<OrdersBean> v = new Vector<OrdersBean>();
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orders where oh_num = ?";
+			sql = "select * from orders where oh_tnum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, oh_num);
+			pstmt.setInt(1, oh_tnum);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				OrdersBean bean = new OrdersBean();
-				bean.setOh_num(rs.getInt("oh_num"));
+				bean.setOh_tnum(rs.getInt("oh_tnum"));
 				bean.setOr_basket(rs.getInt("or_basket"));
 				bean.setProd_num(rs.getInt("prod_num"));
 				bean.setOr_size(rs.getString("or_size"));
@@ -126,16 +136,37 @@ public class KioskMgr {
 		return v;
 	}
 	
-	// 최근 주문번호 가져오기
-	public int getRecentOrderNum() {
+	// 최근 전체 주문번호 가져오기
+	public int getRecentOrderTotalNum() {
 		int num = 0;
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select oh_num from orderhistory order by oh_num desc limit 1";
+			sql = "select oh_tnum from orderhistory order by oh_tnum desc limit 1";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
+			if (rs.next()) { num = rs.getInt("oh_tnum"); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return num;
+	}
+	
+	// 주문번호 가져오기
+	public int  getRecentOrderNum(int oh_tnum) {
+		int num = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select oh_num from orderhistory where oh_tnum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oh_tnum);
+			
+			rs = pstmt.executeQuery();
 			if (rs.next()) { num = rs.getInt("oh_num"); }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,26 +175,5 @@ public class KioskMgr {
 		}
 
 		return num;
-	}	
+	}
 }
-	
-	
-	
-	/*public void getProductNum() {
-		int Prod_num = 0;
-		
-		try {
-			conn = pool.getConnection();
-			sql = "select Prod_num";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()) { Prod_num = rs.getInt("prod_num"); }
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(conn, pstmt, rs);
-		}
-
-	}*/
-

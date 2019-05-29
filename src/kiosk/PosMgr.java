@@ -3,8 +3,6 @@ package kiosk;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 public class PosMgr {
@@ -31,6 +29,7 @@ public class PosMgr {
 			
 			while(rs.next()) {
 				OrderHistoryBean bean = new OrderHistoryBean();
+				bean.setOh_tnum(rs.getInt("oh_tnum"));
 				bean.setOh_num(rs.getInt("oh_num"));
 				bean.setOh_status(rs.getInt("oh_status"));
 				bean.setMb_num(rs.getInt("mb_num"));
@@ -51,17 +50,18 @@ public class PosMgr {
 	}
 	
 	// 특정 주문 가져오기
-	public OrderHistoryBean getOrderHistory(int oh_num) {
+	public OrderHistoryBean getOrderHistory(int oh_tnum) {
 		OrderHistoryBean ohbean = new OrderHistoryBean();
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select * from orderhistory where oh_num = ?";
+			sql = "select * from orderhistory where oh_tnum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, oh_num);
+			pstmt.setInt(1, oh_tnum);
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
+				ohbean.setOh_tnum(rs.getInt("oh_tnum"));
 				ohbean.setOh_num(rs.getInt("oh_num"));
 				ohbean.setOh_status(rs.getInt("oh_status"));
 				ohbean.setMb_num(rs.getInt("mb_num"));
@@ -92,6 +92,7 @@ public class PosMgr {
 			
 			while(rs.next()) {
 				OrderHistoryBean bean = new OrderHistoryBean();
+				bean.setOh_tnum(rs.getInt("oh_tnum"));
 				bean.setOh_num(rs.getInt("oh_num"));
 				bean.setOh_status(rs.getInt("oh_status"));
 				bean.setMb_num(rs.getInt("mb_num"));
@@ -123,6 +124,7 @@ public class PosMgr {
 			
 			while(rs.next()) {
 				OrderHistoryBean bean = new OrderHistoryBean();
+				bean.setOh_tnum(rs.getInt("oh_tnum"));
 				bean.setOh_num(rs.getInt("oh_num"));
 				bean.setOh_status(rs.getInt("oh_status"));
 				bean.setMb_num(rs.getInt("mb_num"));
@@ -154,6 +156,7 @@ public class PosMgr {
 			
 			while(rs.next()) {
 				OrderHistoryBean bean = new OrderHistoryBean();
+				bean.setOh_tnum(rs.getInt("oh_tnum"));
 				bean.setOh_num(rs.getInt("oh_num"));
 				bean.setOh_status(rs.getInt("oh_status"));
 				bean.setMb_num(rs.getInt("mb_num"));
@@ -174,12 +177,12 @@ public class PosMgr {
 	}
 	
 	// 주문 취소
-	public void cancleOrder(int oh_num) {
+	public void cancleOrder(int oh_tnum) {
 		try {
 			conn = pool.getConnection();
-			sql = "update OrderHistory set oh_status = 4 where oh_num = ?";
+			sql = "update OrderHistory set oh_status = 4 where oh_tnum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, oh_num);
+			pstmt.setInt(1, oh_tnum);
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -190,12 +193,12 @@ public class PosMgr {
 	}
 	
 	// 주문 확인
-	public void checkOrder(int oh_num) {
+	public void checkOrder(int oh_tnum) {
 		try {
 			conn = pool.getConnection();
-			sql = "update OrderHistory set oh_status = 1 where oh_num = ?";
+			sql = "update OrderHistory set oh_status = 1 where oh_tnum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, oh_num);
+			pstmt.setInt(1, oh_tnum);
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -206,12 +209,12 @@ public class PosMgr {
 	}
 	
 	// 상품 준비 완료
-	public void readyOrder(int oh_num) {
+	public void readyOrder(int oh_tnum) {
 		try {
 			conn = pool.getConnection();
-			sql = "update OrderHistory set oh_status = 2 where oh_num = ?";
+			sql = "update OrderHistory set oh_status = 2 where oh_tnum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, oh_num);
+			pstmt.setInt(1, oh_tnum);
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -222,12 +225,12 @@ public class PosMgr {
 	}
 	
 	// 상품 수령 완료
-	public void receiveOrder(int oh_num) {
+	public void receiveOrder(int oh_tnum) {
 		try {
 			conn = pool.getConnection();
-			sql = "update OrderHistory set oh_status = 3 where oh_num = ?";
+			sql = "update OrderHistory set oh_status = 3 where oh_tnum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, oh_num);
+			pstmt.setInt(1, oh_tnum);
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -244,7 +247,7 @@ public class PosMgr {
 		try {
 			conn = pool.getConnection();
 			sql = "select sum(or_shot * or_count) from orders "
-					+ "where oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
+					+ "where oh_tnum in (select oh_tnum from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, date);
 			
@@ -269,7 +272,7 @@ public class PosMgr {
 		try {
 			conn = pool.getConnection();
 			sql = " select sum(or_count) from orders "
-					+ "where or_size = 'G' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
+					+ "where or_size = 'G' and oh_tnum in (select oh_tnum from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, date);
 
@@ -294,7 +297,7 @@ public class PosMgr {
 		try {
 			conn = pool.getConnection();
 			sql = " select sum(or_count) from orders "
-					+ "where or_size = 'V' and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
+					+ "where or_size = 'V' and oh_tnum in (select oh_tnum from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, date);
 
@@ -302,7 +305,6 @@ public class PosMgr {
 			if(rs.next()) {
 				vsize=rs.getInt(1);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -357,33 +359,6 @@ public class PosMgr {
 		}
 		return total;
 	}
-
-	//주문번호 가져오기(oh_num)
-	public Vector<OrdersBean> getOhNum() {
-		Vector<OrdersBean> onlist = new Vector<OrdersBean>();
-
-		try {
-			conn = pool.getConnection();
-			sql ="select * from orders";
-			pstmt = conn.prepareStatement(sql);
-
-			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				OrdersBean bean = new OrdersBean();
-				bean.setOh_num(rs.getInt("oh_num"));
-				bean.setOr_shot(rs.getInt("or_shot"));
-
-				onlist.addElement(bean);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(conn, pstmt, rs);
-		}
-
-		return onlist;
-	}
 	
 	//제품별 수량 합계
 	public int getProductStatistics(int prod_num, String date) {
@@ -392,7 +367,7 @@ public class PosMgr {
 		try {
 			conn = pool.getConnection();
 			sql ="select sum(or_count) from orders\r\n" + 
-					"where prod_num = ? and oh_num in (select oh_num from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
+					"where prod_num = ? and oh_tnum in (select oh_tnum from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, prod_num);
 			pstmt.setString(2, date);
@@ -451,5 +426,20 @@ public class PosMgr {
 		}
 
 		return point;
+	}
+	
+	// 마감
+	public void closeCaffe() {
+		try {
+			conn = pool.getConnection();
+			sql = "truncate ordernum;";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt);
+		}
 	}
 }

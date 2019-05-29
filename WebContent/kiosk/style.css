@@ -334,3 +334,8 @@ a:visited {
 	z-index: 11;
 	padding: 10px;
 }
+
+/**/
+#orderHistory {
+	color:white;
+}

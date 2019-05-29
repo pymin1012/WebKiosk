@@ -2,12 +2,13 @@
 <jsp:useBean id="psMgr" class="kiosk.PosMgr" />
 <%
 	request.setCharacterEncoding("UTF-8");
-	int oh_num = Integer.parseInt(request.getParameter("oh_num"));
+	int oh_tnum = Integer.parseInt(request.getParameter("oh_tnum"));
+
 	String flag = request.getParameter("flag");
 	
 	if (flag.equals("check")) {
-		psMgr.checkOrder(oh_num);
+		psMgr.checkOrder(oh_tnum);
 	} else if (flag.equals("cancle")) {
-		psMgr.cancleOrder(oh_num);
+		psMgr.cancleOrder(oh_tnum);
 	}
 %>

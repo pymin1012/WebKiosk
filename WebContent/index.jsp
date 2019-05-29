@@ -68,14 +68,17 @@ body, html {
 	border-radius: 5px;
 }
 
+#orderHistory {
+	color:black;
+}
+
 </style>
 </head>
 <body >
-	<jsp:include page="member/logout.jsp" />
 
 	<div class="container h-100" style="width:850px;">
-	<div style="height:100px"></div>
-		<div class="d-flex justify-content-center h-100">
+		<jsp:include page="member/logout.jsp" />
+		<div class="d-flex justify-content-center h-100" style="margin-top:60px;">
 			<div class="main_title">
 				<img src="pic/bb2.png" class="img-responsive img-radio">
 			</div>

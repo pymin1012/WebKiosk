@@ -62,18 +62,19 @@ public class ServerSocket {
         	mMgr.updatePoint(mb_num, -(oh_point));
         	mMgr.updatePoint(mb_num, (int)(oh_total * 0.05));
         	
-        	int oh_num = kMgr.getRecentOrderNum();
+        	int oh_tnum = kMgr.getRecentOrderTotalNum();
         	int or_basket = 0;
         	BasketMgr bMgr = (BasketMgr) httpSession.getAttribute("bMgr");
         	LinkedHashMap<Integer, OrdersBean> blist = bMgr.getBasketList();
         	for(int key: blist.keySet()) {
         		OrdersBean obean = blist.get(key);
-        		obean.setOh_num(oh_num);
+        		obean.setOh_tnum(oh_tnum);
         		or_basket++;
         		obean.setOr_basket(or_basket);
         		kMgr.insertOrders(obean);
         	}
         	
+        	int oh_num = kMgr.getRecentOrderNum(oh_tnum);
         	session.getBasicRemote().sendText(String.valueOf(oh_num));
         	System.out.println("주문번호 : " + oh_num);
 

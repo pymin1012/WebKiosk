@@ -23,8 +23,9 @@
 <script>
 $(function() {
 	$(".obtn").click(function() {
-		var oh_num = $(this).data('oh-num');
-		var myData = "flag=check&oh_num=" + oh_num;
+		var oh_tnum = $(this).data('oh-tnum');
+		var oh_date = $(this).data('oh-date');
+		var myData = "flag=check&oh_tnum=" + oh_tnum + "&oh_date=" + oh_date;
 		
 		$.ajax({
 				type: "POST",
@@ -39,8 +40,9 @@ $(function() {
 	});
 	
 	$(".cbtn").click(function() {
-		var oh_num = $(this).data('oh-num');
-		var myData = "flag=cancle&oh_num=" + oh_num;
+		var oh_tnum = $(this).data('oh-tnum');
+		var oh_date = $(this).data('oh-date');
+		var myData = "flag=check&oh_tnum=" + oh_tnum + "&oh_date=" + oh_date;
 		
 		$.ajax({
 				type: "POST",
@@ -101,7 +103,7 @@ $(function() {
 									</ul>
 								</li>
 <%
-		Vector<OrdersBean> olist = kMgr.getOrdersList(vlbean.getOh_num());
+		Vector<OrdersBean> olist = kMgr.getOrdersList(vlbean.getOh_tnum());
 		for (int j = 0; j < olist.size(); j++) {
 			OrdersBean obean = olist.get(j);
 			ProductBean pbean = pMgr.getProduct(obean.getProd_num());
@@ -156,8 +158,8 @@ $(function() {
 						</div>
 						
 						<div class="check-button col-2 my-auto">
-							<button class="btn btn-success btn-lg mb-3 obtn" data-oh-num="<%= vlbean.getOh_num()  %>" style="width:60px; height:50px;"><i class="fas fa-check"></i></button>
-							<button class="btn btn-danger btn-lg mt-3 cbtn" data-oh-num="<%= vlbean.getOh_num()  %>" style="width:60px; height:50px;"><i class="fas fa-times"></i> </button>
+							<button class="btn btn-success btn-lg mb-3 obtn" data-oh-tnum="<%= vlbean.getOh_tnum()  %>" data-oh-date="<%= vlbean.getOh_date() %>" style="width:60px; height:50px;"><i class="fas fa-check"></i></button>
+							<button class="btn btn-danger btn-lg mt-3 cbtn" data-oh-tnum="<%= vlbean.getOh_tnum()  %>" data-oh-date="<%= vlbean.getOh_date() %>" style="width:60px; height:50px;"><i class="fas fa-times"></i> </button>
 						</div>
 					</div>
 				</div>

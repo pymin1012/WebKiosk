@@ -49,6 +49,14 @@
 	function changeIframe(url) {
 		document.getElementById("pos").src = url;
 	}
+	
+	function calculate() {
+		var con = confirm("정말로 마감하시겠습니까?");
+		if (con == true) {
+			webSocket.close();
+			location.href = "close.jsp";
+		}
+	}
 </script>
 </head>
 <body>
@@ -74,8 +82,9 @@
 					<div class="col-md-2">
 						<button class="btn btn-lg mt-3 mb-3" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('posCheck.jsp')">주문 확인</button>
 						<button class="btn btn-lg mt-3 mb-3" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('posSheet.jsp')">주문 내역</button>
-						<button class="btn btn-lg mt-3 mb-5" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('preOrder.jsp')">이전 주문</button>				
-						<button class="btn btn-warning btn-lg mt-4 mb-3" style="width: 100%; height: 10%" onclick="javascript:changeIframe('calculate.jsp')">정&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;산</button>
+						<button class="btn btn-lg mt-3 mb-3" style="background-color: #18A8F1; color:white; width: 100%; height: 20%" onclick="javascript:changeIframe('preOrder.jsp')">이전 주문</button>				
+						<button class="btn btn-success btn-lg mt-3 mb-2" style="width: 100%; height: 10%" onclick="javascript:changeIframe('calculate.jsp')">정산 내역</button>
+						<button class="btn btn-warning btn-lg mt-2 mb-3" style="width: 100%; height: 10%" onclick="javascript:calculate()">마&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;감</button>
 					</div>
 				</div>
 			</div>
