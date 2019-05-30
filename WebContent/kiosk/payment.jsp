@@ -49,14 +49,20 @@
 
 			<div class="card-body">
 <%
- 	int totalprice = 0;
+ 	int totalproduct = 0;
+	int totalevent = 0;
+	int totalprice = 0;
 	for(int key: blist.keySet()) {
 		OrdersBean obean = blist.get(key);
-		ProductBean pbean = pMgr.getProduct(obean.getProd_num());
+		int prod_num = obean.getProd_num();
+		ProductBean pbean = pMgr.getProduct(prod_num);
 		int prod_price =  pbean.getProd_price();
 		int shot_price = 0;
 		int size_price = 0;
 		int price = 0;
+		
+		// 이벤트
+		int or_event = obean.getOr_event();
 %>
 				<!-- PRODUCT -->
 				<div class="row">
@@ -95,16 +101,31 @@
 		}
 		price = (prod_price + shot_price + size_price) * obean.getOr_count();
 		out.println("주문수량 : " + obean.getOr_count());
-		totalprice+=price;
+		totalproduct+=price;
+		totalevent+=or_event;
+		if (or_event != 0) {
+			totalprice = totalprice + price - or_event;
+		} else {
+			totalprice = totalprice + price ;
+		}
 %>
 							</small>
 						</h4>
 					</div>
 					<div class="col-12 col-sm-12 text-sm-center col-md-4 pr-0 text-md-right row">
 						<div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
-							<h5>
-								<strong><span class="text-muted"><i class='fas fa-won-sign'></i>&nbsp;<%= price %></span></strong>
-							</h5>
+<%
+		if (or_event != 0) {
+%>
+							<h5><strong><span style="text-decoration:line-through; color: red;"><i class='fas fa-won-sign'></i>&nbsp;<%= price %></span></strong></h5>
+							<h5><strong><span class="text-muted"><i class='fas fa-won-sign'></i>&nbsp;<%= price - or_event %></span></strong></h5>
+<%
+		} else {
+%>
+							<h5><strong><span class="text-muted"><i class='fas fa-won-sign'></i>&nbsp;<%= price %></span></strong></h5>
+<%
+		}
+%>
 						</div>
 						<div class="col-2 col-sm-2 col-md-6 pr-0 text-right">
 							<!-- 주문취소버튼 -->
@@ -127,18 +148,19 @@
 						사용가능 포인트<br>
 						<%=mb_point %>
 					</div>
-					<div class="col-12 col-sm-12 col-md-4 text-md-left">
+					<div class="col-12 col-sm-12 col-md-3 text-md-left">
 						<!-- input point -->
 						<span class="small text-danger">* 포인트는 100단위로 사용가능합니다.</span><br>
-						사용 포인트 : <input type="number" id="oh_point" name="oh_point" min="0" max="<%= totalprice>mb_point?totalprice:mb_point %>" step="100" value="0" style="text-align: right;">
+						사용 포인트 : <input type="number" id="oh_point" name="oh_point" min="0" max="<%= totalprice>mb_point?mb_point:totalprice %>" step="100" value="0" style="text-align: right;">
 					</div>
 					
-					<div class="col-12 col-sm-12 col-md-6 pr-0 row">
-						<div class="col-3 col-sm-3 col-md-8 text-md-right">
+					<div class="col-12 col-sm-12 col-md-7 pr-0 row">
+						<div class="col-3 col-sm-3 col-md-9 text-md-right">
 							<div style="position:absolute; right:10px; bottom:0px;">
 								<h3><strong>
 									<small><span class="text-muted">
-										<%= totalprice %>&nbsp;&nbsp;<i class="fas fa-minus fa-xs"></i>&nbsp;&nbsp;
+										<%= totalproduct %>&nbsp;&nbsp;<i class="fas fa-minus fa-xs"></i>&nbsp;&nbsp;
+										<span id="minus_event" class="text-danger"><%= totalevent %></span>&nbsp;&nbsp;<i class="fas fa-minus fa-xs"></i>&nbsp;&nbsp;
 										<span id="minus_point" class="text-warning">0</span>&nbsp;&nbsp;
 										<i class="fas fa-equals fa-xs"></i>&nbsp;&nbsp;
 									</span></small>
@@ -147,7 +169,7 @@
 								</strong></h3>
 							</div>
 						</div>
-						<div class="col-2 col-sm-2 col-md-4 pr-0 text-right">
+						<div class="col-2 col-sm-2 col-md-3 pr-0 text-right">
 							<!-- 전체삭제버튼 -->
 							<div class="pull-right" align="right">
 								<a href="javascript:deleteBasket('all')" class="btn btn-outline-secondary pull-right">전체취소</a>

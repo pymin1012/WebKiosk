@@ -52,7 +52,7 @@ body {
 
 .p-title {
 	color: #ffffff;
-	font-size: 150px;
+	font-size: 100px;
 	font-weight: bold;
 	text-align: center;
 	text-transform: capitalize;
@@ -85,7 +85,7 @@ body {
 						<font size="100px">현재번호</font>
 					</div>
 					<!--panel-heading close-->
-					<div class="panel-body text-center" style="height: 600px">
+					<div class="panel-body text-center" style="height: 600px; overflow: hidden;">
 <%
 	for (int i=0; i<readyList.size(); i++) {
 		int rnum = readyList.get(i);
@@ -103,7 +103,7 @@ body {
 						<font size="100px">대기번호</font>
 					</div>
 					<!--panel-heading close-->
-					<div class="panel-body text-center" style="height: 600px">
+					<div class="panel-body text-center" style="height: 600px; overflow: hidden;">
 <%
 	for (int i=0; i<awaitList.size(); i++) {
 		int anum = awaitList.get(i);

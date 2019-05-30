@@ -113,5 +113,77 @@ public class ProductMgr {
 		
 		return bean;
 	}
+	
+	// 이벤트 상품 가격 가져오기
+	public int getEventProductPrice(int prod_num) {
+		int ev_price = 0;
+		
+		try {
+			con = pool.getConnection();
+			sql = "SELECT ev_price FROM evento WHERE prod_num = ? AND CURRENT_DATE() >= ev_start AND CURRENT_DATE() <= ev_end;";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) { ev_price = rs.getInt(1); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+
+		return ev_price;
+	}
+	
+	// 이벤트 상품 리스트
+	public Vector<ProductBean> getEventProductList(){
+		Vector<ProductBean> vlist =new Vector<>();
+		
+		try {
+			con = pool.getConnection();
+			sql = "select * from Product where prod_num in (SELECT prod_num FROM evento WHERE CURRENT_DATE() >= ev_start AND CURRENT_DATE() <= ev_end) order by prod_num asc";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				ProductBean bean =new ProductBean();
+				bean.setProd_num(rs.getInt("prod_num"));
+				bean.setProd_name(rs.getString("prod_name"));
+				bean.setProd_img(rs.getString("prod_img"));
+				bean.setProd_iimg(rs.getString("prod_iimg"));
+				bean.setCtg_num(rs.getInt("ctg_num"));
+				bean.setProd_price(rs.getInt("prod_price"));
+				bean.setProd_kcal(rs.getInt("prod_kcal"));
+				bean.setProd_coo(rs.getString("prod_coo"));
+				bean.setProd_so(rs.getBoolean("prod_so"));
+				vlist.addElement(bean);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		return vlist;
+	}
+	
+	// 이벤트 상품인지 확인
+	public boolean isEventProduct(int prod_num) {
+		boolean flag = false;
+		
+		try {
+			con = pool.getConnection();
+			sql = "select * from evento where prod_num = ? and CURRENT_DATE() >= ev_start AND CURRENT_DATE() <= ev_end";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			rs = pstmt.executeQuery();
+			if (rs.next()) { flag = true; }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		return flag;
+	}
 }
-//	

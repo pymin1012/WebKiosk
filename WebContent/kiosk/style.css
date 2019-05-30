@@ -120,6 +120,7 @@ a:visited {
 	position: relative;
 	overflow-x: hidden;
 	width: 100%;
+	min-height: 75vh;
 }
 
 #cart {
@@ -337,5 +338,9 @@ a:visited {
 
 /**/
 #orderHistory {
+	color:white;
+}
+
+#toHome {
 	color:white;
 }

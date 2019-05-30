@@ -53,8 +53,8 @@ public class KioskMgr {
 	public void insertOrders(OrdersBean bean) {
 		try {
 			conn = pool.getConnection();
-			sql = "insert into orders(oh_tnum, or_basket, prod_num, or_size, or_count, or_shot, or_whip, or_hi) "
-					+ "values(?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "insert into orders(oh_tnum, or_basket, prod_num, or_size, or_count, or_shot, or_whip, or_hi, or_event) "
+					+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bean.getOh_tnum());
 			pstmt.setInt(2, bean.getOr_basket());
@@ -64,6 +64,7 @@ public class KioskMgr {
 			pstmt.setInt(6, bean.getOr_shot());
 			pstmt.setBoolean(7, bean.isOr_whip());
 			pstmt.setString(8, bean.getOr_hi());
+			pstmt.setInt(9, bean.getOr_event());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,6 +126,7 @@ public class KioskMgr {
 				bean.setOr_shot(rs.getInt("or_shot"));
 				bean.setOr_whip(rs.getBoolean("or_whip"));
 				bean.setOr_hi(rs.getString("or_hi"));
+				bean.setOr_event(rs.getInt("or_event"));
 				v.addElement(bean);
 			}
 		} catch (Exception e) {
@@ -176,4 +178,6 @@ public class KioskMgr {
 
 		return num;
 	}
+	
+	////////////////// 이벤트 상품 //////////////////////////////
 }

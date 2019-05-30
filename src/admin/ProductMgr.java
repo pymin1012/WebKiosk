@@ -17,7 +17,6 @@ import admin.CategoryBean;
 public class ProductMgr {
 
 	private DBConnectionMgr pool;
-	private static final String UPLOAD = "C:/T-gf/WebP/WebContent/menu_pic";
 	private static final String ENCTYPE = "UTF-8";
 	private static final int MAXSIZE = 10*1024*1024;
 
@@ -33,11 +32,11 @@ public class ProductMgr {
 	/////admin mode//////////
 
 	//Product Insert
-	public boolean insertProduct(HttpServletRequest req) {
+	public boolean insertProduct(HttpServletRequest req, String upUrl) {
 
 		boolean flag =false;
 		try {
-			MultipartRequest multi=new MultipartRequest(req, UPLOAD, MAXSIZE, ENCTYPE, new DefaultFileRenamePolicy());
+			MultipartRequest multi=new MultipartRequest(req, upUrl, MAXSIZE, ENCTYPE, new DefaultFileRenamePolicy());
 			con = pool.getConnection();
 			sql = "insert Product(prod_name, prod_img, prod_iimg, ctg_num, prod_price, prod_kcal, prod_coo, prod_so)"
 					+ "values(?,?,?,?,?,?,?,?)";
@@ -61,7 +60,7 @@ public class ProductMgr {
 			pstmt.setInt(5, Integer.parseInt(multi.getParameter("prod_price")));
 			pstmt.setInt(6, Integer.parseInt(multi.getParameter("prod_kcal")));
 			pstmt.setString(7, multi.getParameter("prod_coo"));
-			pstmt.setInt(8, Integer.parseInt(multi.getParameter("prod_so")));
+			pstmt.setBoolean(8, Boolean.valueOf(multi.getParameter("prod_so")));
 
 			if(pstmt.executeUpdate()==1)
 				flag =true;
@@ -73,12 +72,12 @@ public class ProductMgr {
 		return flag;
 	}
 	//Product Update
-	public boolean updateProduct(HttpServletRequest req) {
+	public boolean updateProduct(HttpServletRequest req, String upUrl) {
 
 		boolean flag =false;
 
 		try {
-			MultipartRequest multi=new MultipartRequest(req, UPLOAD, MAXSIZE, ENCTYPE, new DefaultFileRenamePolicy());
+			MultipartRequest multi=new MultipartRequest(req, upUrl, MAXSIZE, ENCTYPE, new DefaultFileRenamePolicy());
 			con = pool.getConnection();
 			String prod_img = multi.getFilesystemName("prod_img");
 			String prod_iimg = multi.getFilesystemName("prod_iimg");
@@ -143,7 +142,6 @@ public class ProductMgr {
 
 	//Product Delete
 	public boolean deleteProduct(int prod_num) {
-
 		boolean flag =false;
 
 		try {
@@ -249,5 +247,47 @@ public class ProductMgr {
 
 		return vlist;
 	}
+	
+	// 상품 가격 가져오기
+	public int getProductPrice(int prod_num) {
+		int prod_price = 0;
+		
+		try {
+			con = pool.getConnection();
+			sql = "SELECT prod_price FROM product WHERE prod_num = ?;";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) { prod_price = rs.getInt(1); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
 
+		return prod_price;
+	}
+
+	// 상품 이름 가져오기
+	public String getProductName(int prod_num) {
+		String prod_name = "";
+				
+		try {
+			con = pool.getConnection();
+			sql = "select prod_name from Product where prod_num = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				prod_name = rs.getString("prod_name");
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+				
+		return prod_name;
+	}
 }

@@ -15,6 +15,8 @@
 	OrderHistoryBean ohBean = psMgr.getOrderHistory(oh_tnum);
 	
 	String flag = request.getParameter("flag");
+	int totalEvent = 0;
+
 %>
 
 <div class="container w-100">
@@ -61,6 +63,7 @@
 			String or_hi = obean.getOr_hi();
 			if (or_size == null) or_size = "&nbsp;";
 			if (or_hi == null) or_hi = "&nbsp;";
+			totalEvent += obean.getOr_event();
 %>
 
 						<li class="product-body">
@@ -101,9 +104,14 @@
 							<ul class="footer-item">
 								<li style="color: #d39e00">point</li>
 								<li style="color: #d39e00"><%=ohBean.getOh_point()%>p</li>
-								<li style="color: red">total</li>
-								<li style="color: red"><%=ohBean.getOh_total()%>¿ø</li>
+								<li style="color: red">event</li>
+								<li style="color: red"><%= totalEvent %>¿ø</li>
 							</ul>
+									
+							<ul class="footer-item">
+								<li style="color: black; width: 50%;">total</li>
+								<li style="color: black; width: 50%;"><%=ohBean.getOh_total()%>¿ø</li>
+							</ul>	
 						</li>
 					</ul>
 				</div>

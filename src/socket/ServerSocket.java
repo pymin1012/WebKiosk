@@ -57,10 +57,9 @@ public class ServerSocket {
         	OrderHistoryBean ohBean = (OrderHistoryBean) httpSession.getAttribute("ohBean");
         	kMgr.insertOrderHistory(ohBean);
         	
+        	// 포인트 차감
         	int oh_point = ohBean.getOh_point();
-        	int oh_total = ohBean.getOh_total();
         	mMgr.updatePoint(mb_num, -(oh_point));
-        	mMgr.updatePoint(mb_num, (int)(oh_total * 0.05));
         	
         	int oh_tnum = kMgr.getRecentOrderTotalNum();
         	int or_basket = 0;
