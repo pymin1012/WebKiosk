@@ -233,10 +233,26 @@ public class PosMgr {
 			pstmt.setInt(1, oh_tnum);
 			
 			pstmt.executeUpdate();
+			
+			// Æ÷ÀÎÆ® ½×±â
+			sql = "select mb_num, oh_total from orderhistory where oh_tnum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oh_tnum);
+			rs = pstmt.executeQuery();
+			rs.next();
+        	int oh_total = rs.getInt("oh_total");
+        	int mb_num = rs.getInt("mb_num");
+			
+			sql = "update member set mb_point = mb_point + ? where mb_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (int)(oh_total * 0.05));
+			pstmt.setInt(2, mb_num);
+			pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			pool.freeConnection(conn, pstmt);
+			pool.freeConnection(conn, pstmt, rs);
 		}
 	}
 	

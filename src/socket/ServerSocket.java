@@ -61,10 +61,6 @@ public class ServerSocket {
         	int oh_point = ohBean.getOh_point();
         	mMgr.updatePoint(mb_num, -(oh_point));
         	
-        	// Æ÷ÀÎÆ® ½×±â
-        	int oh_total = ohBean.getOh_total();
-        	mMgr.updatePoint(mb_num, (int)(oh_total * 0.05));
-        	
         	int oh_tnum = kMgr.getRecentOrderTotalNum();
         	int or_basket = 0;
         	BasketMgr bMgr = (BasketMgr) httpSession.getAttribute("bMgr");

@@ -60,7 +60,7 @@
 						<td><a
 							href="javascript:location.href='updateEvento.jsp?ev_num=<%=mBean.getEv_num()%>'">수정</a></td>
 						<td><a
-							href="javascript:productDelete('<%=mBean.getEv_num()%>')">삭제</a></td>
+							href="javascript:productDelete('<%= mBean.getEv_num() %>')">삭제</a></td>
 					</tr>
 					<%
 						}
@@ -74,10 +74,6 @@
 		<input type=hidden name="ev_num">
 	</form>
 	<%@ include file="middle.jsp"%>
-	<form name="update" method="get">
-		<input type=hidden name="ev_num">
-		
-		
 		<%
 		Vector<EventoBean> xlist = eMgr.getEndeventoList();
 		%>
@@ -108,6 +104,5 @@
 					</table>
 				</td>
 		</table>
-	</form>
 </body>
 </html>

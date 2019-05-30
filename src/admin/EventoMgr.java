@@ -53,6 +53,7 @@ private DBConnectionMgr pool;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
+		
 		EventoBean ebean = new EventoBean();
 		try {
 			con = pool.getConnection();
