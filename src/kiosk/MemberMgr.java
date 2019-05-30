@@ -112,5 +112,62 @@ public class MemberMgr {
 			pool.freeConnection(conn, pstmt);
 		}
 	}
+	
+	
+	/* orderHistory.jsp 주문내역 페이지 */
+	// 주문내역 총 갯수
+	public int getTotalCount(int mb_num) {
+		int totCnt = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select count(*) from orderhistory where mb_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mb_num);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) { totCnt = rs.getInt(1); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return totCnt;
+	}
+	
+	public Vector<OrderHistoryBean> getMemberOrderHistory(int mb_num, int start, int end) {
+		Vector<OrderHistoryBean> ohlist = new Vector<OrderHistoryBean>();
+		
+		try {
+			conn = pool.getConnection();
+			sql = "SELECT * FROM orderhistory WHERE mb_num = ? order by oh_date desc limit ?, ?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mb_num);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				OrderHistoryBean ohbean = new OrderHistoryBean();
+				ohbean.setOh_tnum(rs.getInt("oh_tnum"));
+				ohbean.setOh_num(rs.getInt("oh_num"));
+				ohbean.setOh_status(rs.getInt("oh_status"));
+				ohbean.setMb_num(rs.getInt("mb_num"));
+				ohbean.setOh_date(rs.getString("oh_date"));
+				ohbean.setOh_io(rs.getString("oh_io"));
+				ohbean.setOh_comment(rs.getString("oh_comment"));
+				ohbean.setOh_point(rs.getInt("oh_point"));
+				ohbean.setOh_total(rs.getInt("oh_total"));
+				ohlist.addElement(ohbean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return ohlist;
+	}
 }
 

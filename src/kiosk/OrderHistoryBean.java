@@ -1,6 +1,7 @@
 package kiosk;
 
 public class OrderHistoryBean {
+	private int oh_tnum;
 	private int oh_num;
 	private int oh_status;
 	private int mb_num;
@@ -10,6 +11,7 @@ public class OrderHistoryBean {
 	private int oh_point;
 	private int oh_total;
 
+	public int getOh_tnum() { return oh_tnum; }
 	public int getOh_num() { return oh_num; }
 	public int getOh_status() { return oh_status; }
 	public int getMb_num() { return mb_num; }
@@ -19,6 +21,7 @@ public class OrderHistoryBean {
 	public int getOh_point() { return oh_point; }
 	public int getOh_total() { return oh_total; }
 	
+	public void setOh_tnum(int oh_tnum) { this.oh_tnum = oh_tnum; }
 	public void setOh_num(int oh_num) { this.oh_num = oh_num; }
 	public void setOh_status(int oh_status) { this.oh_status = oh_status; }
 	public void setMb_num(int mb_num) { this.mb_num = mb_num; }

@@ -43,9 +43,8 @@
 </script>
 </head>
 <body>
-	<jsp:include page="../member/logout.jsp" />
-
 	<div class="wrapper wbody">
+	
 		<section id="cart" class="overflow-auto">
 			<span class="cart-title"><i class="fa fa-shopping-cart fa-fw"><span class="cart-counter">0</span></i>Cart</span>
 			<article class="cart-total text-right">
@@ -59,6 +58,8 @@
 	
 		<section id="tabs">
 			<div class="container main-container">
+				<jsp:include page="../member/logout.jsp" />
+			
 				<div class="row">
 					<div class="title col-md-12 ">
 						<div class="row">

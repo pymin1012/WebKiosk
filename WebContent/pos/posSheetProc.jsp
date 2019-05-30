@@ -3,14 +3,14 @@
 
 <%
 	request.setCharacterEncoding("UTF-8");
-	int oh_num = Integer.parseInt(request.getParameter("oh_num"));
+	int oh_tnum = Integer.parseInt(request.getParameter("oh_tnum"));
 	String flag = request.getParameter("flag");
 	
 	if (flag.equals("ready")) {
-		psMgr.readyOrder(oh_num);
+		psMgr.readyOrder(oh_tnum);
 	} else if (flag.equals("receive")) {
-		psMgr.receiveOrder(oh_num);
+		psMgr.receiveOrder(oh_tnum);
 	} else if (flag.equals("cancle")) {
-		psMgr.cancleOrder(oh_num);
+		psMgr.cancleOrder(oh_tnum);
 	}
 %>

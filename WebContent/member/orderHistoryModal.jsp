@@ -52,8 +52,8 @@
 								<li style="width: 15%">HOT/ICE</li>
 							</ul>
 						</li>
-						<%
-		Vector<OrdersBean> olist = kMgr.getOrdersList(ohBean.getOh_tnum());
+<%
+		Vector<OrdersBean> olist = kMgr.getOrdersList(ohBean.getOh_num());
 		for (int j = 0; j < olist.size(); j++) {
 			OrdersBean obean = olist.get(j);
 			ProductBean pbean = pMgr.getProduct(obean.getProd_num());
@@ -108,20 +108,8 @@
 					</ul>
 				</div>
 				<div class="check-button col-12 mb-3">
-					<div class="d-flex justify-content-between">
-						<button class="modal-btn btn btn-danger" id="cancle">주문취소</button>
+					<div class="d-flex justify-content-end">
 						<div>
-<%
-	if (flag.equals("prepare")) {
-%>
-							<button class="modal-btn btn btn-success" id="ready">준비완료</button>
-<%
-	} else if (flag.equals("await")) {
-%>
-							<button class="modal-btn btn btn-success" id="receive">수령완료</button>
-<%
-	}
-%>
 							<button class="btn btn-warning" data-dismiss="modal">이전</button>
 						</div>
 					</div>
@@ -130,23 +118,3 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	$(function() {
-		$('.modal-btn').click(function() {
-			var flag = $(this).attr('id');
-			var myData = "flag=" + flag + "&oh_tnum=" + <%= oh_tnum %>;
-		
-			$.ajax({
-				type: "POST",
-				url: "posSheetProc.jsp",
-				data: myData,
-
-				success: function(res) {
-					window.parent.sendMessage();
-					location.reload();
-				}
-			});
-		});
-	});
-</script>
