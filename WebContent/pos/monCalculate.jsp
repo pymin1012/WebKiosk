@@ -94,10 +94,11 @@
 							<table class="table" cellspacing="0">
 								<thead>
 									<tr style="text-align: center;">
-										<th style="width:25%">일</th>
-										<th style="width:25%">판매금액</th>
-										<th style="width:25%">point</th>
-										<th style="width:25%">매출액</th>
+										<th style="width:20%">일</th>
+										<th style="width:20%">판매금액</th>
+										<th style="width:20%">point</th>
+										<th style="width:20%">event</th>
+										<th style="width:20%">매출액</th>
 									</tr>
 
 								</thead>
@@ -105,6 +106,7 @@
 		for (int i=1; i<=maxDay; i++) {
 			int day_point = psMgr.getDayPoint(date + "-" + i);
 			int day_total = psMgr.getDayTotal(date + "-" + i);
+			int day_event = psMgr.getDayEvent(date + "-" + i);
 			int sales_amount = day_point + day_total;
 %>
 								<tbody>
@@ -112,9 +114,12 @@
 										<td style="text-align:center"><%= i %> 일</td>
 										<td style="text-align:right"><%= sales_amount %> 원</td>
 										<td style="text-align:right"><%= day_point %> 점</td>
+										<td style="text-align:right"><%= day_event %> 원</td>
 										<td style="text-align:right"><%= day_total %> 원</td>
 									</tr>
-									<%}%>
+<%
+	}
+%>
 								</tbody>
 							</table>
 							
@@ -126,15 +131,20 @@
 <% 
 	int total = psMgr.getMonTotal(date);
 	int point = psMgr.getMonPoint(date);
+	int event = psMgr.getMonEvent(date);
 %>
 								<tbody>
 									<tr>
 										<td style="width: 80%"><font size="5px" style="color: blue">총금액</font></td>
-										<td style="width: 20%; text-align: right;"><%= total+point %> 원</td>
+										<td style="width: 20%; text-align: right;"><%= total+point+event %> 원</td>
 									</tr>
 									<tr>
 										<td style="width: 80%"><font size="5px" style="color: blue">총 사용된 Point</font></td>
 										<td style="width: 20%; text-align: right;"><%=point %> 점</td>
+									</tr>
+									<tr>
+										<td style="width: 80%"><font size="5px" style="color: blue">총 할인된 이벤트</font></td>
+										<td style="width: 20%; text-align: right;"><%=event %> 원</td>
 									</tr>
 									<tr>
 										<td style="width: 80%"><font size="5px" style="color: RED">매출액</font></td>

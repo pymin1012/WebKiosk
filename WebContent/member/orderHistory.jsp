@@ -43,7 +43,7 @@
 $(function(){
 	$('#orderHistoryModal').on('show.bs.modal', function (event) {
 		var button = $(event.relatedTarget); 
-		var oh_num = button.data('oh-num');
+		var oh_tnum = button.data('oh-tnum');
 		var modal = $(this);
 		modal.find('.modal-content').load('orderHistoryModal.jsp?oh_tnum=' + oh_tnum);
 	});

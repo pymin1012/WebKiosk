@@ -37,7 +37,7 @@
 
 
 <script type="text/javascript">
-	var webSocket = new WebSocket('ws://localhost:80/WebKiosk/broadcasting');
+	var webSocket = new WebSocket('ws://' + location.host + ':80/WebKiosk/broadcasting');
 
 	webSocket.onerror = function(event) {
 		onError(event)

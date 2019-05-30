@@ -43,7 +43,10 @@
 						</tr>
 						<tr>
 							<td align="center">상품유무</td>
-							<td align="left"><input name="prod_so" size="20"></td>
+							<td align="left">
+								유<input type="radio" name="prod_so" size="10" value="true" >
+								무<input type="radio" name="prod_so" size="10" value="false" >
+							</td>
 						</tr>
 						<tr>
 							<td colspan="2" align="center"><input type="submit"value="상품등록">&nbsp;&nbsp;&nbsp;

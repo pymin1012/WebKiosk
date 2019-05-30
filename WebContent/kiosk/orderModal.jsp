@@ -12,6 +12,9 @@
 	String prod_iimg = pBean.getProd_iimg();
 	
 	int or_basket = 0;
+	
+	// 이벤트 금액
+	int ev_price = pMgr.getEventProductPrice(prod_num);
 %>
 
 <html lang="ko">
@@ -160,7 +163,9 @@ input:checked + .slider {
 
 	/* +-button */
 	$(document).ready(function() {
+		var ev_price =  <%= ev_price %>;
 		var prod_price = <%= prod_price %>;
+		var now_price = (ev_price!=0) ? ev_price : prod_price;
 		var size_price = 0;
 		var shot_price = 0;
 		
@@ -168,19 +173,19 @@ input:checked + .slider {
 		
 		$('#size1').click(function() {
 			size_price = 0;
-			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			var tot = (now_price + size_price + shot_price) * $('.count').val();
 			$('.price-total').text(tot);
 		})
 		
 		$('#size2').click(function() {
 			size_price = 500;
-			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			var tot = (now_price + size_price + shot_price) * $('.count').val();
 			$('.price-total').text(tot);
 		})
 		
 		$('#size3').click(function() {
 			size_price = 1000;
-			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			var tot = (now_price + size_price + shot_price) * $('.count').val();
 			$('.price-total').text(tot);
 		})
 		
@@ -191,13 +196,13 @@ input:checked + .slider {
 			} else {
 				shot_price = 0;
 			}
-			var tot = (prod_price + size_price + shot_price) * $('.count').val();
+			var tot = (now_price + size_price + shot_price) * $('.count').val();
 			$('.price-total').text(tot);
 		})
 		
 		$('.plus').click(function() {
 			$('.count').val(parseInt($('.count').val()) + 1);
-			$('.price-total').text($('.count').val() * (prod_price + size_price + shot_price));
+			$('.price-total').text($('.count').val() * (now_price + size_price + shot_price));
 			console.log("hi : " + $('.count').val())
 		});
 		
@@ -206,13 +211,14 @@ input:checked + .slider {
 			if ($('.count').val() == 0) {
 				$('.count').val(1);
 			}
-			$('.price-total').text($('.count').val() * (prod_price + size_price + shot_price));
+			$('.price-total').text($('.count').val() * (now_price + size_price + shot_price));
 		});
 		
 		var $frm = $(".orderFrm");
 		$frm.on('submit', function(e) {
 			e.preventDefault();
 			$('#or_count').removeAttr('disabled');
+			$('#or_event').val((ev_price != 0)?((prod_price - ev_price)* $('#or_count').val()):0);
 			var myData = $frm.serialize();
 			
 			$.ajax({
@@ -256,7 +262,8 @@ input:checked + .slider {
 
 <body>
 		<div class="card">
-			<form class="orderFrm" action="orderDpProc.jsp">
+			<form class="orderFrm" action="orderModalProc.jsp">
+				<input type="hidden" name="or_event" id="or_event" />
 				<div class="row">
 					<aside class="col-sm-6 mx-auto my-auto">
 						<article class="gallery-wrap">
@@ -378,7 +385,7 @@ input:checked + .slider {
 								<input type="hidden" name="price" id="price" value="0"/>
 								<label class="price h5">Price</label>
 								<p class="price h3 text-right">
-									<span class="price-total"><%= prod_price %></span> 원 
+									<span class="price-total"><%= (ev_price != 0)?ev_price:prod_price %></span> 원 
 								</p>
 							</div>
 						</article>

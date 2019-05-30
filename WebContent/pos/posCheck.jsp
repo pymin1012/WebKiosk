@@ -42,7 +42,7 @@ $(function() {
 	$(".cbtn").click(function() {
 		var oh_tnum = $(this).data('oh-tnum');
 		var oh_date = $(this).data('oh-date');
-		var myData = "flag=check&oh_tnum=" + oh_tnum + "&oh_date=" + oh_date;
+		var myData = "flag=cancle&oh_tnum=" + oh_tnum + "&oh_date=" + oh_date;
 		
 		$.ajax({
 				type: "POST",
@@ -64,6 +64,8 @@ $(function() {
 			<h3 style="color:black">새로운 주문을 확인하세요!</h3>
 		</div>
 <%
+	int totalEvent = 0;
+
 	for (int i=0; i<ohlist.size(); i++) {
 	OrderHistoryBean vlbean = ohlist.get(i);
 %>
@@ -111,6 +113,7 @@ $(function() {
 			String or_hi = obean.getOr_hi();
 			if (or_size == null) or_size = "&nbsp;";
 			if (or_hi == null) or_hi = "&nbsp;";
+			totalEvent += obean.getOr_event();
 %>
 								
 								<li class="product-body">
@@ -150,9 +153,14 @@ $(function() {
 									<ul class="footer-item">
 										<li style="color: #d39e00">point</li>
 										<li style="color: #d39e00"><%=vlbean.getOh_point()%>p</li>
-										<li style="color: red">total</li>
-										<li style="color: red"><%=vlbean.getOh_total()%>원</li>
+										<li style="color: red">event</li>
+										<li style="color: red"><%= totalEvent %>원</li>
 									</ul>
+									
+									<ul class="footer-item">
+										<li style="color: black; width: 50%;">total</li>
+										<li style="color: black; width: 50%;"><%=vlbean.getOh_total()%>원</li>
+									</ul>			
 								</li>
 							</ul>							
 						</div>

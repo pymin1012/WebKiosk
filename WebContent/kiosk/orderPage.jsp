@@ -92,9 +92,10 @@
 										<section id="catalog">
 											<div class="row">
 <%
-	Vector<ProductBean> v = pMgr.getProductList(1);
+	Vector<ProductBean> v = pMgr.getEventProductList();
 	for (int i=0; i<v.size(); i++) {
 		ProductBean bean = v.get(i);
+		int ev_price = pMgr.getEventProductPrice(bean.getProd_num());
 %>
 												<div class="items col-md-3">
 													<a href="#" class="modal-button items-link" data-target="#productModal" data-product-id="<%= bean.getProd_num()%>">
@@ -116,8 +117,7 @@
 															<div class="product-info">
 																<span class="product-decription"><%= bean.getProd_name() %></span>
 																<div class="product-footer">
-																	<span class="product-price"><%= bean.getProd_price() %>
-																		원</span>
+																	<span class="product-price"><small style="text-decoration:line-through; color: red;"><%= bean.getProd_price() %></small>&nbsp;<%= ev_price  %> 원</span>
 																</div>
 															</div>
 														</div>
@@ -147,27 +147,40 @@
 		Vector<ProductBean> pvlist = pMgr.getProductList(cbean.getCtg_num());
 		for (int j=0; j<pvlist.size(); j++) {
 			ProductBean pbean = pvlist.get(j);
+			int prod_num = pbean.getProd_num();
+			boolean isEvent = pMgr.isEventProduct(prod_num);
 %>
 												<div class="items col-md-3">
 													<a href="#" class="modal-button items-link" data-target="#productModal" data-product-id="<%= pbean.getProd_num()%>">
-													<article class="product mt-3 mb-3" data-product-id="<%= pbean.getProd_num() %>">
+													<article class="product mt-3 mb-3" data-product-id="<%= prod_num %>">
 														<div class="product-wrapper">
 															<div class="product-img p-3">
 <% 
-	if (pbean.getProd_iimg() != null) {
+			if (pbean.getProd_iimg() != null) {
 %>
 																<img src="../menu_pic/<%= pbean.getProd_iimg() %>" style="width: 100%; height: auto;" alt="">
 <%
-	} else {
+			} else {
 %>
 																<img src="../menu_pic/<%= pbean.getProd_img() %>" style="width: 100%; height: auto;" alt="">
 <% 
-	}
+			}
 %>															</div>
 															<div class="product-info">
 																<span class="product-decription"><%= pbean.getProd_name() %></span>
 																<div class="product-footer">
+<% 
+			if (isEvent) {
+				int ev_price = pMgr.getEventProductPrice(prod_num);
+%>
+																	<span class="product-price"><small style="text-decoration:line-through; color: red;"><%= pbean.getProd_price() %></small>&nbsp;<%= ev_price  %> 원</span>
+<%
+			} else {
+%>												
 																	<span class="product-price"><%= pbean.getProd_price() %> 원</span>
+<% 
+			}
+%>
 																</div>
 															</div>
 														</div>
@@ -336,9 +349,7 @@
 					console.log(e.target);
 					console.log(e.relatedTarget);
 				});
-			});
-		
-		$(window).on('load', function() {
+				
 				/* 새로고침시 장바구니 불러오기 */
 				(function () {
 					<%

@@ -53,20 +53,20 @@
 			<tr>
 				<td align="center">상품유무</td>
 				<td align="left">
-					<input name="prod_so" size="10" value="<%=product.isProd_so()%>">
+					유<input type="radio" name="prod_so" size="10" value="true" <%= product.isProd_so() ? "checked":"" %>>
+				
+					무<input type="radio" name="prod_so" size="10" value="false" <%= product.isProd_so() ? "":"checked" %>>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">상품사진</td>
 				<td align="left">
-				<img src="../admin/<%=product.getProd_img()%>"><br/>
-				<input type="file" name="img"></td>
+				<input type="file" name="prod_img"></td>
 			</tr>
 			<tr>
-				<td align="center">상품사진</td>
+				<td align="center">상품사진ice</td>
 				<td align="left">
-				<img src="../admin/<%=product.getProd_iimg()%>"><br/>
-				<input type="file" name="iimg"></td>
+				<input type="file" name="prod_iimg"></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="submit" value="제품수정">&nbsp;&nbsp;&nbsp;

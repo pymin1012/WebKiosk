@@ -7,7 +7,7 @@ import kiosk.OrdersBean;
 public class BasketMgr {
 	//Integer=장바구니 번호
 	private LinkedHashMap<Integer, OrdersBean> basket = new LinkedHashMap<>();
-	private static int num = 0;
+	private int num = 0;
 	
 	//Cart Insert
 	public int addBasket(OrdersBean bean) {

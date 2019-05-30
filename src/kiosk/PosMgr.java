@@ -442,4 +442,120 @@ public class PosMgr {
 			pool.freeConnection(conn, pstmt);
 		}
 	}
+	
+	// 정산시 이벤트 확인
+	// 이벤트 상품인지 확인
+	public boolean isDayEventProduct(int prod_num, String date) {
+		boolean flag = false;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "select * from evento where prod_num = ? and ? >= ev_start AND ? <= ev_end";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			pstmt.setString(2, date);
+			pstmt.setString(3, date);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) { flag = true; }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+		
+		return flag;
+	}
+	
+	// 제품별 이벤트 할인 합계
+	public int getProductTotalEvent(int prod_num, String date) {
+		int totalEvent = 0;
+			
+		try {
+			conn = pool.getConnection();
+			sql ="select sum(or_event) from orders\r\n" + 
+					"where prod_num = ? and oh_tnum in (select oh_tnum from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			pstmt.setString(2, date);
+				
+			rs = pstmt.executeQuery();
+				
+			if (rs.next()) {
+				totalEvent = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+			
+		return totalEvent;
+	}
+	
+	// 이벤트 상품 가격 가져오기
+	public int getEventDayProductPrice(int prod_num, String date) {
+		int ev_price = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "SELECT ev_price FROM evento WHERE prod_num = ? AND ? >= ev_start AND ? <= ev_end;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, prod_num);
+			pstmt.setString(2, date);
+			pstmt.setString(3, date);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) { ev_price = rs.getInt(1); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return ev_price;
+	}
+	
+	//  월별 정산시 이벤트 할인 총금액
+	public int getMonEvent(String date) {
+		int event = 0;
+		
+		try {
+			conn = pool.getConnection();
+			sql = "SELECT SUM(or_event) FROM orders " + 
+					"WHERE oh_tnum IN (SELECT oh_tnum from orderhistory where oh_status = 3 and DATE_FORMAT(oh_date, '%Y-%m') = ?);";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) event = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return event;
+	}
+	
+	// 주문내역 사용된 event 가져오기
+	public int getDayEvent(String date) {
+		int event = 0;
+		try {
+			conn = pool.getConnection();
+			sql = "SELECT SUM(or_event) FROM orders " + 
+					"WHERE oh_tnum IN (SELECT oh_tnum from orderhistory where oh_status = 3 and date(oh_date) = date(?));";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, date);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) { event = rs.getInt(1); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(conn, pstmt, rs);
+		}
+
+		return event;
+	}
 }

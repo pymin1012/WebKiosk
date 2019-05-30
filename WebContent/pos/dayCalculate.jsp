@@ -85,6 +85,7 @@
 						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 							<%
 	int productByCount = 0;
+	int event = 0;
 
 	Vector<CategoryBean> clist = pMgr.getCategoryList();
 	
@@ -116,15 +117,33 @@
 			int prod_price = pbean.getProd_price();
 			int prod_num = pbean.getProd_num();
 			int totalCount = psMgr.getProductStatistics(prod_num, date);
+			int totalEvent = psMgr.getProductTotalEvent(prod_num, date);
 			productByCount += prod_price * totalCount;
+			event += totalEvent;
+			// 이벤트
+			boolean isEvent = psMgr.isDayEventProduct(prod_num, date);
 			
 %>
 								<tbody>
 									<tr>
-										<td><%=prod_name%></td>
+<%
+			if (isEvent) { 
+				int ev_price = psMgr.getEventDayProductPrice(prod_num, date);
+%>
+										<td><font color="red">[이벤트]</font>&nbsp;<%= prod_name%></td>
+										<td style="text-align:right"><small style="color:red; text-decoration:line-through;"><%=prod_price%></small><%=ev_price%> 원</td>
+										<td style="text-align:right"><%=totalCount %> 개</td>
+										<td style="text-align:right"><%=ev_price * totalCount %> 원</td>
+<% 
+			} else {
+%>	
+										<td><%= prod_name%></td>
 										<td style="text-align:right"><%=prod_price%> 원</td>
 										<td style="text-align:right"><%=totalCount %> 개</td>
 										<td style="text-align:right"><%=prod_price * totalCount %> 원</td>
+<% 
+			}
+%>
 									</tr>
 									<%}%>
 								</tbody>
@@ -166,7 +185,10 @@
 										<td style="width: 80%"><font size="5px" style="color: blue">총 사용된 Point</font></td>
 										<td style="width: 20%; text-align: right;"><%=point %> 점</td>
 									</tr>
-
+									<tr>
+										<td style="width: 80%"><font size="5px" style="color: blue">총 이벤트 차감액</font></td>
+										<td style="width: 20%; text-align: right;"><%=event %> 원</td>
+									</tr>
 									<tr>
 										<td style="width: 80%"><font size="5px" style="color: RED">순이익</font></td>
 										<td style="width: 20%; text-align: right; color: RED"><%=total%> 원</td>
