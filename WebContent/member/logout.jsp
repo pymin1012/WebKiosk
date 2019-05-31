@@ -12,8 +12,13 @@
 		<span style="margin-right: 30px"><%= bean.getMb_name() %> 님 환영합니다.</span>
 		<span style="margin-right: 30px"><%= bean.getMb_point() %> 점</span>
 		<a id="orderHistory" href="/WebKiosk/member/orderHistory.jsp" style="margin-right: 30px;">주문내역</a>
-		<a href="/WebKiosk/member/loginOutProc.jsp" style="color:red">로그아웃</a>
+		<a href="javascript:logout()" style="color:red">로그아웃</a>
 	</div>
 <%
 	}
 %>
+<script>
+	function logout() {
+		location.replace("../member/loginOutProc.jsp");
+	}
+</script>

@@ -1,0 +1,84 @@
+DROP TABLE ORDERS;
+DROP TABLE ORDERHISTORY;
+DROP TABLE EVENTO;
+DROP TABLE PRODUCT;
+DROP TABLE CATEGORY;
+DROP TABLE MEMBER;
+DROP TABLE ORDERNUM;
+
+CREATE TABLE Member(
+	mb_num		INT(8) AUTO_INCREMENT,
+	mb_phone 	VARCHAR(30) NOT NULL,
+	mb_name		VARCHAR(50) NOT NULL,
+	mb_pwd		INT(4) NOT NULL,
+	mb_point		INT(8) DEFAULT 0,
+	PRIMARY KEY (mb_num)
+) DEFAULT CHARACTER SET utf8 COLLATE UTF8_GENERAL_CI;
+
+ALTER TABLE Member AUTO_INCREMENT=20190001;
+
+CREATE TABLE Category(
+	ctg_num		INT(2) AUTO_INCREMENT,
+	ctg_name		VARCHAR(50) NOT NULL,
+	PRIMARY KEY (ctg_num)
+) DEFAULT CHARACTER SET utf8 COLLATE UTF8_GENERAL_CI;
+
+CREATE TABLE Product(
+	prod_num		INT(6) AUTO_INCREMENT,
+	prod_name  	VARCHAR(50) NOT NULL,
+	prod_img   	VARCHAR(50),
+	prod_iimg   VARCHAR(50),
+	ctg_num	 	INT(2) NOT NULL,
+	prod_price 	INT(6) NOT NULL,
+	prod_kcal  	INT(4),
+	prod_coo 	VARCHAR(50),
+	prod_so		BOOLEAN DEFAULT false,
+	PRIMARY KEY (prod_num),
+	FOREIGN KEY (ctg_num) REFERENCES Category(ctg_num) ON DELETE CASCADE
+) DEFAULT CHARACTER SET utf8 COLLATE UTF8_GENERAL_CI;
+
+ALTER TABLE Product AUTO_INCREMENT=100001;
+
+CREATE TABLE Evento(
+	ev_num		INT(4) AUTO_INCREMENT,
+	ev_name		VARCHAR(50) NOT NULL,
+	ev_start		DATE NOT NULL,
+	ev_end		DATE NOT NULL,
+	prod_num		INT(6) NOT NULL,
+	ev_price		INT(6) NOT NULL,
+	PRIMARY KEY (ev_num),
+	FOREIGN KEY (prod_num) REFERENCES Product(prod_num) ON DELETE CASCADE
+) DEFAULT CHARACTER SET utf8 COLLATE UTF8_GENERAL_CI;
+
+CREATE TABLE OrderHistory(
+	oh_tnum		INT(6) AUTO_INCREMENT,
+	oh_date		DATETIME NOT NULL,
+	oh_num		INT(4) NOT NULL,
+	oh_status	INT(1) NOT NULL,
+	mb_num		INT(8) NOT NULL,
+	oh_io			ENUM('IN', 'OUT'),
+	oh_comment	VARCHAR(300),
+	oh_point		INT(8) DEFAULT 0,
+	oh_total		INT(8) NOT NULL,
+	PRIMARY KEY (oh_tnum),
+	FOREIGN KEY (mb_num) REFERENCES Member(mb_num)
+) DEFAULT CHARACTER SET utf8 COLLATE UTF8_GENERAL_CI;
+
+CREATE TABLE Orders(
+	oh_tnum		INT(6) NOT NULL,
+	or_basket 	INT(2) NOT NULL,
+	prod_num 	INT(6) NOT NULL,
+	or_size		ENUM( 'T', 'G', 'V'),
+	or_count		INT(2) NOT NULL,
+	or_shot		INT(1),
+	or_whip		BOOLEAN,
+	or_hi			ENUM('HOT', 'ICE'),
+	or_event		INT(8) DEFAULT 0,
+	PRIMARY KEY (oh_tnum, or_basket),
+	FOREIGN KEY (oh_tnum) REFERENCES OrderHistory(oh_tnum),
+	FOREIGN KEY (prod_num) REFERENCES Product(prod_num)
+) DEFAULT CHARACTER SET utf8 COLLATE UTF8_GENERAL_CI;
+
+CREATE TABLE OrderNum(
+	num			INT(4) AUTO_INCREMENT PRIMARY KEY
+) AUTO_INCREMENT = 1 DEFAULT CHARACTER SET utf8 COLLATE UTF8_GENERAL_CI;

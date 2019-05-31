@@ -22,7 +22,7 @@
 	});
 	
 	function toLogin(oh_io) {
-		location.href = "member/login.jsp?oh_io=" + oh_io;
+		location.replace("member/login.jsp?oh_io=" + oh_io);
 	}
 </script>
 <style>
