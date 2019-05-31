@@ -21,6 +21,7 @@
 
 <title>상품주문</title>
 
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -28,6 +29,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css" />
+
 <script>
 	var fns = {changeCart:'', addToCard:''}, productData = {id:'', img:'', decription:'', price:'', count: '', size: '', shot: '', whipping: ''}, productCounter = 0;
 	
@@ -221,9 +223,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	
-	<script>
+	<script>	
 		$(document).ready(
-			function() {
+			function() {			
 				var cartCounter = 0, cartTotal = 0, timer = '';	
 
 				fns.initData = function() {
@@ -303,7 +305,7 @@
 				
 				$(document).on('click', '.order', function(e) {
 					if (cartCounter != 0) {
-				        location.href = 'payment.jsp';
+				        location.replace("payment.jsp");
 					} else {
 						alert('장바구니가 비어있습니다!');
 					}
@@ -355,27 +357,38 @@
 					<%
 						for(int key: blist.keySet()) {
 							OrdersBean obean = blist.get(key);
-							ProductBean pbean = pMgr.getProduct(obean.getProd_num());
+							int prod_num = obean.getProd_num();
+							ProductBean pbean = pMgr.getProduct(prod_num);
 							int ctg_num = pbean.getCtg_num();
 							String prod_img = "";
 							if (obean.getOr_hi() != null && obean.getOr_hi().equals("ICE")) prod_img = pbean.getProd_iimg();
 							else prod_img = pbean.getProd_img();
+							
+							boolean isEvent = pMgr.isEventProduct(prod_num);
+							int prod_price = 0;
+							int or_shot = obean.getOr_shot();
+							String or_size = obean.getOr_size();
+							int size_price = 0;
+							if (or_size != null && or_size.equals("G")) size_price = 500;
+							else if (or_size != null && or_size.equals("V")) size_price = 1000;
+							if (isEvent)  prod_price = pMgr.getEventProductPrice(prod_num) + or_shot * 500 + size_price;
+							else prod_price = pbean.getProd_price() + or_shot * 500 + size_price;
 					%>
-					console.log('<%=obean.getOr_hi()%>');
 										productData.img = '../menu_pic/<%= prod_img %>';
 										productData.id = '<%= obean.getProd_num() %>';
 										productData.decription = '<%= pbean.getProd_name() %>';
 										productData.count = <%= obean.getOr_count() %>;
-										productData.price = <%= pbean.getProd_price() %> * productData.count;
+										productData.price = <%= prod_price %> * productData.count;
+										console.log(productData.price);
 					<%
 							if (ctg_num != 4) {
 					%>
-										productData.size = '<%= obean.getOr_size() %>';
+										productData.size = '<%= or_size %>';
 					<%
 							}
 							if (ctg_num == 1) {
 					%>
-										productData.shot = <%= obean.getOr_shot() %>;
+										productData.shot = <%= or_shot %>;
 										productData.whipping = '<%= obean.isOr_whip()?"휘핑 추가":"휘핑 없음" %>';
 					<%
 							}
