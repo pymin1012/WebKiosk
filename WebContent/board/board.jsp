@@ -46,7 +46,7 @@
 			}
 		};
 				
-		xhttp.open("POST", "http://localhost/WebKiosk/board/boardAjax.jsp", true);
+		xhttp.open("POST", "http://" + location.host + "/WebKiosk/board/boardAjax.jsp", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	    xhttp.send(null);
     }

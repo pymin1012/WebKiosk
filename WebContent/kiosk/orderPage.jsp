@@ -296,11 +296,6 @@
 					});
 				});
 				
-				
-				fns.order = function() {
-					
-				}
-				
 				$(document).on('click', '.order', function(e) {
 					if (cartCounter != 0) {
 				        location.href = 'payment.jsp';

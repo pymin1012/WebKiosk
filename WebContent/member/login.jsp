@@ -35,8 +35,26 @@
 			document.loginFrm.mb_pwd.focus();
 			return;
 		}
-
+		
 		document.loginFrm.submit();
+	}
+	
+	function press() { 
+		if (event.keyCode == 13) { 
+			if (document.loginFrm.mb_phone.value == "") {
+				alert("전화번호를 입력하세요.");
+				document.loginFrm.mb_phone.focus();
+				return;
+			}
+
+			if (document.loginFrm.mb_pwd.value == "") {
+				alert("비밀번호를 입력하세요.");
+				document.loginFrm.mb_pwd.focus();
+				return;
+			}
+			
+			document.loginFrm.submit(); 
+		}
 	}
 	
 </script>
@@ -71,7 +89,7 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="mb_pwd" class="form-control input_pass" value="" placeholder="password" maxlength="4">
+							<input type="password" name="mb_pwd" class="form-control input_pass" value="" placeholder="password" maxlength="4" onkeypress="javascript:press()">
 						</div>
 					</form>
 				</div>

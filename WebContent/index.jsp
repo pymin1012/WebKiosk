@@ -22,7 +22,7 @@
 	});
 	
 	function toLogin(oh_io) {
-		location.href = "member/login.jsp?oh_io=" + oh_io;
+		location.replace("member/login.jsp?oh_io=" + oh_io);
 	}
 </script>
 <style>
@@ -88,12 +88,12 @@ body, html {
 						<form class="form-horizontal well" role="form">
 							<div class="row">
 								<div class="col-xs-6 text-center">
-									<a href="member/login.jsp?oh_io=in"><img src="pic/in2.png" class="img-responsive img-radio"></a>
+									<a href="javascript:toLogin('IN')"><img src="pic/in2.png" class="img-responsive img-radio"></a>
 									<button type="button" class="btn btn-radio" onclick="javascript:toLogin('IN')">매&nbsp;&nbsp;&nbsp;장</button>
 									<input type="checkbox" id="left-item" class="hidden">
 								</div>
 								<div class="col-xs-6 text-center">
-									<a href="member/login.jsp?oh_io=out"><img src="pic/out2.png" class="img-responsive img-radio"></a>
+									<a href="javascript:toLogin('OUT')"><img src="pic/out2.png" class="img-responsive img-radio"></a>
 									<button type="button" class="btn btn-radio" onclick="javascript:toLogin('OUT')">포&nbsp;&nbsp;&nbsp;장</button>
 									<input type="checkbox" id="right-item" class="hidden">
 								</div>

@@ -10,7 +10,13 @@
 %>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script>
+	history.pushState(null, null, location.href);
 
+	window.onpopstate = function(event) {	
+		history.go(1);
+	}
+</script>
 <style>
 .h1 {
 	background-color: white;

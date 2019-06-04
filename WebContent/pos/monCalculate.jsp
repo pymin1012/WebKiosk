@@ -107,7 +107,7 @@
 			int day_point = psMgr.getDayPoint(date + "-" + i);
 			int day_total = psMgr.getDayTotal(date + "-" + i);
 			int day_event = psMgr.getDayEvent(date + "-" + i);
-			int sales_amount = day_point + day_total;
+			int sales_amount = day_point + day_total + day_event;
 %>
 								<tbody>
 									<tr>
