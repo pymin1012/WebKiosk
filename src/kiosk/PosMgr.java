@@ -185,6 +185,22 @@ public class PosMgr {
 			pstmt.setInt(1, oh_tnum);
 			
 			pstmt.executeUpdate();
+			
+			// 포인트 반환
+			sql = "select mb_num, oh_point from orderhistory where oh_tnum = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oh_tnum);
+			rs = pstmt.executeQuery();
+			rs.next();
+			int oh_point = rs.getInt("oh_point");
+			int mb_num = rs.getInt("mb_num");
+						
+			sql = "update member set mb_point = mb_point + ? where mb_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, oh_point);
+			pstmt.setInt(2, mb_num);
+			pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

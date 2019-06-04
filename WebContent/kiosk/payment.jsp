@@ -26,7 +26,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	<script>
 		function deleteBasket(flag) {
-			location.href = "paymentDeleteProc.jsp?flag=" + flag;
+			location.replace("paymentDeleteProc.jsp?flag=" + flag);
 		}
 		
 		function pay() {
@@ -34,7 +34,7 @@
 		}
 		
 		function previous_page() {
-			location.href = document.referrer;
+			location.replace("orderPage.jsp");
 		}
 	</script>
 </head>
