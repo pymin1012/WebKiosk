@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%
 	session.invalidate();
 	response.setHeader("Cache-Control", "no-store");
@@ -9,6 +9,6 @@
 %>
 
 <script>
-    alert("·Î±×¾Æ¿ô µÇ¾ú½À´Ï´Ù.");
+    alert("ë¡œê·¸ì•„ì›ƒ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	location.replace("../index.jsp");
 </script>

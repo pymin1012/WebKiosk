@@ -3,12 +3,10 @@
 <%@page import="java.util.Vector"%>
 <%@page import="org.json.simple.JSONObject"%>
 <%@page import="kiosk.OrderHistoryBean"%>
-<%@ page contentType="text/html; charset=EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <jsp:useBean id="psMgr" class="kiosk.PosMgr" />
 <jsp:useBean id="kMgr" class="kiosk.KioskMgr" />
 <jsp:useBean id="pMgr" class="kiosk.ProductMgr" />
-
-<link rel="stylesheet" href="style2.css" />
 
 <%
 	int oh_tnum = Integer.parseInt(request.getParameter("oh_tnum"));
@@ -18,6 +16,8 @@
 	int totalEvent = 0;
 %>
 
+<link rel="stylesheet" href="style2.css" />
+
 <div class="container w-100">
 	<div class="row">
 		<div class="col-12">
@@ -26,10 +26,10 @@
 					<ul class="topics-table">
 						<li class="topics-header">
 							<ul class="header-titles" style="color: blue">
-								<li>ÁÖ¹®¹øÈ£</li>
-								<li>°í°´¹øÈ£</li>
-								<li>Àå¼Ò</li>
-								<li style="width: 40%;">ÁÖ¹®³¯Â¥</li>
+								<li>ì£¼ë¬¸ë²ˆí˜¸</li>
+								<li>ê³ ê°ë²ˆí˜¸</li>
+								<li>ìž¥ì†Œ</li>
+								<li style="width: 40%;">ì£¼ë¬¸ë‚ ì§œ</li>
 							</ul>
 						</li>
 
@@ -45,11 +45,11 @@
 						<li class="product-header">
 							<ul class="product-titles" style="color: Blueviolet">
 								<li>No.</li>
-								<li style="width: 35%">»óÇ°</li>
-								<li>¼ö·®</li>
-								<li>»çÀÌÁî</li>
-								<li>¼¦</li>
-								<li>ÈÖÇÎ</li>
+								<li style="width: 35%">ìƒí’ˆ</li>
+								<li>ìˆ˜ëŸ‰</li>
+								<li>ì‚¬ì´ì¦ˆ</li>
+								<li>ìƒ·</li>
+								<li>íœ˜í•‘</li>
 								<li style="width: 15%">HOT/ICE</li>
 							</ul>
 						</li>
@@ -82,7 +82,7 @@
 			} else {
 %>
 								<li><%=obean.getOr_shot()%></li>
-								<li><%=obean.isOr_whip()?"Ãß°¡":"¾øÀ½"%></li>
+								<li><%=obean.isOr_whip()?"ì¶”ê°€":"ì—†ìŒ"%></li>
 								<%
 			}
 %>
@@ -105,12 +105,12 @@
 								<li style="color: #d39e00">point</li>
 								<li style="color: #d39e00"><%=ohBean.getOh_point()%>p</li>
 								<li style="color: red">event</li>
-								<li style="color: red"><%= totalEvent %>¿ø</li>
+								<li style="color: red"><%= totalEvent %>ì›</li>
 							</ul>
 									
 							<ul class="footer-item">
 								<li style="color: black; width: 50%;">total</li>
-								<li style="color: black; width: 50%;"><%=ohBean.getOh_total()%>¿ø</li>
+								<li style="color: black; width: 50%;"><%=ohBean.getOh_total()%>ì›</li>
 							</ul>	
 						</li>
 					</ul>
@@ -118,7 +118,7 @@
 				<div class="check-button col-12 mb-3">
 					<div class="d-flex justify-content-end">
 						<div>
-							<button class="btn btn-warning" data-dismiss="modal">ÀÌÀü</button>
+							<button class="btn btn-warning" data-dismiss="modal">ì´ì „</button>
 						</div>
 					</div>
 				</div>

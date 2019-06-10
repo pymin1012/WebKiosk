@@ -21,7 +21,7 @@ public class MemberMgr {
 		boolean flag=false;
 		try {
 			conn = pool.getConnection();
-			sql = "insert Member(mb_num,mb_phone,mb_name,mb_pwd,mb_point)"+"values(?,?,?,?,?)";
+			sql = "insert Member(mb_num, mb_phone, mb_name, mb_pwd, mb_point) values(?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bean.getMb_num());
 			pstmt.setString(2, bean.getMb_phone());
@@ -101,7 +101,7 @@ public class MemberMgr {
 	public void updatePoint(int mb_num, int mb_point) {
 		try {
 			conn = pool.getConnection();
-			sql = "update member set mb_point = mb_point + ? where mb_num=?";
+			sql = "update member set mb_point = mb_point + ? where mb_num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, mb_point);
 			pstmt.setInt(2, mb_num);
@@ -112,7 +112,6 @@ public class MemberMgr {
 			pool.freeConnection(conn, pstmt);
 		}
 	}
-	
 	
 	/* orderHistory.jsp 주문내역 페이지 */
 	// 주문내역 총 갯수

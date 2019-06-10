@@ -2,15 +2,17 @@
 
 <!DOCTYPE html>
 <html>
-    
 <head>
-	<title>My Awesome Sing Up Page</title>
-	<link rel="stylesheet" href="../css/style2.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>Blue Bubble Sing Up Page</title>
+	
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 </head>
 
 <body>
@@ -49,41 +51,13 @@
 			</div>
 		</div>
 	</div>
-</body>
 
 <script>
-	function autoHypenPhone(str) {
-		str = str.replace(/[^0-9]/g, '');
-		var tmp = '';
-		if (str.length < 4) {
-			return str;
-		} else if (str.length < 7) {
-			tmp += str.substr(0, 3);
-			tmp += '-';
-			tmp += str.substr(3);
-			return tmp;
-		} else if (str.length < 11) {
-			tmp += str.substr(0, 3);
-			tmp += '-';
-			tmp += str.substr(3, 3);
-			tmp += '-';
-			tmp += str.substr(6);
-			return tmp;
-		} else {
-			tmp += str.substr(0, 3);
-			tmp += '-';
-			tmp += str.substr(3, 4);
-			tmp += '-';
-			tmp += str.substr(7);
-			return tmp;
-		}
-		return str;
-	}
-
 	document.getElementById("phone").onkeyup = function(event) {
 		event = event || window.event;
 		var _val = this.value.trim();
 		this.value = autoHypenPhone(_val);
 	}
 </script>
+</body>
 </html>

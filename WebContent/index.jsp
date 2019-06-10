@@ -1,13 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%
-		request.setCharacterEncoding("UTF-8");
-%>
 
 <html>
 <head>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<title>Blue Bubble에 오신 것을 환영합니다.</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 	$(function() {
 		$('.btn-radio').click(
@@ -22,7 +23,7 @@
 	});
 	
 	function toLogin(oh_io) {
-		location.replace("member/login.jsp?oh_io=" + oh_io);
+		location.href = "member/login.jsp?oh_io=" + oh_io;
 	}
 </script>
 <style>
@@ -74,31 +75,25 @@ body, html {
 
 </style>
 </head>
-<body >
 
-	<div class="container h-100" style="width:850px;">
+<body>
+	<div class="container d-flex flex-column h-100">
 		<jsp:include page="member/logout.jsp" />
-		<div class="d-flex justify-content-center h-100" style="margin-top:60px;">
-			<div class="main_title">
-				<img src="pic/bb2.png" class="img-responsive img-radio">
-			</div>
-			<div class="main_button mx-auto">
-				<div class="row">
-					<div class="col-md-12">
-						<form class="form-horizontal well" role="form">
-							<div class="row">
-								<div class="col-xs-6 text-center">
-									<a href="javascript:toLogin('IN')"><img src="pic/in2.png" class="img-responsive img-radio"></a>
-									<button type="button" class="btn btn-radio" onclick="javascript:toLogin('IN')">매&nbsp;&nbsp;&nbsp;장</button>
-									<input type="checkbox" id="left-item" class="hidden">
-								</div>
-								<div class="col-xs-6 text-center">
-									<a href="javascript:toLogin('OUT')"><img src="pic/out2.png" class="img-responsive img-radio"></a>
-									<button type="button" class="btn btn-radio" onclick="javascript:toLogin('OUT')">포&nbsp;&nbsp;&nbsp;장</button>
-									<input type="checkbox" id="right-item" class="hidden">
-								</div>
-							</div>
-						</form>
+		<div class="d-flex justify-content-center align-items-center h-100">
+			<div>
+				<div class="main_title">
+					<img src="pic/bb2.png" class="img-responsive img-radio">
+				</div>
+				<div class="main_button mx-auto mt-5">
+					<div class="row">
+						<div class="col-md-6 col-6 text-center">
+							<a href="javascript:toLogin('IN')"><img src="pic/in2.png" class="img-responsive img-radio"></a>
+							<button type="button" class="btn btn-radio" onclick="javascript:toLogin('IN')">매&nbsp;&nbsp;&nbsp;장</button>
+						</div>
+						<div class="col-md-6 col-6 text-center">
+							<a href="javascript:toLogin('OUT')"><img src="pic/out2.png" class="img-responsive img-radio"></a>
+							<button type="button" class="btn btn-radio" onclick="javascript:toLogin('OUT')">포&nbsp;&nbsp;&nbsp;장</button>
+						</div>
 					</div>
 				</div>
 			</div>

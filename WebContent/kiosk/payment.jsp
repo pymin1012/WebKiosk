@@ -20,23 +20,25 @@
 
 <html>
 <head>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-	<script>
-		function deleteBasket(flag) {
-			location.replace("paymentDeleteProc.jsp?flag=" + flag);
-		}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+	
+<script>
+	function deleteBasket(flag) {
+		location.replace("paymentDeleteProc.jsp?flag=" + flag);
+	}
 		
-		function pay() {
-			document.payFrm.submit();
-		}
+	function pay() {
+		document.payFrm.submit();
+	}
 		
-		function previous_page() {
-			location.replace("orderPage.jsp");
-		}
-	</script>
+	function previous_page() {
+		history.back(-1);
+	}
+</script>
 </head>
 
 <body>
@@ -211,7 +213,7 @@
 			</div>
 		</div>
 	</div>
-</body>
+	
 <script>
 	var fp = document.getElementById("oh_point");
 	var sp = document.getElementById("minus_point");
@@ -257,4 +259,5 @@
 		}
 	}
 </script>
+</body>
 </html>

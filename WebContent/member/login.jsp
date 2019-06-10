@@ -10,59 +10,25 @@
 		mb_num = ((Integer)(session.getAttribute("mb_num"))).intValue();
 	}
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Awesome Login Page</title>
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript">
+<title>Blue Bubble Login Page</title>
 
-	function login() {
-		if (document.loginFrm.mb_phone.value == "") {
-			alert("전화번호를 입력하세요.");
-			document.loginFrm.mb_phone.focus();
-			return;
-		}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
-		if (document.loginFrm.mb_pwd.value == "") {
-			alert("비밀번호를 입력하세요.");
-			document.loginFrm.mb_pwd.focus();
-			return;
-		}
-		
-		document.loginFrm.submit();
-	}
-	
-	function press() { 
-		if (event.keyCode == 13) { 
-			if (document.loginFrm.mb_phone.value == "") {
-				alert("전화번호를 입력하세요.");
-				document.loginFrm.mb_phone.focus();
-				return;
-			}
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
 
-			if (document.loginFrm.mb_pwd.value == "") {
-				alert("비밀번호를 입력하세요.");
-				document.loginFrm.mb_pwd.focus();
-				return;
-			}
-			
-			document.loginFrm.submit(); 
-		}
-	}
-	
-</script>
 </head>
 	
 <body>
 <%
-
 	if (mb_num != 0) {
 %>
 <script>location.href = "/WebKiosk/kiosk/orderPage.jsp";</script>
@@ -107,41 +73,13 @@
 <%
 	}
 %>
-</body>
 
 <script>
-	function autoHypenPhone(str) {
-		str = str.replace(/[^0-9]/g, '');
-		var tmp = '';
-		if (str.length < 4) {
-			return str;
-		} else if (str.length < 7) {
-			tmp += str.substr(0, 3);
-			tmp += '-';
-			tmp += str.substr(3);
-			return tmp;
-		} else if (str.length < 11) {
-			tmp += str.substr(0, 3);
-			tmp += '-';
-			tmp += str.substr(3, 3);
-			tmp += '-';
-			tmp += str.substr(6);
-			return tmp;
-		} else {
-			tmp += str.substr(0, 3);
-			tmp += '-';
-			tmp += str.substr(3, 4);
-			tmp += '-';
-			tmp += str.substr(7);
-			return tmp;
-		}
-		return str;
-	}
-
 	document.getElementById("mb_phone").onkeyup = function(event) {
 		event = event || window.event;
 		var _val = this.value.trim();
 		this.value = autoHypenPhone(_val);
 	}
 </script>
+</body>
 </html>

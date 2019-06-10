@@ -51,22 +51,18 @@
 		onMessage(event)
 	};
 
-
 	function onMessage(event) {
 		var oh_num = event.data;
 		alert('결제가 완료되었습니다.');
 		location.href = "orderHistoryPage.jsp?oh_num=" + oh_num;
 	}
 
-
 	function onOpen(event) {
 		var message = { "type": 1 };
 		webSocket.send(JSON.stringify(message));
 	}
 
-
 	function onError(event) {
 		alert(event.data);
 	}
-	
 </script>

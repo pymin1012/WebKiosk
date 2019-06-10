@@ -32,6 +32,7 @@
 
 <html>
 <head>
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -39,23 +40,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
-<script>
-$(function(){
-	$('#orderHistoryModal').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget); 
-		var oh_tnum = button.data('oh-tnum');
-		var modal = $(this);
-		modal.find('.modal-content').load('orderHistoryModal.jsp?oh_tnum=' + oh_tnum);
-	});
-});
-
-function paging(page) {
-	document.readFrm.nowPage.value = page;
-	document.readFrm.submit();
-}
-</script>
-
+<script src="script.js"></script>
 <style>
+html {
+	font-size:1rem;
+}
+
 .modal {
 	text-align: center;
 	padding: 0!important;
@@ -78,14 +68,18 @@ function paging(page) {
 	z-index: 11;
 	padding: 10px;
 }
+
+#orderHistory {
+	color:black;
+}
 </style>
 </head>
+
 <body>
 	<div class="container">
+		<jsp:include page="logout.jsp" />
 		<div class="row">
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
-				<jsp:include page="logout.jsp" />
+			<div class="col-md-12">
 				<div class="panel panel-primary mt-3">
 					<div class="panel-heading">
 						<span class="glyphicon glyphicon-list"></span>&nbsp;주문내역
@@ -194,5 +188,6 @@ function paging(page) {
 			<div class="modal-content">
 			</div>
 		</div>
-	</div></body>
+	</div>
+</body>
 </html>

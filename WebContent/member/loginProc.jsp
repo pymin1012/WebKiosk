@@ -16,6 +16,6 @@
 %>
 <script>
 	alert("<%=msg%>");
-	location.href = "<%=url%>";
+	location.replace("<%=url%>");
 </script>
 
