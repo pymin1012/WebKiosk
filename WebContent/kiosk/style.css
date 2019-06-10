@@ -2,6 +2,11 @@
 /* **************************************************************************** */
 /* **************************************************************************** */
 /* »ó´Ü ÅÇ */
+html, body {
+	height: 100%;
+	background: #1B467C;
+}
+
 section .title {
 	background: #1B467C;
 	background-clip: content-box;
@@ -120,7 +125,6 @@ a:visited {
 	position: relative;
 	overflow-x: hidden;
 	width: 100%;
-	min-height: 75vh;
 }
 
 #cart {

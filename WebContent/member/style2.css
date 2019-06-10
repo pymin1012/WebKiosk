@@ -1,12 +1,11 @@
-:root {
+/*************************************/
+/* orderHistoryModal.jsp */
+/*************************************/
+.check-table {
 	--teal-color: #24A9A7;
 	--purple-color: #9E41CC;
-}
-
-body {
-    background-color: #fff;
-    color: var(--teal-color);
-    font-size: 15px;
+	font-size: 15px;
+	color: var(--teal-color);
 }
 
 ul {

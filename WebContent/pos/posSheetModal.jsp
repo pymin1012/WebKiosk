@@ -9,7 +9,6 @@
 <jsp:useBean id="pMgr" class="kiosk.ProductMgr" />
 
 <link rel="stylesheet" href="style2.css" />
-
 <%
 	int oh_tnum = Integer.parseInt(request.getParameter("oh_tnum"));
 	OrderHistoryBean ohBean = psMgr.getOrderHistory(oh_tnum);
