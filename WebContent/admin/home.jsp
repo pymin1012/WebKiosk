@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=EUC-KR"%>
 <html>
 <head>
-<title>Simple Shopping Mall Admin</title>
+<title>Blue Bubble Admin</title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 </head>
 <body bgcolor="#996600" topmargin="100">

@@ -76,7 +76,7 @@
 						<td><b> 원산지: </b><%=product.getProd_coo()%></td>
 					</tr>
 					<tr>
-						<td><b> 상품 유무: </b><%=product.isProd_so()%></td>
+						<td><b> 품절 유무: </b><%=product.isProd_so()%></td>
 					</tr>
 				</table>
 				</td>

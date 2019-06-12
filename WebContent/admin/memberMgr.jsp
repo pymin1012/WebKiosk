@@ -3,7 +3,7 @@
 <jsp:useBean id="aMgr" class="admin.AdminMgr" />
 <html>
 <head>
-<title>Simple Shopping Mall Admin</title>
+<title>Blue Bubble Admin</title>
 <link href="../style.css" rel="stylesheet" type="text/css">
 <script>
 function update(id){
