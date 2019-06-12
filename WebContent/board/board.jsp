@@ -19,6 +19,7 @@
     webSocket.onerror = function(event) { onError(event) };
     webSocket.onopen = function(event) { onOpen(event) };
     webSocket.onmessage = function(event) { onMessage(event)};
+	var audio = new Audio('dingdong.mp3');
     
     function onMessage(event) {
 		var flag = event.data;
@@ -26,7 +27,9 @@
 			showBoard();
 		}
 		else if (flag == 'ready') {
-			showBaord();
+			showBoard();
+			audio.play();
+			setTimeout(function() { audio.play() }, 3000);
 		}
     }
     

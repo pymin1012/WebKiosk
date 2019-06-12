@@ -97,7 +97,7 @@
 														<a href="javascript:soldout()" class="items-link" data-product-id="<%= bean.getProd_num()%>">
 															<article class="product mt-3 mb-3">
 																<div class="product-wrapper">
-																	<div class="product-img p-3">
+																	<div class="product-img p-3" style="opacity: 0.3">
 <% 
 			if (bean.getProd_iimg() != null) {
 %>
@@ -180,7 +180,7 @@
 														<a href="javascript:soldout()" class="items-link" data-product-id="<%= pbean.getProd_num()%>">
 															<article class="product mt-3 mb-3" data-product-id="<%= prod_num %>">
 																<div class="product-wrapper">
-																	<div class="product-img p-3">
+																	<div class="product-img p-3" style="opacity: 0.3">
 <% 
 				if (pbean.getProd_iimg() != null) {
 %>

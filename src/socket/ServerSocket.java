@@ -84,6 +84,7 @@ public class ServerSocket {
                 }
             }
     	}
+    	
     	// From Pos To Board (Accept, Cancle)
     	else if (type == 2) {
     		synchronized(board) {
@@ -93,6 +94,7 @@ public class ServerSocket {
                 }
             }
     	}
+    	
     	// From Pos To Board (Order Ready)
     	else if (type == 3) {
     		synchronized(board) {

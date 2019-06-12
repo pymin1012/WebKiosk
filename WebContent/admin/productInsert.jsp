@@ -42,10 +42,10 @@
 							<td align="left"><input name="prod_coo" size="20"></td>
 						</tr>
 						<tr>
-							<td align="center">상품유무</td>
+							<td align="center">품절유무</td>
 							<td align="left">
-								유<input type="radio" name="prod_so" size="10" value="true" >
-								무<input type="radio" name="prod_so" size="10" value="false" >
+								유<input type="radio" name="prod_so" size="10" value="false" >
+								무<input type="radio" name="prod_so" size="10" value="true" >
 							</td>
 						</tr>
 						<tr>

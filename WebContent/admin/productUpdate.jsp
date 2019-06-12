@@ -51,11 +51,10 @@
 			</tr>
 			
 			<tr>
-				<td align="center">상품유무</td>
+				<td align="center">품절 유무</td>
 				<td align="left">
-					유<input type="radio" name="prod_so" size="10" value="true" <%= product.isProd_so() ? "checked":"" %>>
-				
-					무<input type="radio" name="prod_so" size="10" value="false" <%= product.isProd_so() ? "":"checked" %>>
+					유<input type="radio" name="prod_so" size="10" value="false" <%= product.isProd_so() ? "checked":"" %>>
+					무<input type="radio" name="prod_so" size="10" value="true" <%= product.isProd_so() ? "":"checked" %>>
 				</td>
 			</tr>
 			<tr>

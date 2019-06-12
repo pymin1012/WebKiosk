@@ -150,7 +150,10 @@
 				data: myData,
 
 				success: function(res) {
-					window.parent.sendMessage();
+					if (flag == "ready") {
+						window.parent.sendReady()
+					}
+					else window.parent.sendMessage();
 					location.reload();
 				}
 			});
