@@ -28,6 +28,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
 <link rel="stylesheet" href="style.css" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <script>
 	window.onpageshow = function(event) {
 		if (event.persisted || (window.performance && window.performance.navigation.type == 2)) {
@@ -36,7 +38,7 @@
 	}
 	
 	function soldout() {
-		alert("품절된 상품입니다.");
+		swal({title:"품절된 상품입니다.", icon:"warning"});
 	}
 </script>
 </head>

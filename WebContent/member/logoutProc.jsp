@@ -8,7 +8,15 @@
 		response.setHeader("Cache-Control", "no-cache");
 %>
 
+<html>
+<head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
 <script>
-    alert("로그아웃 되었습니다.");
-	location.replace("../index.jsp");
+	swal({title: "로그아웃 되었습니다.", icon: "warning", timer: 2000}).then(function() {
+		location.replace("../index.jsp");
+	});
 </script>
+</body>
+</html>

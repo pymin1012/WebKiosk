@@ -23,7 +23,7 @@ public class BoardMgr {
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select oh_num from orderhistory where oh_status = 1 order by oh_num asc";
+			sql = "select oh_num from orderhistory where oh_status = 1 and date(oh_date) = date(now()) order by oh_num asc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -46,7 +46,7 @@ public class BoardMgr {
 		
 		try {
 			conn = pool.getConnection();
-			sql = "select oh_num from orderhistory where oh_status = 2 order by oh_num asc";
+			sql = "select oh_num from orderhistory where oh_status = 2 and date(oh_date) = date(now()) order by oh_num asc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			

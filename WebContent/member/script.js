@@ -3,13 +3,13 @@
 //////////////////////////////////////////////////
 function login() {
 	if (document.loginFrm.mb_phone.value == "") {
-		alert("ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		swal({title: "ì „í™”ë²ˆí˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.", icon: "error"});
 		document.loginFrm.mb_phone.focus();
 		return;
 	}
 
 	if (document.loginFrm.mb_pwd.value == "") {
-		alert("ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+		swal({title: "ë¹„ë°€ë²ˆí˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.", icon: "error"});
 		document.loginFrm.mb_pwd.focus();
 		return;
 	}
@@ -20,13 +20,13 @@ function login() {
 function press() { 
 	if (event.keyCode == 13) { 
 		if (document.loginFrm.mb_phone.value == "") {
-			alert("ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			swal({title: "ì „í™”ë²ˆí˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.", icon: "error"});
 			document.loginFrm.mb_phone.focus();
 			return;
 		}
 
 		if (document.loginFrm.mb_pwd.value == "") {
-			alert("ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			swal({title: "ë¹„ë°€ë²ˆí˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.", icon: "error"});
 			document.loginFrm.mb_pwd.focus();
 			return;
 		}

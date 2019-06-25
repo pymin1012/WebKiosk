@@ -35,7 +35,11 @@
 	session.setAttribute("ohBean", ohBean);
 %>
 
-
+<html>
+<head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
 <script type="text/javascript">
 	var webSocket = new WebSocket('ws://' + location.host + ':80/WebKiosk/broadcasting');
 
@@ -53,8 +57,9 @@
 
 	function onMessage(event) {
 		var oh_num = event.data;
-		alert('결제가 완료되었습니다.');
-		location.href = "orderHistoryPage.jsp?oh_num=" + oh_num;
+		swal({title: "결제가 완료되었습니다.", icon: "success", timer: 2000}).then(function() {
+			location.href = "orderHistoryPage.jsp?oh_num=" + oh_num;
+		});
 	}
 
 	function onOpen(event) {
@@ -66,3 +71,6 @@
 		alert(event.data);
 	}
 </script>
+</body>
+</html>
+

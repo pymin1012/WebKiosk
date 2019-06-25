@@ -23,7 +23,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
 <link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="script.js" charset="utf-8"></script>
 
 </head>
 	

@@ -78,7 +78,7 @@ $(document).ready(
 				if (cartCounter != 0) {
 					location.href = "payment.jsp";
 				} else {
-					alert('장바구니가 비어있습니다!');
+					swal({text:"장바구니가 비어있습니다!", icon:"error"});
 				}
 			});
 
